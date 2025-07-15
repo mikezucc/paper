@@ -42,6 +42,7 @@ export function EditorPage() {
     tags: string[]
     createdAt: string
   } | null>(null)
+  const [viewMode, setViewMode] = useState<'split' | 'focused'>('split')
 
   useEffect(() => {
     if (id) {
@@ -269,6 +270,13 @@ export function EditorPage() {
               >
                 History
               </button>
+              <button 
+                className={styles.viewModeToggle}
+                onClick={() => setViewMode(viewMode === 'split' ? 'focused' : 'split')}
+                title={viewMode === 'split' ? 'Focus mode' : 'Split view'}
+              >
+                {viewMode === 'split' ? '⚟' : '⚏'}
+              </button>
             </>
           )}
           {paper && (
@@ -362,7 +370,7 @@ export function EditorPage() {
 
       {error && <div className={styles.editorError}>{error}</div>}
 
-      <div className={styles.editorContent}>
+      <div className={`${styles.editorContent} ${viewMode === 'focused' ? styles.focusedMode : ''}`}>
         <div className={styles.editorPane}>
           <textarea
             className={styles.markdownTextarea}
@@ -371,7 +379,7 @@ export function EditorPage() {
             placeholder="Write your paper content in Markdown..."
           />
         </div>
-        <div className={styles.editorPane}>
+        <div className={`${styles.editorPane} ${viewMode === 'focused' ? styles.previewPane : ''}`}>
           <div className={styles.preview}>
             <MarkdownRenderer content={content} />
           </div>
