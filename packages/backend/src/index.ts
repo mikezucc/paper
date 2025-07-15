@@ -1,11 +1,6 @@
-import * as dotenv from 'dotenv'
-import * as path from 'path'
 import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
-
-// Load .env from root directory
-dotenv.config({ path: path.resolve(__dirname, '../../../.env') })
 
 import { config } from './config'
 import { errorHandler } from './middleware/error'
