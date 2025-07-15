@@ -1,0 +1,180 @@
+.container {
+  max-width: var(--max-width-wide);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.contentContainer {
+  max-width: var(--max-width-content);
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-md);
+}
+
+.header {
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-md) 0;
+  margin-bottom: var(--space-lg);
+}
+
+.nav {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navLinks {
+  display: flex;
+  gap: var(--space-md);
+  list-style: none;
+}
+
+.logo {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.paperGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+
+.paperCard {
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.paperCard:hover {
+  background-color: var(--color-subtle);
+}
+
+.paperTitle {
+  font-size: var(--size-lg);
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.paperMeta {
+  font-size: var(--size-xs);
+  color: var(--color-accent);
+  margin-bottom: var(--space-sm);
+}
+
+.paperAbstract {
+  font-size: var(--size-sm);
+  line-height: var(--line-height-base);
+}
+
+.tags {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+  margin-top: var(--space-sm);
+}
+
+.tag {
+  font-size: var(--size-xs);
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-border);
+  text-decoration: none;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-width: 400px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.label {
+  font-size: var(--size-sm);
+  font-weight: 500;
+}
+
+.error {
+  color: var(--color-text);
+  font-size: var(--size-sm);
+  padding: var(--space-sm);
+  background: var(--color-subtle);
+  border: 1px solid var(--color-border);
+}
+
+.readingProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-text);
+  transform-origin: left;
+  z-index: 100;
+}
+
+.toc {
+  position: fixed;
+  top: var(--space-2xl);
+  right: var(--space-md);
+  width: 200px;
+  font-size: var(--size-sm);
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  .toc {
+    display: block;
+  }
+}
+
+.tocList {
+  list-style: none;
+  padding-left: var(--space-md);
+}
+
+.tocItem {
+  margin-bottom: var(--space-xs);
+}
+
+.tocLink {
+  text-decoration: none;
+  color: var(--color-accent);
+}
+
+.tocLink:hover {
+  color: var(--color-text);
+}
+
+.editor {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+  height: calc(100vh - 200px);
+}
+
+.editorPane {
+  border: 1px solid var(--color-border);
+  overflow: auto;
+}
+
+.preview {
+  padding: var(--space-md);
+}
+
+@media (max-width: 768px) {
+  .editor {
+    grid-template-columns: 1fr;
+  }
+  
+  .preview {
+    display: none;
+  }
+}
