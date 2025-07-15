@@ -33,6 +33,7 @@ export function EditorPage() {
   const lastSavedIntervalRef = useRef<NodeJS.Timeout | null>(null)
   const [timeSinceLastSave, setTimeSinceLastSave] = useState('')
   const hasUnsavedChanges = useRef(false)
+  const [headerHovered, setHeaderHovered] = useState(false)
 
   useEffect(() => {
     if (id) {
@@ -227,7 +228,11 @@ export function EditorPage() {
 
   return (
     <div className={styles.fullPageEditor}>
-      <div className={styles.editorHeader}>
+      <div 
+        className={styles.editorHeader}
+        onMouseEnter={() => setHeaderHovered(true)}
+        onMouseLeave={() => setHeaderHovered(false)}
+      >
         <div className={styles.editorHeaderLeft}>
           <input
             className={styles.titleInput}
@@ -235,30 +240,34 @@ export function EditorPage() {
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Untitled Paper"
           />
-          <button 
-            className={styles.metadataToggle}
-            onClick={() => setShowMetadata(!showMetadata)}
-          >
-            Details
-          </button>
-          <button 
-            className={styles.metadataToggle}
-            onClick={() => setShowRevisions(!showRevisions)}
-          >
-            History
-          </button>
         </div>
-        <div className={styles.editorHeaderRight}>
-          <span className={`${styles.saveStatus} ${styles[saveStatus]}`}>
-            {getSaveStatusDisplay()}
-          </span>
-          <button 
-            className={styles.saveButton}
-            onClick={handleManualSave} 
-            disabled={saving || !title || saveStatus === 'saved'}
-          >
-            Save now
-          </button>
+        <div className={`${styles.editorHeaderRight} ${headerHovered ? styles.visible : styles.hidden}`}>
+          {headerHovered && (
+            <>
+              <span className={`${styles.saveStatus} ${styles[saveStatus]}`}>
+                {getSaveStatusDisplay()}
+              </span>
+              <button 
+                className={styles.saveButton}
+                onClick={handleManualSave} 
+                disabled={saving || !title || saveStatus === 'saved'}
+              >
+                Save now
+              </button>
+              <button 
+                className={styles.metadataToggle}
+                onClick={() => setShowMetadata(!showMetadata)}
+              >
+                Details
+              </button>
+              <button 
+                className={styles.metadataToggle}
+                onClick={() => setShowRevisions(!showRevisions)}
+              >
+                History
+              </button>
+            </>
+          )}
           {paper && (
             <label className={styles.publishToggle}>
               <input
