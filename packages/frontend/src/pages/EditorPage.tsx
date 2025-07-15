@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import Editor from '@monaco-editor/react'
 import { Paper, CreatePaperInput, UpdatePaperInput } from '@paper/shared'
 import { api } from '../utils/api'
 import { MarkdownRenderer } from '../components/MarkdownRenderer'
@@ -125,22 +124,23 @@ export function EditorPage() {
 
       <div className={styles.editor}>
         <div className={styles.editorPane}>
-          <Editor
-            height="100%"
-            defaultLanguage="markdown"
+          <textarea
+            className={styles.markdownTextarea}
             value={content}
-            onChange={(value) => setContent(value || '')}
-            theme="vs-light"
-            options={{
-              minimap: { enabled: false },
-              fontSize: 16,
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="Write your paper content in Markdown..."
+            style={{
+              width: '100%',
+              height: '100%',
+              padding: '16px',
+              fontSize: '16px',
               fontFamily: 'Golos Text, monospace',
-              lineHeight: 24,
-              padding: { top: 16, bottom: 16 },
-              wordWrap: 'on',
-              lineNumbers: 'off',
-              folding: false,
-              scrollBeyondLastLine: false,
+              lineHeight: '1.5',
+              border: 'none',
+              outline: 'none',
+              resize: 'none',
+              backgroundColor: '#f9f6f2',
+              color: '#3d3a34'
             }}
           />
         </div>
