@@ -129,7 +129,7 @@ export function EditorPage() {
       setSaveStatus('unsaved')
       debouncedSave()
     }
-  }, [debouncedSave, paper, title, abstract, content, tags, published])
+  }, [title, abstract, content, tags, published])
 
   const handleManualSave = () => {
     debouncedSave.cancel()
