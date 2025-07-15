@@ -1,10 +1,17 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { debounce, throttle } from 'lodash'
+import { debounce } from 'lodash'
 import { Paper, CreatePaperInput, UpdatePaperInput } from '@paper/shared'
 import { api } from '../utils/api'
 import { MarkdownRenderer } from '../components/MarkdownRenderer'
 import styles from '../styles/components.module.css'
+
+interface Revision {
+  id: string
+  title: string
+  message?: string
+  createdAt: string
+}
 
 export function EditorPage() {
   const { id } = useParams<{ id: string }>()
@@ -18,6 +25,9 @@ export function EditorPage() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [showMetadata, setShowMetadata] = useState(false)
+  const [showRevisions, setShowRevisions] = useState(false)
+  const [revisions, setRevisions] = useState<Revision[]>([])
+  const [loadingRevisions, setLoadingRevisions] = useState(false)
   const [lastSaved, setLastSaved] = useState<Date | null>(null)
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'error' | 'unsaved'>('saved')
   const lastSavedIntervalRef = useRef<NodeJS.Timeout | null>(null)
@@ -43,6 +53,17 @@ export function EditorPage() {
         .catch((err) => setError(err.message))
     }
   }, [id])
+
+  // Load revisions when panel is opened
+  useEffect(() => {
+    if (showRevisions && paper) {
+      setLoadingRevisions(true)
+      api.get(`/papers/${paper.id}/revisions`)
+        .then(({ revisions }) => setRevisions(revisions))
+        .catch((err) => setError(err.message))
+        .finally(() => setLoadingRevisions(false))
+    }
+  }, [showRevisions, paper])
 
   // Update time since last save
   useEffect(() => {
@@ -136,6 +157,42 @@ export function EditorPage() {
     performSave()
   }
 
+  const handleRestoreRevision = async (revisionId: string) => {
+    if (!paper) return
+
+    try {
+      const { paper: restored } = await api.post(`/papers/${paper.id}/revisions/${revisionId}/restore`)
+      setPaper(restored)
+      setTitle(restored.title)
+      setAbstract(restored.abstract)
+      setContent(restored.content || '')
+      setTags(restored.tags.join(', '))
+      setShowRevisions(false)
+      
+      // Reload revisions
+      const { revisions } = await api.get(`/papers/${paper.id}/revisions`)
+      setRevisions(revisions)
+    } catch (err: any) {
+      setError(err.message)
+    }
+  }
+
+  const handleViewRevision = async (revisionId: string) => {
+    if (!paper) return
+
+    try {
+      const { revision } = await api.get(`/papers/${paper.id}/revisions/${revisionId}`)
+      setTitle(revision.title)
+      setAbstract(revision.abstract)
+      setContent(revision.content || '')
+      setTags(revision.tags.join(', '))
+      setSaveStatus('unsaved')
+      hasUnsavedChanges.current = true
+    } catch (err: any) {
+      setError(err.message)
+    }
+  }
+
   const getSaveStatusDisplay = () => {
     switch (saveStatus) {
       case 'saving':
@@ -148,6 +205,23 @@ export function EditorPage() {
         return 'Unsaved changes'
       default:
         return ''
+    }
+  }
+
+  const formatRevisionDate = (dateString: string) => {
+    const date = new Date(dateString)
+    const now = new Date()
+    const diff = now.getTime() - date.getTime()
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+    
+    if (days === 0) {
+      return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+    } else if (days === 1) {
+      return 'Yesterday'
+    } else if (days < 7) {
+      return `${days} days ago`
+    } else {
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
     }
   }
 
@@ -165,7 +239,13 @@ export function EditorPage() {
             className={styles.metadataToggle}
             onClick={() => setShowMetadata(!showMetadata)}
           >
-            {showMetadata ? '✕' : '☰'} Details
+            Details
+          </button>
+          <button 
+            className={styles.metadataToggle}
+            onClick={() => setShowRevisions(!showRevisions)}
+          >
+            History
           </button>
         </div>
         <div className={styles.editorHeaderRight}>
@@ -215,6 +295,55 @@ export function EditorPage() {
                 placeholder="tag1, tag2, tag3"
               />
             </div>
+          </div>
+        </div>
+      )}
+
+      {showRevisions && (
+        <div className={styles.revisionsPanel}>
+          <div className={styles.revisionsPanelHeader}>
+            <h3>Revision History</h3>
+            <button 
+              className={styles.closePanelButton}
+              onClick={() => setShowRevisions(false)}
+            >
+              ✕
+            </button>
+          </div>
+          <div className={styles.revisionsList}>
+            {loadingRevisions ? (
+              <div className={styles.loadingRevisions}>Loading revisions...</div>
+            ) : revisions.length === 0 ? (
+              <div className={styles.noRevisions}>No previous revisions</div>
+            ) : (
+              revisions.map((revision) => (
+                <div key={revision.id} className={styles.revisionItem}>
+                  <div className={styles.revisionInfo}>
+                    <div className={styles.revisionTitle}>{revision.title}</div>
+                    <div className={styles.revisionDate}>
+                      {formatRevisionDate(revision.createdAt)}
+                    </div>
+                    {revision.message && (
+                      <div className={styles.revisionMessage}>{revision.message}</div>
+                    )}
+                  </div>
+                  <div className={styles.revisionActions}>
+                    <button 
+                      className={styles.viewButton}
+                      onClick={() => handleViewRevision(revision.id)}
+                    >
+                      View
+                    </button>
+                    <button 
+                      className={styles.restoreButton}
+                      onClick={() => handleRestoreRevision(revision.id)}
+                    >
+                      Restore
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       )}

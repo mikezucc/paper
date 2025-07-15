@@ -65,3 +65,39 @@ papersRouter.delete('/:id', async (req: AuthRequest, res, next) => {
     next(error)
   }
 })
+
+// Revision endpoints
+papersRouter.get('/:id/revisions', async (req: AuthRequest, res, next) => {
+  try {
+    const revisions = await paperService.listRevisions(req.userId!, req.params.id)
+    res.json({ revisions })
+  } catch (error) {
+    next(error)
+  }
+})
+
+papersRouter.get('/:id/revisions/:revisionId', async (req: AuthRequest, res, next) => {
+  try {
+    const revision = await paperService.getRevision(
+      req.userId!,
+      req.params.id,
+      req.params.revisionId
+    )
+    res.json({ revision })
+  } catch (error) {
+    next(error)
+  }
+})
+
+papersRouter.post('/:id/revisions/:revisionId/restore', async (req: AuthRequest, res, next) => {
+  try {
+    const paper = await paperService.restoreRevision(
+      req.userId!,
+      req.params.id,
+      req.params.revisionId
+    )
+    res.json({ paper })
+  } catch (error) {
+    next(error)
+  }
+})

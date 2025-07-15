@@ -36,16 +36,33 @@ model Paper {
   slug        String    @unique
   title       String
   abstract    String
-  contentKey  String    // Reference to content in R2
+  content     String?   @db.Text
   tags        String[]
   published   Boolean   @default(false)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  revisions   PaperRevision[]
   
   @@index([userId])
   @@index([slug])
   @@index([published])
   @@index([tags])
+}
+
+model PaperRevision {
+  id          String    @id @default(cuid())
+  paperId     String
+  title       String
+  abstract    String
+  content     String?   @db.Text
+  tags        String[]
+  message     String?   // Optional revision message
+  createdAt   DateTime  @default(now())
+  
+  paper       Paper     @relation(fields: [paperId], references: [id], onDelete: Cascade)
+  
+  @@index([paperId])
+  @@index([createdAt])
 }
