@@ -25,19 +25,25 @@ A clean, academic-focused platform for hosting and reading white papers with Clo
    pnpm install
    ```
 
-2. Set up environment variables:
+2. Create the PostgreSQL database:
+   ```bash
+   ./scripts/setup-db.sh
+   ```
+
+3. Set up environment variables:
    ```bash
    cp .env.example .env
    # Edit .env with your configuration
    ```
 
-3. Set up the database:
+4. Set up the database schema:
    ```bash
    cd packages/backend
-   pnpm prisma:migrate
+   pnpm prisma:generate
+   pnpm prisma:migrate dev
    ```
 
-4. Start development servers:
+5. Start development servers:
    ```bash
    pnpm dev
    ```
