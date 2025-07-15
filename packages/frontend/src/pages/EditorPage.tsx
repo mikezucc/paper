@@ -16,6 +16,7 @@ export function EditorPage() {
   const [published, setPublished] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [showMetadata, setShowMetadata] = useState(false)
 
   useEffect(() => {
     if (id) {
@@ -65,17 +66,55 @@ export function EditorPage() {
   }
 
   return (
-    <div className={styles.container} style={{ padding: 'var(--space-md) 0' }}>
-      <div style={{ marginBottom: 'var(--space-md)' }}>
-        <div className={styles.form} style={{ maxWidth: '100%' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-md)' }}>
-            <div className={styles.formGroup}>
-              <label htmlFor="title" className={styles.label}>Title</label>
+    <div className={styles.fullPageEditor}>
+      <div className={styles.editorHeader}>
+        <div className={styles.editorHeaderLeft}>
+          <input
+            className={styles.titleInput}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Untitled Paper"
+          />
+          <button 
+            className={styles.metadataToggle}
+            onClick={() => setShowMetadata(!showMetadata)}
+          >
+            {showMetadata ? '✕' : '☰'} Details
+          </button>
+        </div>
+        <div className={styles.editorHeaderRight}>
+          <button 
+            className={styles.saveButton}
+            onClick={handleSave} 
+            disabled={saving || !title}
+          >
+            {saving ? 'Saving...' : 'Save'}
+          </button>
+          {paper && (
+            <label className={styles.publishToggle}>
               <input
-                id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Paper title"
+                type="checkbox"
+                checked={published}
+                onChange={(e) => setPublished(e.target.checked)}
+              />
+              <span>Published</span>
+            </label>
+          )}
+          <Link to="/dashboard" className={styles.exitButton}>✕</Link>
+        </div>
+      </div>
+
+      {showMetadata && (
+        <div className={styles.metadataPanel}>
+          <div className={styles.metadataContent}>
+            <div className={styles.formGroup}>
+              <label htmlFor="abstract" className={styles.label}>Abstract</label>
+              <textarea
+                id="abstract"
+                value={abstract}
+                onChange={(e) => setAbstract(e.target.value)}
+                placeholder="Brief description of your paper"
+                rows={3}
               />
             </div>
             <div className={styles.formGroup}>
@@ -88,60 +127,18 @@ export function EditorPage() {
               />
             </div>
           </div>
-          
-          <div className={styles.formGroup}>
-            <label htmlFor="abstract" className={styles.label}>Abstract</label>
-            <textarea
-              id="abstract"
-              value={abstract}
-              onChange={(e) => setAbstract(e.target.value)}
-              placeholder="Brief description of your paper"
-              rows={3}
-            />
-          </div>
-
-          <div style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center' }}>
-            <button onClick={handleSave} disabled={saving || !title}>
-              {saving ? 'Saving...' : 'Save'}
-            </button>
-            {paper && (
-              <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
-                <input
-                  type="checkbox"
-                  checked={published}
-                  onChange={(e) => setPublished(e.target.checked)}
-                  style={{ width: 'auto' }}
-                />
-                Published
-              </label>
-            )}
-            <Link to="/dashboard">Back to Dashboard</Link>
-          </div>
-
-          {error && <div className={styles.error}>{error}</div>}
         </div>
-      </div>
+      )}
 
-      <div className={styles.editor}>
+      {error && <div className={styles.editorError}>{error}</div>}
+
+      <div className={styles.editorContent}>
         <div className={styles.editorPane}>
           <textarea
             className={styles.markdownTextarea}
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Write your paper content in Markdown..."
-            style={{
-              width: '100%',
-              height: '100%',
-              padding: '16px',
-              fontSize: '16px',
-              fontFamily: 'Golos Text, monospace',
-              lineHeight: '1.5',
-              border: 'none',
-              outline: 'none',
-              resize: 'none',
-              backgroundColor: '#f9f6f2',
-              color: '#3d3a34'
-            }}
           />
         </div>
         <div className={styles.editorPane}>
