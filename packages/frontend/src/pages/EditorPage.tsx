@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
+import { debounce, throttle } from 'lodash'
 import { Paper, CreatePaperInput, UpdatePaperInput } from '@paper/shared'
 import { api } from '../utils/api'
 import { MarkdownRenderer } from '../components/MarkdownRenderer'
@@ -17,6 +18,11 @@ export function EditorPage() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [showMetadata, setShowMetadata] = useState(false)
+  const [lastSaved, setLastSaved] = useState<Date | null>(null)
+  const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'error' | 'unsaved'>('saved')
+  const lastSavedIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  const [timeSinceLastSave, setTimeSinceLastSave] = useState('')
+  const hasUnsavedChanges = useRef(false)
 
   useEffect(() => {
     if (id) {
@@ -30,14 +36,50 @@ export function EditorPage() {
             setContent(paper.content || '')
             setTags(paper.tags.join(', '))
             setPublished(paper.published)
+            setLastSaved(new Date())
+            setSaveStatus('saved')
           }
         })
         .catch((err) => setError(err.message))
     }
   }, [id])
 
-  const handleSave = async () => {
-    setError('')
+  // Update time since last save
+  useEffect(() => {
+    const updateTimeSinceLastSave = () => {
+      if (lastSaved) {
+        const now = new Date()
+        const diff = now.getTime() - lastSaved.getTime()
+        const seconds = Math.floor(diff / 1000)
+        const minutes = Math.floor(seconds / 60)
+        const hours = Math.floor(minutes / 60)
+
+        if (hours > 0) {
+          setTimeSinceLastSave(`${hours}h ago`)
+        } else if (minutes > 0) {
+          setTimeSinceLastSave(`${minutes}m ago`)
+        } else if (seconds > 5) {
+          setTimeSinceLastSave(`${seconds}s ago`)
+        } else {
+          setTimeSinceLastSave('just now')
+        }
+      }
+    }
+
+    updateTimeSinceLastSave()
+    lastSavedIntervalRef.current = setInterval(updateTimeSinceLastSave, 5000)
+
+    return () => {
+      if (lastSavedIntervalRef.current) {
+        clearInterval(lastSavedIntervalRef.current)
+      }
+    }
+  }, [lastSaved])
+
+  const performSave = useCallback(async () => {
+    if (!title || !hasUnsavedChanges.current) return
+
+    setSaveStatus('saving')
     setSaving(true)
 
     try {
@@ -58,10 +100,54 @@ export function EditorPage() {
         setPaper(created)
         navigate(`/editor/${created.id}`, { replace: true })
       }
+      
+      setLastSaved(new Date())
+      setSaveStatus('saved')
+      hasUnsavedChanges.current = false
+      setError('')
     } catch (err: any) {
       setError(err.message)
+      setSaveStatus('error')
     } finally {
       setSaving(false)
+    }
+  }, [title, abstract, content, tags, published, paper, navigate])
+
+  const onSaveRef = useRef(performSave);
+  onSaveRef.current = performSave;
+
+  // Create debounced save function
+  const debouncedSave = useMemo(
+    () => debounce(() => onSaveRef.current(), 2000),
+    []
+  );
+
+  // Track changes and trigger auto-save
+  useEffect(() => {
+    if (paper || content) {
+      hasUnsavedChanges.current = true
+      setSaveStatus('unsaved')
+      debouncedSave()
+    }
+  }, [debouncedSave, paper, title, abstract, content, tags, published])
+
+  const handleManualSave = () => {
+    debouncedSave.cancel()
+    performSave()
+  }
+
+  const getSaveStatusDisplay = () => {
+    switch (saveStatus) {
+      case 'saving':
+        return 'Saving...'
+      case 'saved':
+        return lastSaved ? `Saved ${timeSinceLastSave}` : 'Saved'
+      case 'error':
+        return 'Save failed'
+      case 'unsaved':
+        return 'Unsaved changes'
+      default:
+        return ''
     }
   }
 
@@ -83,12 +169,15 @@ export function EditorPage() {
           </button>
         </div>
         <div className={styles.editorHeaderRight}>
+          <span className={`${styles.saveStatus} ${styles[saveStatus]}`}>
+            {getSaveStatusDisplay()}
+          </span>
           <button 
             className={styles.saveButton}
-            onClick={handleSave} 
-            disabled={saving || !title}
+            onClick={handleManualSave} 
+            disabled={saving || !title || saveStatus === 'saved'}
           >
-            {saving ? 'Saving...' : 'Save'}
+            Save now
           </button>
           {paper && (
             <label className={styles.publishToggle}>

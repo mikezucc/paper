@@ -327,3 +327,41 @@
     font-size: 12px;
   }
 }
+
+/* Save status indicator styles */
+.saveStatus {
+  font-size: 14px;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.saveStatus.saved {
+  color: #7c6f5d;
+  background-color: #ede8e2;
+}
+
+.saveStatus.saving {
+  color: #8b7355;
+  background-color: #f5ede2;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.saveStatus.error {
+  color: #8b3a3a;
+  background-color: #f5d6d6;
+}
+
+.saveStatus.unsaved {
+  color: #6d5a44;
+  background-color: #e8e2d6;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}

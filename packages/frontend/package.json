@@ -13,8 +13,10 @@
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
     "@paper/shared": "workspace:*",
+    "@types/lodash": "^4.0.9",
     "@types/marked": "^6.0.0",
     "@types/prismjs": "^1.26.5",
+    "lodash": "^4.0.8",
     "markdown-it": "^14.0.0",
     "marked": "^16.0.0",
     "prismjs": "^1.30.0",
