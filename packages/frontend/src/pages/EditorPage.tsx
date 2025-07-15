@@ -34,6 +34,14 @@ export function EditorPage() {
   const [timeSinceLastSave, setTimeSinceLastSave] = useState('')
   const hasUnsavedChanges = useRef(false)
   const [headerHovered, setHeaderHovered] = useState(false)
+  const [previewRevision, setPreviewRevision] = useState<{
+    id: string
+    title: string
+    abstract: string
+    content: string
+    tags: string[]
+    createdAt: string
+  } | null>(null)
 
   useEffect(() => {
     if (id) {
@@ -183,12 +191,7 @@ export function EditorPage() {
 
     try {
       const { revision } = await api.get(`/papers/${paper.id}/revisions/${revisionId}`)
-      setTitle(revision.title)
-      setAbstract(revision.abstract)
-      setContent(revision.content || '')
-      setTags(revision.tags.join(', '))
-      setSaveStatus('unsaved')
-      hasUnsavedChanges.current = true
+      setPreviewRevision(revision)
     } catch (err: any) {
       setError(err.message)
     }
@@ -247,13 +250,13 @@ export function EditorPage() {
               <span className={`${styles.saveStatus} ${styles[saveStatus]}`}>
                 {getSaveStatusDisplay()}
               </span>
-              <button 
+              {/* <button 
                 className={styles.saveButton}
                 onClick={handleManualSave} 
                 disabled={saving || !title || saveStatus === 'saved'}
               >
                 Save now
-              </button>
+              </button> */}
               <button 
                 className={styles.metadataToggle}
                 onClick={() => setShowMetadata(!showMetadata)}
@@ -374,6 +377,48 @@ export function EditorPage() {
           </div>
         </div>
       </div>
+      {previewRevision && (
+        <div className={styles.revisionPreviewOverlay} onClick={() => setPreviewRevision(null)}>
+          <div className={styles.revisionPreviewModal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.revisionPreviewHeader}>
+              <div>
+                <h2>{previewRevision.title}</h2>
+                <div className={styles.revisionPreviewDate}>
+                  Version from {formatRevisionDate(previewRevision.createdAt)}
+                </div>
+              </div>
+              <button 
+                className={styles.closePreviewButton}
+                onClick={() => setPreviewRevision(null)}
+              >
+                ✕
+              </button>
+            </div>
+            <div className={styles.revisionPreviewContent}>
+              <div className={styles.revisionPreviewMetadata}>
+                <div className={styles.revisionPreviewSection}>
+                  <h4>Abstract</h4>
+                  <p>{previewRevision.abstract}</p>
+                </div>
+                {previewRevision.tags.length > 0 && (
+                  <div className={styles.revisionPreviewSection}>
+                    <h4>Tags</h4>
+                    <div className={styles.revisionPreviewTags}>
+                      {previewRevision.tags.map((tag, i) => (
+                        <span key={i} className={styles.revisionPreviewTag}>{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className={styles.revisionPreviewDivider} />
+              <div className={styles.revisionPreviewMarkdown}>
+                <MarkdownRenderer content={previewRevision.content || ''} />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
