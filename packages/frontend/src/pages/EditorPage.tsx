@@ -8,7 +8,7 @@ import { useUndoRedo } from '../hooks/useUndoRedo'
 import { Confetti } from '../components/Confetti'
 import styles from '../styles/components.module.css'
 import { ImageInsertDialog } from '../components/ImageInsertDialog';
-import { FileUploadButton } from '../components/FileUploadButton';
+import { FileUploadModal } from '../components/FileUploadModal';
 import { downloadMarkdown } from '../utils/fileHandlers';
 
 interface Revision {
@@ -80,6 +80,7 @@ export function EditorPage() {
   const [showContextMenu, setShowContextMenu] = useState(false)
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 })
   const [showImageDialog, setShowImageDialog] = useState(false)
+  const [showUploadModal, setShowUploadModal] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const toolbarRef = useRef<HTMLDivElement>(null)
   const insertRef = useRef<HTMLDivElement>(null)
@@ -582,10 +583,13 @@ export function EditorPage() {
               >
                 Save now
               </button> */}
-              <FileUploadButton 
-                onFileLoad={handleFileUpload}
+              <button 
                 className={styles.uploadButton}
-              />
+                onClick={() => setShowUploadModal(true)}
+                title="Upload markdown (.md), text (.txt), or Word (.docx) file"
+              >
+                📄 Upload
+              </button>
               <button 
                 className={styles.downloadButton}
                 onClick={handleDownload}
@@ -1191,6 +1195,13 @@ export function EditorPage() {
         <ImageInsertDialog
           onInsert={handleImageInsert}
           onClose={() => setShowImageDialog(false)}
+        />
+      )}
+
+      {showUploadModal && (
+        <FileUploadModal
+          onConfirm={handleFileUpload}
+          onClose={() => setShowUploadModal(false)}
         />
       )}
     </div>
