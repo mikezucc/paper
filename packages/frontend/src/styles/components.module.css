@@ -153,6 +153,9 @@
   padding: 12px 24px;
   height: 56px;
   background-color: #f5f3f0;
+  position: relative;
+  overflow: visible;
+  z-index: 100;
 }
 
 .editorHeader:hover {
@@ -357,70 +360,142 @@
   gap: 16px;
 }
 
-/* Toolbar panel styles */
-.toolbarPanel {
-  background-color: #f9f6f2;
-  border-bottom: 1px solid #d4c5b0;
-  padding: 16px 24px;
-  transition: opacity 0.2s ease, border-color 0.2s ease;
+/* Toolbar popover styles */
+.toolbarPopoverContainer {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  z-index: 1000;
+  animation: popoverFadeIn 0.2s ease;
 }
 
-.toolbarPanel.hidden {
-  opacity: 0;
-  border-color: transparent;
+@keyframes popoverFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
-.toolbarPanel.visible {
-  opacity: 1;
-  border-color: #d4c5b0;
+.toolbarPopover {
+  background-color: #faf8f5;
+  border: 1px solid #d4c5b0;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  width: 580px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 20px;
 }
 
-.toolbarContent {
-  display: flex;
-  gap: 32px;
-  align-items: center;
-  justify-content: center;
+.toolbarSection {
+  margin-bottom: 24px;
 }
 
-.toolbarGroup {
+.toolbarSection:last-child {
+  margin-bottom: 0;
+}
+
+.toolbarSectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #3d3a34;
+  margin: 0 0 12px 0;
+}
+
+.toolbarRow {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.toolbarLabel {
-  font-size: 14px;
-  font-weight: 500;
-  color: #5c5449;
+.toolbarDivider {
+  width: 1px;
+  height: 24px;
+  background-color: #d4c5b0;
+  margin: 0 8px;
 }
 
-.fontSelector {
-  padding: 6px 12px;
-  border: 1px solid #d4c5b0;
-  border-radius: 4px;
-  background-color: #faf8f5;
+.fontCategory {
+  margin-bottom: 16px;
+}
+
+.fontCategoryTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: #8b8075;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 8px 0;
+}
+
+.fontGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.fontOption {
+  padding: 10px 12px;
+  border: 1px solid #e6e0d6;
+  border-radius: 6px;
+  background-color: transparent;
   color: #3d3a34;
   font-size: 14px;
   cursor: pointer;
-  outline: none;
-  transition: border-color 0.2s ease;
+  transition: all 0.15s ease;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.fontSelector:hover {
-  border-color: #baa992;
+.fontOption:hover {
+  background-color: #f5f3f0;
+  border-color: #d4c5b0;
 }
 
-.fontSelector:focus {
+.fontOption.selected {
+  background-color: #8b7355;
+  color: white;
   border-color: #8b7355;
+}
+
+.insertGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.insertGridItem {
+  padding: 8px 12px;
+  border: 1px solid #e6e0d6;
+  border-radius: 6px;
+  background-color: transparent;
+  color: #3d3a34;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+}
+
+.insertGridItem:hover {
+  background-color: #f5f3f0;
+  border-color: #d4c5b0;
 }
 
 .sizeControls {
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: #faf8f5;
+  background-color: #f5f3f0;
   border: 1px solid #d4c5b0;
-  border-radius: 4px;
+  border-radius: 6px;
   padding: 4px;
 }
 
@@ -667,10 +742,22 @@
     font-size: 14px;
   }
   
-  .toolbarContent {
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
+  .toolbarPopoverContainer {
+    left: auto;
+    right: 12px;
+    transform: none;
+  }
+  
+  .toolbarPopover {
+    width: 320px;
+  }
+  
+  .fontGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .insertGrid {
+    grid-template-columns: repeat(2, 1fr);
   }
   
   .insertMenu {

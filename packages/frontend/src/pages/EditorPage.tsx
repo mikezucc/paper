@@ -52,25 +52,45 @@ export function EditorPage() {
   )
   const [showToolbar, setShowToolbar] = useState(false)
   const [showInsertMenu, setShowInsertMenu] = useState(false)
-  const [toolbarHovered, setToolbarHovered] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const toolbarRef = useRef<HTMLDivElement>(null)
   
   // Undo/Redo functionality
   const { addToHistory, undo, redo, canUndo, canRedo, reset } = useUndoRedo(content)
 
-  // Font options
-  const fontOptions = [
-    { value: 'golos', label: 'Golos Text', family: "'Golos Text', monospace" },
-    { value: 'inter', label: 'Inter', family: "'Inter', sans-serif" },
-    { value: 'crimson', label: 'Crimson Text', family: "'Crimson Text', serif" },
-    { value: 'jetbrains', label: 'JetBrains Mono', family: "'JetBrains Mono', monospace" },
-    { value: 'merriweather', label: 'Merriweather', family: "'Merriweather', serif" },
-    { value: 'source-sans', label: 'Source Sans', family: "'Source Sans 3', sans-serif" },
-    { value: 'lora', label: 'Lora', family: "'Lora', serif" },
-    { value: 'roboto-slab', label: 'Roboto Slab', family: "'Roboto Slab', serif" },
-    { value: 'system', label: 'System', family: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' },
-    { value: 'mono', label: 'System Mono', family: '"SF Mono", Monaco, Consolas, monospace' },
-  ]
+  // Font options grouped by category
+  const fontCategories = {
+    'Sans-serif': [
+      { value: 'inter', label: 'Inter', family: "'Inter', sans-serif" },
+      { value: 'open-sans', label: 'Open Sans', family: "'Open Sans', sans-serif" },
+      { value: 'poppins', label: 'Poppins', family: "'Poppins', sans-serif" },
+      { value: 'raleway', label: 'Raleway', family: "'Raleway', sans-serif" },
+      { value: 'montserrat', label: 'Montserrat', family: "'Montserrat', sans-serif" },
+      { value: 'work-sans', label: 'Work Sans', family: "'Work Sans', sans-serif" },
+      { value: 'source-sans', label: 'Source Sans 3', family: "'Source Sans 3', sans-serif" },
+      { value: 'ibm-plex', label: 'IBM Plex Sans', family: "'IBM Plex Sans', sans-serif" },
+      { value: 'system', label: 'System Default', family: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' },
+    ],
+    'Serif': [
+      { value: 'merriweather', label: 'Merriweather', family: "'Merriweather', serif" },
+      { value: 'playfair', label: 'Playfair Display', family: "'Playfair Display', serif" },
+      { value: 'lora', label: 'Lora', family: "'Lora', serif" },
+      { value: 'crimson', label: 'Crimson Text', family: "'Crimson Text', serif" },
+      { value: 'noto-serif', label: 'Noto Serif', family: "'Noto Serif', serif" },
+      { value: 'eb-garamond', label: 'EB Garamond', family: "'EB Garamond', serif" },
+      { value: 'libre-baskerville', label: 'Libre Baskerville', family: "'Libre Baskerville', serif" },
+      { value: 'roboto-slab', label: 'Roboto Slab', family: "'Roboto Slab', serif" },
+    ],
+    'Monospace': [
+      { value: 'golos', label: 'Golos Text', family: "'Golos Text', monospace" },
+      { value: 'jetbrains', label: 'JetBrains Mono', family: "'JetBrains Mono', monospace" },
+      { value: 'fira-code', label: 'Fira Code', family: "'Fira Code', monospace" },
+      { value: 'mono', label: 'System Mono', family: '"SF Mono", Monaco, Consolas, monospace' },
+    ],
+  }
+
+  // Flatten font options for easy lookup
+  const allFonts = Object.values(fontCategories).flat()
 
   // Markdown templates
   const markdownTemplates = [
@@ -122,11 +142,15 @@ export function EditorPage() {
     localStorage.setItem('editorFontSize', fontSize.toString())
   }, [fontSize])
 
-  // Close insert menu when clicking outside
+  // Close menus when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (showInsertMenu && !(event.target as Element).closest('.insertButtonContainer')) {
         setShowInsertMenu(false)
+      }
+      if (showToolbar && toolbarRef.current && !toolbarRef.current.contains(event.target as Node) && 
+          !(event.target as Element).closest(`.${styles.toolbarToggle}`)) {
+        setShowToolbar(false)
       }
     }
 
@@ -134,7 +158,7 @@ export function EditorPage() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [showInsertMenu])
+  }, [showInsertMenu, showToolbar])
 
   // Insert template at cursor position
   const insertTemplate = (template: string, cursorOffset: number) => {
@@ -437,94 +461,90 @@ export function EditorPage() {
           )}
           <Link to="/dashboard" className={styles.exitButton}>✕</Link>
         </div>
-      </div>
-
-      {showToolbar && (
-        <div 
-          className={`${styles.toolbarPanel} ${toolbarHovered ? styles.visible : styles.hidden}`}
-          onMouseEnter={() => setToolbarHovered(true)}
-          onMouseLeave={() => setToolbarHovered(false)}
-        >
-          <div className={styles.toolbarContent}>
-            <div className={styles.toolbarGroup}>
-              <button 
-                className={styles.undoButton}
-                onClick={handleUndo}
-                disabled={!canUndo}
-                title="Undo (Cmd/Ctrl + Z)"
-              >
-                ↶
-              </button>
-              <button 
-                className={styles.redoButton}
-                onClick={handleRedo}
-                disabled={!canRedo}
-                title="Redo (Cmd/Ctrl + Shift + Z)"
-              >
-                ↷
-              </button>
-            </div>
-            <div className={styles.toolbarGroup}>
-              <label className={styles.toolbarLabel}>Font</label>
-              <select 
-                className={styles.fontSelector}
-                value={selectedFont}
-                onChange={(e) => setSelectedFont(e.target.value)}
-              >
-                {fontOptions.map(font => (
-                  <option key={font.value} value={font.value}>
-                    {font.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className={styles.toolbarGroup}>
-              <label className={styles.toolbarLabel}>Size</label>
-              <div className={styles.sizeControls}>
+        
+        {showToolbar && (
+          <div className={styles.toolbarPopoverContainer}>
+            <div ref={toolbarRef} className={styles.toolbarPopover}>
+            <div className={styles.toolbarSection}>
+              <h3 className={styles.toolbarSectionTitle}>Text Formatting</h3>
+              <div className={styles.toolbarRow}>
                 <button 
-                  className={styles.sizeButton}
-                  onClick={() => setFontSize(Math.max(12, fontSize - 2))}
-                  disabled={fontSize <= 12}
+                  className={styles.undoButton}
+                  onClick={handleUndo}
+                  disabled={!canUndo}
+                  title="Undo (Cmd/Ctrl + Z)"
                 >
-                  −
+                  ↶
                 </button>
-                <span className={styles.sizeDisplay}>{fontSize}px</span>
                 <button 
-                  className={styles.sizeButton}
-                  onClick={() => setFontSize(Math.min(32, fontSize + 2))}
-                  disabled={fontSize >= 32}
+                  className={styles.redoButton}
+                  onClick={handleRedo}
+                  disabled={!canRedo}
+                  title="Redo (Cmd/Ctrl + Shift + Z)"
                 >
-                  +
+                  ↷
                 </button>
+                <div className={styles.toolbarDivider} />
+                <div className={styles.sizeControls}>
+                  <button 
+                    className={styles.sizeButton}
+                    onClick={() => setFontSize(Math.max(12, fontSize - 2))}
+                    disabled={fontSize <= 12}
+                  >
+                    −
+                  </button>
+                  <span className={styles.sizeDisplay}>{fontSize}px</span>
+                  <button 
+                    className={styles.sizeButton}
+                    onClick={() => setFontSize(Math.min(32, fontSize + 2))}
+                    disabled={fontSize >= 32}
+                  >
+                    +
+                  </button>
+                </div>
               </div>
             </div>
-            <div className={styles.toolbarGroup}>
-              <div className={`${styles.insertButtonContainer} insertButtonContainer`}>
-                <button 
-                  className={styles.insertButton}
-                  onClick={() => setShowInsertMenu(!showInsertMenu)}
-                  title="Insert Markdown"
-                >
-                  + Insert
-                </button>
-                {showInsertMenu && (
-                  <div className={styles.insertMenu}>
-                    {markdownTemplates.map((item, index) => (
+            
+            <div className={styles.toolbarSection}>
+              <h3 className={styles.toolbarSectionTitle}>Font Family</h3>
+              {Object.entries(fontCategories).map(([category, fonts]) => (
+                <div key={category} className={styles.fontCategory}>
+                  <h4 className={styles.fontCategoryTitle}>{category}</h4>
+                  <div className={styles.fontGrid}>
+                    {fonts.map(font => (
                       <button
-                        key={index}
-                        className={styles.insertMenuItem}
-                        onClick={() => insertTemplate(item.template, item.cursor)}
+                        key={font.value}
+                        className={`${styles.fontOption} ${selectedFont === font.value ? styles.selected : ''}`}
+                        onClick={() => setSelectedFont(font.value)}
+                        style={{ fontFamily: font.family }}
                       >
-                        {item.label}
+                        {font.label}
                       </button>
                     ))}
                   </div>
-                )}
+                </div>
+              ))}
+            </div>
+            
+            <div className={styles.toolbarSection}>
+              <h3 className={styles.toolbarSectionTitle}>Insert Markdown</h3>
+              <div className={styles.insertGrid}>
+                {markdownTemplates.map((item, index) => (
+                  <button
+                    key={index}
+                    className={styles.insertGridItem}
+                    onClick={() => insertTemplate(item.template, item.cursor)}
+                    title={item.template}
+                  >
+                    {item.label}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
         </div>
       )}
+      </div>
 
       {showMetadata && (
         <div className={styles.metadataPanel}>
@@ -618,7 +638,7 @@ export function EditorPage() {
             }}
             placeholder="Write your paper content in Markdown..."
             style={{
-              fontFamily: fontOptions.find(f => f.value === selectedFont)?.family,
+              fontFamily: allFonts.find(f => f.value === selectedFont)?.family,
               fontSize: `${fontSize}px`,
               lineHeight: fontSize >= 24 ? '1.8' : '1.6'
             }}
