@@ -8,6 +8,10 @@ dist/
 build/
 *.tsbuildinfo
 
+# Prevent accidental .js files in source directories
+packages/*/src/**/*.js
+packages/*/src/**/*.js.map
+
 # Environment variables
 .env
 .env.local
