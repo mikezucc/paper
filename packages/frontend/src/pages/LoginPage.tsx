@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { api } from '../utils/api'
 import styles from '../styles/components.module.css'
+import { TermsOfService } from '../components/TermsOfService'
 
 export function LoginPage() {
   const navigate = useNavigate()
@@ -12,6 +13,8 @@ export function LoginPage() {
   const [step, setStep] = useState<'email' | 'code'>('email')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [acceptedTerms, setAcceptedTerms] = useState(false)
+  const [showTerms, setShowTerms] = useState(false)
 
   useEffect(() => {
     if (user) {
@@ -22,10 +25,16 @@ export function LoginPage() {
   const handleRequestCode = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+    
+    if (!acceptedTerms) {
+      setError('Please accept the Terms of Service to continue')
+      return
+    }
+    
     setLoading(true)
 
     try {
-      await api.post('/auth/request-code', { email })
+      await api.post('/auth/request-code', { email, acceptedTerms })
       setStep('code')
     } catch (err: any) {
       setError(err.message)
@@ -70,9 +79,34 @@ export function LoginPage() {
             />
           </div>
           
+          <div className={styles.formGroup}>
+            <label className={styles.checkboxLabel}>
+              <input
+                type="checkbox"
+                checked={acceptedTerms}
+                onChange={(e) => setAcceptedTerms(e.target.checked)}
+                className={styles.checkbox}
+              />
+              I agree to the{' '}
+              <button
+                type="button"
+                onClick={() => setShowTerms(!showTerms)}
+                className={styles.linkButton}
+              >
+                Terms of Service
+              </button>
+            </label>
+          </div>
+          
+          {showTerms && (
+            <div className={styles.termsContainer}>
+              <TermsOfService />
+            </div>
+          )}
+          
           {error && <div className={styles.error}>{error}</div>}
           
-          <button type="submit" disabled={loading}>
+          <button type="submit" disabled={loading || !acceptedTerms}>
             {loading ? 'Sending...' : 'Send Code'}
           </button>
         </form>

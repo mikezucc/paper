@@ -1,6 +1,7 @@
 import { CreatePaperInput, UpdatePaperInput } from '@paper/shared'
 import { db } from '../utils/db'
 import { AppError } from '../middleware/error'
+import { emailService } from './email'
 
 export class PaperService {
   async listPublished() {
@@ -305,6 +306,11 @@ export class PaperService {
       return newVersion
     })
 
+    // Send email notifications to all users
+    this.sendNewPaperNotifications(publishedVersion, paper.userId).catch(error => {
+      console.error('Failed to send new paper notifications:', error)
+    })
+
     return publishedVersion
   }
 
@@ -415,6 +421,50 @@ export class PaperService {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)/g, '')
+  }
+
+  private async sendNewPaperNotifications(publishedVersion: any, authorUserId: string) {
+    // Get all users except the author
+    const users = await db.user.findMany({
+      where: {
+        id: {
+          not: authorUserId
+        }
+      },
+      select: {
+        email: true
+      }
+    })
+
+    // Get author's email
+    const author = await db.user.findUnique({
+      where: { id: authorUserId },
+      select: { email: true }
+    })
+
+    if (!author) return
+
+    // Create excerpt from abstract (first 200 characters)
+    const excerpt = publishedVersion.abstract.length > 200 
+      ? publishedVersion.abstract.substring(0, 197) + '...'
+      : publishedVersion.abstract
+
+    // Generate paper URL
+    const baseUrl = process.env.FRONTEND_URL || 'http://localhost:3000'
+    const paperUrl = `${baseUrl}/papers/${publishedVersion.slug}`
+
+    // Send email to each user
+    const emailPromises = users.map(user => 
+      emailService.sendNewPaperNotification(
+        user.email,
+        publishedVersion.title,
+        excerpt,
+        paperUrl,
+        author.email
+      )
+    )
+
+    await Promise.allSettled(emailPromises)
   }
 }
 

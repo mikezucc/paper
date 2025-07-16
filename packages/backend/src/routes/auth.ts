@@ -8,8 +8,9 @@ export const authRouter = Router()
 
 authRouter.post('/request-code', async (req, res, next) => {
   try {
-    const { email } = requestCodeSchema.parse(req.body)
-    await authService.requestCode(email)
+    const { email, acceptedTerms } = req.body
+    const parsedData = requestCodeSchema.parse({ email })
+    await authService.requestCode(parsedData.email, acceptedTerms)
     res.json({ message: 'Code sent to email' })
   } catch (error) {
     next(error)

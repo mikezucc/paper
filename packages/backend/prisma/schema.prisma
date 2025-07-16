@@ -11,6 +11,8 @@ model User {
   id          String    @id @default(cuid())
   email       String    @unique
   totpSecret  String?
+  termsAcceptedAt DateTime?
+  lastVerificationCodeSentAt DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   

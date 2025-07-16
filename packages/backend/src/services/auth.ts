@@ -1,35 +1,68 @@
 import speakeasy from 'speakeasy'
 import { db } from '../utils/db'
 import { AppError } from '../middleware/error'
+import { emailService } from './email'
+
+const VERIFICATION_CODE_COOLDOWN_MS = 5 * 60 * 1000; // 5 minutes
 
 export class AuthService {
-  async requestCode(email: string): Promise<void> {
+  async requestCode(email: string, acceptedTerms?: boolean): Promise<void> {
     let user = await db.user.findUnique({ where: { email } })
     
     if (!user) {
+      // New user must accept terms
+      if (!acceptedTerms) {
+        throw new AppError(400, 'Terms of service must be accepted')
+      }
+      
       user = await db.user.create({
         data: {
           email,
           totpSecret: speakeasy.generateSecret().base32,
+          termsAcceptedAt: new Date(),
+          lastVerificationCodeSentAt: new Date(),
         },
       })
-    } else if (!user.totpSecret) {
+    } else {
+      // Check rate limiting
+      if (user.lastVerificationCodeSentAt) {
+        const timeSinceLastCode = Date.now() - user.lastVerificationCodeSentAt.getTime()
+        if (timeSinceLastCode < VERIFICATION_CODE_COOLDOWN_MS) {
+          const remainingMinutes = Math.ceil((VERIFICATION_CODE_COOLDOWN_MS - timeSinceLastCode) / 60000)
+          throw new AppError(429, `Please wait ${remainingMinutes} minute${remainingMinutes > 1 ? 's' : ''} before requesting a new verification code`)
+        }
+      }
+      
+      // Update user with new verification timestamp
+      const updateData: any = {
+        lastVerificationCodeSentAt: new Date(),
+      }
+      
+      // If existing user hasn't accepted terms yet, require it
+      if (!user.termsAcceptedAt && acceptedTerms) {
+        updateData.termsAcceptedAt = new Date()
+      } else if (!user.termsAcceptedAt) {
+        throw new AppError(400, 'Terms of service must be accepted')
+      }
+      
+      // Generate new secret if needed
+      if (!user.totpSecret) {
+        updateData.totpSecret = speakeasy.generateSecret().base32
+      }
+      
       user = await db.user.update({
         where: { email },
-        data: {
-          totpSecret: speakeasy.generateSecret().base32,
-        },
+        data: updateData,
       })
     }
 
     const token = speakeasy.totp({
-      secret: user.totpSecret,
+      secret: user.totpSecret!,
       encoding: 'base32',
-      window: 2,
     })
 
-    // In production, send this via email
-    console.log(`MFA Code for ${email}: ${token}`)
+    // Send verification code via email
+    await emailService.sendVerificationCode(email, token)
   }
 
   async verifyCode(email: string, code: string): Promise<string> {
