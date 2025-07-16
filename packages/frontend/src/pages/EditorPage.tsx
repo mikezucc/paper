@@ -4,6 +4,7 @@ import { debounce } from 'lodash'
 import { Paper, CreatePaperInput, UpdatePaperInput } from '@paper/shared'
 import { api } from '../utils/api'
 import { MarkdownRenderer } from '../components/MarkdownRenderer'
+import { useUndoRedo } from '../hooks/useUndoRedo'
 import styles from '../styles/components.module.css'
 
 interface Revision {
@@ -51,7 +52,11 @@ export function EditorPage() {
   )
   const [showToolbar, setShowToolbar] = useState(false)
   const [showInsertMenu, setShowInsertMenu] = useState(false)
+  const [toolbarHovered, setToolbarHovered] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  
+  // Undo/Redo functionality
+  const { addToHistory, undo, redo, canUndo, canRedo, reset } = useUndoRedo(content)
 
   // Font options
   const fontOptions = [
@@ -95,7 +100,9 @@ export function EditorPage() {
             setPaper(paper)
             setTitle(paper.title)
             setAbstract(paper.abstract)
-            setContent(paper.content || '')
+            const paperContent = paper.content || ''
+            setContent(paperContent)
+            reset(paperContent)
             setTags(paper.tags.join(', '))
             setPublished(paper.published)
             setLastSaved(new Date())
@@ -146,8 +153,51 @@ export function EditorPage() {
       textarea.focus()
       const newPosition = start + cursorOffset
       textarea.setSelectionRange(newPosition, newPosition)
+      addToHistory(newContent, newPosition, newPosition)
     }, 0)
   }
+
+  // Handle undo
+  const handleUndo = useCallback(() => {
+    const historyState = undo()
+    if (historyState && textareaRef.current) {
+      setContent(historyState.value)
+      setTimeout(() => {
+        textareaRef.current?.setSelectionRange(historyState.selectionStart, historyState.selectionEnd)
+        textareaRef.current?.focus()
+      }, 0)
+    }
+  }, [undo])
+
+  // Handle redo
+  const handleRedo = useCallback(() => {
+    const historyState = redo()
+    if (historyState && textareaRef.current) {
+      setContent(historyState.value)
+      setTimeout(() => {
+        textareaRef.current?.setSelectionRange(historyState.selectionStart, historyState.selectionEnd)
+        textareaRef.current?.focus()
+      }, 0)
+    }
+  }, [redo])
+
+  // Handle keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'z' && !e.shiftKey) {
+        e.preventDefault()
+        handleUndo()
+      } else if ((e.metaKey || e.ctrlKey) && (e.key === 'z' && e.shiftKey || e.key === 'y')) {
+        e.preventDefault()
+        handleRedo()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [handleUndo, handleRedo])
 
   // Load revisions when panel is opened
   useEffect(() => {
@@ -260,7 +310,9 @@ export function EditorPage() {
       setPaper(restored)
       setTitle(restored.title)
       setAbstract(restored.abstract)
-      setContent(restored.content || '')
+      const restoredContent = restored.content || ''
+      setContent(restoredContent)
+      reset(restoredContent)
       setTags(restored.tags.join(', '))
       setShowRevisions(false)
       
@@ -330,6 +382,22 @@ export function EditorPage() {
             placeholder="Untitled Paper"
           />
         </div>
+        <div className={styles.editorHeaderCenter}>
+          <button 
+            className={styles.viewModeToggle}
+            onClick={() => setViewMode(viewMode === 'split' ? 'focused' : 'split')}
+            title={viewMode === 'split' ? 'Focus mode' : 'Split view'}
+          >
+            {viewMode === 'split' ? '⚟' : '⚏'}
+          </button>
+          <button 
+            className={styles.toolbarToggle}
+            onClick={() => setShowToolbar(!showToolbar)}
+            title="Text formatting"
+          >
+            Aa
+          </button>
+        </div>
         <div className={`${styles.editorHeaderRight} ${headerHovered ? styles.visible : styles.hidden}`}>
           {headerHovered && (
             <>
@@ -355,20 +423,6 @@ export function EditorPage() {
               >
                 History
               </button>
-              <button 
-                className={styles.viewModeToggle}
-                onClick={() => setViewMode(viewMode === 'split' ? 'focused' : 'split')}
-                title={viewMode === 'split' ? 'Focus mode' : 'Split view'}
-              >
-                {viewMode === 'split' ? '⚟' : '⚏'}
-              </button>
-              <button 
-                className={styles.toolbarToggle}
-                onClick={() => setShowToolbar(!showToolbar)}
-                title="Text formatting"
-              >
-                Aa
-              </button>
             </>
           )}
           {paper && (
@@ -386,8 +440,30 @@ export function EditorPage() {
       </div>
 
       {showToolbar && (
-        <div className={styles.toolbarPanel}>
+        <div 
+          className={`${styles.toolbarPanel} ${toolbarHovered ? styles.visible : styles.hidden}`}
+          onMouseEnter={() => setToolbarHovered(true)}
+          onMouseLeave={() => setToolbarHovered(false)}
+        >
           <div className={styles.toolbarContent}>
+            <div className={styles.toolbarGroup}>
+              <button 
+                className={styles.undoButton}
+                onClick={handleUndo}
+                disabled={!canUndo}
+                title="Undo (Cmd/Ctrl + Z)"
+              >
+                ↶
+              </button>
+              <button 
+                className={styles.redoButton}
+                onClick={handleRedo}
+                disabled={!canRedo}
+                title="Redo (Cmd/Ctrl + Shift + Z)"
+              >
+                ↷
+              </button>
+            </div>
             <div className={styles.toolbarGroup}>
               <label className={styles.toolbarLabel}>Font</label>
               <select 
@@ -533,7 +609,13 @@ export function EditorPage() {
             ref={textareaRef}
             className={styles.markdownTextarea}
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={(e) => {
+              const newContent = e.target.value
+              setContent(newContent)
+              if (textareaRef.current) {
+                addToHistory(newContent, textareaRef.current.selectionStart, textareaRef.current.selectionEnd)
+              }
+            }}
             placeholder="Write your paper content in Markdown..."
             style={{
               fontFamily: fontOptions.find(f => f.value === selectedFont)?.family,
