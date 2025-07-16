@@ -13,7 +13,6 @@
 .header {
   border-bottom: 1px solid var(--color-border);
   padding: var(--space-md) 0;
-  margin-bottom: var(--space-lg);
 }
 
 .nav {
@@ -1608,6 +1607,31 @@
   .revisionsPanel {
     width: 100%;
   }
+  
+  .dashboardActions {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    top: auto;
+    transform: none;
+    flex-direction: row;
+    padding: 12px;
+  }
+  
+  .viewToggle {
+    flex-direction: row;
+  }
+  
+  .viewToggleButton {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+  }
+  
+  .newPaperButton {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
 }
 
 /* Revision preview modal styles */
@@ -1806,7 +1830,7 @@
 
 .dashboardHeader {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 24px 32px;
   border-bottom: 1px solid #e8dfd2;
@@ -1820,13 +1844,21 @@
 }
 
 .dashboardActions {
+  position: fixed;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  z-index: 100;
 }
 
 .viewToggle {
   display: flex;
+  flex-direction: column;
   background-color: #f8f5f0;
   border: 1px solid #e8dfd2;
   border-radius: 6px;
@@ -1834,7 +1866,7 @@
 }
 
 .viewToggleButton {
-  padding: 6px 8px;
+  padding: 12px;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -1844,6 +1876,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 48px;
+  height: 48px;
 }
 
 .viewToggleButton:hover {
@@ -1857,13 +1891,15 @@
 }
 
 .newPaperButton {
-  padding: 8px 16px;
+  padding: 12px 16px;
   background-color: #8b7355;
   color: white;
   border-radius: 6px;
   text-decoration: none;
   font-weight: 500;
   transition: background-color 0.2s ease;
+  display: inline-block;
+  text-align: center;
 }
 
 .newPaperButton:hover {

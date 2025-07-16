@@ -120,34 +120,35 @@ export function DashboardPage() {
     <div className={styles.dashboardContainer}>
       <div className={styles.dashboardHeader}>
         <h1>My Papers</h1>
-        <div className={styles.dashboardActions}>
-          <div className={styles.viewToggle}>
-            <button
-              className={`${styles.viewToggleButton} ${viewMode === 'card' ? styles.active : ''}`}
-              onClick={() => setViewMode('card')}
-              title="Card view"
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                <rect x="1" y="1" width="6" height="6" />
-                <rect x="9" y="1" width="6" height="6" />
-                <rect x="1" y="9" width="6" height="6" />
-                <rect x="9" y="9" width="6" height="6" />
-              </svg>
-            </button>
-            <button
-              className={`${styles.viewToggleButton} ${viewMode === 'list' ? styles.active : ''}`}
-              onClick={() => setViewMode('list')}
-              title="List view"
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                <rect x="1" y="2" width="14" height="2" />
-                <rect x="1" y="7" width="14" height="2" />
-                <rect x="1" y="12" width="14" height="2" />
-              </svg>
-            </button>
-          </div>
-          <Link to="/editor" className={styles.newPaperButton}>New Paper</Link>
+      </div>
+      
+      <div className={styles.dashboardActions}>
+        <div className={styles.viewToggle}>
+          <button
+            className={`${styles.viewToggleButton} ${viewMode === 'card' ? styles.active : ''}`}
+            onClick={() => setViewMode('card')}
+            title="Card view"
+          >
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+              <rect x="1" y="1" width="6" height="6" />
+              <rect x="9" y="1" width="6" height="6" />
+              <rect x="1" y="9" width="6" height="6" />
+              <rect x="9" y="9" width="6" height="6" />
+            </svg>
+          </button>
+          <button
+            className={`${styles.viewToggleButton} ${viewMode === 'list' ? styles.active : ''}`}
+            onClick={() => setViewMode('list')}
+            title="List view"
+          >
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+              <rect x="1" y="2" width="14" height="2" />
+              <rect x="1" y="7" width="14" height="2" />
+              <rect x="1" y="12" width="14" height="2" />
+            </svg>
+          </button>
         </div>
+        <Link to="/editor" className={styles.newPaperButton}>New Paper</Link>
       </div>
 
       {papers.length === 0 ? (
