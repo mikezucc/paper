@@ -24,6 +24,13 @@ export function EditorPage() {
   const [tags, setTags] = useState('')
   const [showPublishModal, setShowPublishModal] = useState(false)
   const [selectedVersionId, setSelectedVersionId] = useState<string | null>(null)
+  const [selectedVersionDetails, setSelectedVersionDetails] = useState<{
+    title: string
+    abstract: string
+    content: string
+    tags: string[]
+  } | null>(null)
+  const [loadingVersionDetails, setLoadingVersionDetails] = useState(false)
   const [publishing, setPublishing] = useState(false)
   const [, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -392,6 +399,35 @@ export function EditorPage() {
     }
   }
 
+  // Handle version selection in publish modal
+  const handleVersionSelect = async (versionId: string) => {
+    setSelectedVersionId(versionId)
+    
+    if (versionId === 'current') {
+      setSelectedVersionDetails({
+        title,
+        abstract,
+        content,
+        tags: tags.split(',').map(t => t.trim()).filter(Boolean)
+      })
+    } else if (paper) {
+      setLoadingVersionDetails(true)
+      try {
+        const { revision } = await api.get(`/papers/${paper.id}/revisions/${versionId}`)
+        setSelectedVersionDetails({
+          title: revision.title,
+          abstract: revision.abstract,
+          content: revision.content || '',
+          tags: revision.tags || []
+        })
+      } catch (err: any) {
+        setError(err.message)
+      } finally {
+        setLoadingVersionDetails(false)
+      }
+    }
+  }
+
   const getSaveStatusDisplay = () => {
     switch (saveStatus) {
       case 'saving':
@@ -490,7 +526,10 @@ export function EditorPage() {
               {paper && (
                 <button 
                   className={styles.publishButton}
-                  onClick={() => setShowPublishModal(true)}
+                  onClick={() => {
+                    setShowPublishModal(true)
+                    handleVersionSelect('current')
+                  }}
                 >
                   Publish
                 </button>
@@ -790,7 +829,11 @@ export function EditorPage() {
               <h2>Publish Version</h2>
               <button 
                 className={styles.closePublishButton}
-                onClick={() => setShowPublishModal(false)}
+                onClick={() => {
+                  setShowPublishModal(false)
+                  setSelectedVersionId(null)
+                  setSelectedVersionDetails(null)
+                }}
               >
                 ✕
               </button>
@@ -800,10 +843,11 @@ export function EditorPage() {
                 <p>Select a version to publish. Published versions will be publicly accessible.</p>
               </div>
               
-              <div className={styles.versionsList}>
+              <div className={styles.publishModalBody}>
+                <div className={styles.versionsList}>
                 <div 
                   className={`${styles.versionItem} ${selectedVersionId === 'current' ? styles.selected : ''}`}
-                  onClick={() => setSelectedVersionId('current')}
+                  onClick={() => handleVersionSelect('current')}
                 >
                   <div className={styles.versionRadio}>
                     <input 
@@ -829,7 +873,7 @@ export function EditorPage() {
                       <div 
                         key={revision.id}
                         className={`${styles.versionItem} ${selectedVersionId === revision.id ? styles.selected : ''}`}
-                        onClick={() => setSelectedVersionId(revision.id)}
+                        onClick={() => handleVersionSelect(revision.id)}
                       >
                         <div className={styles.versionRadio}>
                           <input 
@@ -852,12 +896,59 @@ export function EditorPage() {
                     ))}
                   </>
                 )}
+                </div>
+                
+                {selectedVersionDetails && (
+                  <div className={styles.versionPreview}>
+                    <div className={styles.versionPreviewHeader}>
+                      <h3>Preview</h3>
+                    </div>
+                    <div className={styles.versionPreviewContent}>
+                      {loadingVersionDetails ? (
+                        <div className={styles.loadingPreview}>Loading preview...</div>
+                      ) : (
+                        <>
+                          <div className={styles.versionPreviewMeta}>
+                            <h2>{selectedVersionDetails.title}</h2>
+                            {selectedVersionDetails.abstract && (
+                              <p className={styles.versionPreviewAbstract}>
+                                {selectedVersionDetails.abstract}
+                              </p>
+                            )}
+                            {selectedVersionDetails.tags.length > 0 && (
+                              <div className={styles.versionPreviewTags}>
+                                {selectedVersionDetails.tags.map((tag, i) => (
+                                  <span key={i} className={styles.versionPreviewTag}>{tag}</span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                          <div className={styles.versionPreviewDivider} />
+                          <div 
+                            className={styles.versionPreviewMarkdown}
+                            style={{
+                              fontFamily: allFonts.find(f => f.value === selectedFont)?.family,
+                              fontSize: `${fontSize}px`,
+                              lineHeight: fontSize >= 24 ? '1.8' : '1.6'
+                            }}
+                          >
+                            <MarkdownRenderer content={selectedVersionDetails.content} />
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
               
               <div className={styles.publishModalActions}>
                 <button 
                   className={styles.cancelPublishButton}
-                  onClick={() => setShowPublishModal(false)}
+                  onClick={() => {
+                    setShowPublishModal(false)
+                    setSelectedVersionId(null)
+                    setSelectedVersionDetails(null)
+                  }}
                 >
                   Cancel
                 </button>
