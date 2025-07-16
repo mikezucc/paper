@@ -1742,3 +1742,58 @@
     padding: 20px;
   }
 }
+
+.replaceExistingOption {
+  margin-top: 16px;
+  padding: 16px;
+  background-color: #f8f5f0;
+  border: 1px solid #e8dfd2;
+  border-radius: 8px;
+}
+
+.replaceExistingOption label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: #5c5449;
+  cursor: pointer;
+}
+
+.replaceExistingOption input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.replaceExistingHint {
+  margin: 8px 0 0 26px;
+  font-size: 13px;
+  color: #8a7c6d;
+  line-height: 1.5;
+}
+
+.publishedBadge {
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-radius: 4px;
+  margin-left: 8px;
+}
+
+.publishedBadge[data-status="current"] {
+  background-color: #4a7c59;
+  color: white;
+}
+
+.publishedBadge[data-status="published"] {
+  background-color: #8b7355;
+  color: white;
+}
+
+.publishedBadge[data-status="replaced"] {
+  background-color: #9b9b9b;
+  color: white;
+}

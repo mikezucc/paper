@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { createPaperSchema, updatePaperSchema } from '@paper/shared'
 import { authenticate, AuthRequest } from '../middleware/auth'
 import { paperService } from '../services/paper'
-import { AppError } from '../middleware/error'
+// import { AppError } from '../middleware/error'
 
 export const papersRouter = Router()
 
@@ -105,11 +105,12 @@ papersRouter.post('/:id/revisions/:revisionId/restore', async (req: AuthRequest,
 // Publishing endpoints
 papersRouter.post('/:id/publish', async (req: AuthRequest, res, next) => {
   try {
-    const { versionId } = req.body // 'current' or revision ID
+    const { versionId, replaceExisting = false } = req.body // 'current' or revision ID, and whether to replace existing
     const publishedVersion = await paperService.publishVersion(
       req.userId!,
       req.params.id,
-      versionId
+      versionId,
+      replaceExisting
     )
     res.json({ publishedVersion })
   } catch (error) {

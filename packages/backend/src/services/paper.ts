@@ -4,12 +4,14 @@ import { AppError } from '../middleware/error'
 
 export class PaperService {
   async listPublished() {
-    // Now returns published versions instead of papers
+    // Returns only canonical published versions (not replaced ones)
     return db.publishedVersion.findMany({
+      where: { replacedById: null },
       orderBy: { publishedAt: 'desc' },
       include: {
         paper: {
           select: {
+            id: true,
             user: {
               select: { email: true },
             },
@@ -213,9 +215,12 @@ export class PaperService {
     })
   }
 
-  async publishVersion(userId: string, paperId: string, versionId: string) {
+  async publishVersion(userId: string, paperId: string, versionId: string, replaceExisting: boolean = false) {
     const paper = await db.paper.findFirst({
       where: { id: paperId, userId },
+      include: {
+        canonicalPublishedVersion: true,
+      },
     })
 
     if (!paper) {
@@ -264,16 +269,40 @@ export class PaperService {
       .substring(0, 50)
     const slug = `${baseSlug}-${timestamp}-${randomSuffix}`
 
-    const publishedVersion = await db.publishedVersion.create({
-      data: {
-        paperId,
-        revisionId,
-        slug,
-        title,
-        abstract,
-        content,
-        tags,
-      },
+    // Use a transaction to ensure consistency
+    const publishedVersion = await db.$transaction(async (tx) => {
+      // Create the new published version
+      const newVersion = await tx.publishedVersion.create({
+        data: {
+          paperId,
+          revisionId,
+          slug,
+          title,
+          abstract,
+          content,
+          tags,
+        },
+      })
+
+      // If replacing existing version
+      if (replaceExisting && paper.canonicalPublishedVersionId) {
+        // Mark the old version as replaced
+        await tx.publishedVersion.update({
+          where: { id: paper.canonicalPublishedVersionId },
+          data: { replacedById: newVersion.id },
+        })
+      }
+
+      // Update paper to point to new canonical version
+      await tx.paper.update({
+        where: { id: paperId },
+        data: { 
+          canonicalPublishedVersionId: newVersion.id,
+          published: true,
+        },
+      })
+
+      return newVersion
     })
 
     return publishedVersion
@@ -282,6 +311,10 @@ export class PaperService {
   async listPublishedVersions(userId: string, paperId: string) {
     const paper = await db.paper.findFirst({
       where: { id: paperId, userId },
+      select: { 
+        id: true, 
+        canonicalPublishedVersionId: true 
+      },
     })
 
     if (!paper) {
@@ -299,10 +332,23 @@ export class PaperService {
             createdAt: true,
           },
         },
+        replacedBy: {
+          select: {
+            id: true,
+            slug: true,
+            publishedAt: true,
+          },
+        },
       },
     })
 
-    return publishedVersions
+    // Add a flag to indicate if this is the canonical version
+    const publishedVersionsWithCanonical = publishedVersions.map(version => ({
+      ...version,
+      isCanonical: version.id === paper.canonicalPublishedVersionId,
+    }))
+
+    return publishedVersionsWithCanonical
   }
 
   private generateSlug(title: string): string {

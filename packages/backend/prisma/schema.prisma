@@ -39,12 +39,14 @@ model Paper {
   content     String?   @db.Text
   tags        String[]
   published   Boolean   @default(false)
+  canonicalPublishedVersionId String? @unique
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   revisions   PaperRevision[]
   publishedVersions PublishedVersion[]
+  canonicalPublishedVersion PublishedVersion? @relation("CanonicalVersion", fields: [canonicalPublishedVersionId], references: [id], onDelete: SetNull)
   
   @@index([userId])
   @@index([slug])
@@ -78,12 +80,17 @@ model PublishedVersion {
   abstract    String
   content     String?   @db.Text
   tags        String[]
+  replacedById String?  // ID of the version that replaced this one
   publishedAt DateTime  @default(now())
   
   paper       Paper     @relation(fields: [paperId], references: [id], onDelete: Cascade)
   revision    PaperRevision? @relation(fields: [revisionId], references: [id], onDelete: SetNull)
+  replacedBy  PublishedVersion? @relation("VersionReplacement", fields: [replacedById], references: [id], onDelete: SetNull)
+  replacements PublishedVersion[] @relation("VersionReplacement")
+  canonicalPaper Paper? @relation("CanonicalVersion")
   
   @@index([paperId])
   @@index([slug])
   @@index([publishedAt])
+  @@index([replacedById])
 }

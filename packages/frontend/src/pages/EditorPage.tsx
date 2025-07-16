@@ -38,7 +38,10 @@ export function EditorPage() {
     revisionId: string | null
     publishedAt: string
     slug: string
+    isCanonical?: boolean
+    replacedBy?: { id: string; slug: string; publishedAt: string } | null
   }>>([])
+  const [replaceExisting, setReplaceExisting] = useState(false)
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [publishedUrl, setPublishedUrl] = useState('')
   const [copied, setCopied] = useState(false)
@@ -852,6 +855,7 @@ export function EditorPage() {
                   setShowPublishModal(false)
                   setSelectedVersionId(null)
                   setSelectedVersionDetails(null)
+                  setReplaceExisting(false)
                 }}
               >
                 ✕
@@ -860,6 +864,21 @@ export function EditorPage() {
             <div className={styles.publishModalContent}>
               <div className={styles.publishModalInfo}>
                 <p>Select a version to publish. Published versions will be publicly accessible.</p>
+                {publishedVersions.some(pv => pv.isCanonical) && (
+                  <div className={styles.replaceExistingOption}>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={replaceExisting}
+                        onChange={(e) => setReplaceExisting(e.target.checked)}
+                      />
+                      Replace the current published version
+                    </label>
+                    <p className={styles.replaceExistingHint}>
+                      When checked, this will replace the current canonical version. The old version will still be accessible via its direct URL.
+                    </p>
+                  </div>
+                )}
               </div>
               
               <div className={styles.publishModalBody}>
@@ -882,7 +901,22 @@ export function EditorPage() {
                     <div className={styles.versionStatus}>
                       {saveStatus === 'saved' ? 'All changes saved' : 'Unsaved changes'}
                       {publishedVersions.some(pv => pv.revisionId === null) && (
-                        <span className={styles.publishedBadge}>Published</span>
+                        <span 
+                          className={styles.publishedBadge}
+                          data-status={
+                            publishedVersions.find(pv => pv.revisionId === null)?.replacedBy 
+                              ? 'replaced' 
+                              : publishedVersions.find(pv => pv.revisionId === null)?.isCanonical 
+                                ? 'current' 
+                                : 'published'
+                          }
+                        >
+                          {publishedVersions.find(pv => pv.revisionId === null)?.replacedBy 
+                            ? 'Replaced' 
+                            : publishedVersions.find(pv => pv.revisionId === null)?.isCanonical 
+                              ? 'Current' 
+                              : 'Published'}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -914,7 +948,22 @@ export function EditorPage() {
                             <div className={styles.versionMessage}>{revision.message}</div>
                           )}
                           {publishedVersions.some(pv => pv.revisionId === revision.id) && (
-                            <span className={styles.publishedBadge}>Published</span>
+                            <span 
+                              className={styles.publishedBadge}
+                              data-status={
+                                publishedVersions.find(pv => pv.revisionId === revision.id)?.replacedBy 
+                                  ? 'replaced' 
+                                  : publishedVersions.find(pv => pv.revisionId === revision.id)?.isCanonical 
+                                    ? 'current' 
+                                    : 'published'
+                              }
+                            >
+                              {publishedVersions.find(pv => pv.revisionId === revision.id)?.replacedBy 
+                                ? 'Replaced' 
+                                : publishedVersions.find(pv => pv.revisionId === revision.id)?.isCanonical 
+                                  ? 'Current' 
+                                  : 'Published'}
+                            </span>
                           )}
                         </div>
                       </div>
@@ -973,6 +1022,7 @@ export function EditorPage() {
                     setShowPublishModal(false)
                     setSelectedVersionId(null)
                     setSelectedVersionDetails(null)
+                    setReplaceExisting(false)
                   }}
                 >
                   Cancel
@@ -985,7 +1035,8 @@ export function EditorPage() {
                     setPublishing(true)
                     try {
                       const { publishedVersion } = await api.post(`/papers/${paper.id}/publish`, {
-                        versionId: selectedVersionId
+                        versionId: selectedVersionId,
+                        replaceExisting
                       })
                       
                       // Show success message or navigate to published version
