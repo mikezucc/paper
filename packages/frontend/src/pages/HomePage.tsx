@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { api } from '../utils/api'
+import { MarkdownRenderer } from '../components/MarkdownRenderer'
 import styles from '../styles/components.module.css'
 
 type ViewMode = 'card' | 'list'
@@ -323,9 +324,13 @@ export function HomePage() {
                   {selectedPaper.content && (
                     <div className={styles.paperDetailSection}>
                       <h3>Preview</h3>
-                      <div className={styles.paperDetailPreview}>
-                        {selectedPaper.content.substring(0, 500)}
-                        {selectedPaper.content.length > 500 && '...'}
+                      <div className={styles.paperDetailMarkdownPreview}>
+                        <MarkdownRenderer 
+                          content={selectedPaper.content.length > 1000 
+                            ? selectedPaper.content.substring(0, 1000) + '...' 
+                            : selectedPaper.content
+                          } 
+                        />
                       </div>
                     </div>
                   )}

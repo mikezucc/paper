@@ -2307,3 +2307,122 @@
   color: #6d5a44;
   font-size: 14px;
 }
+
+.paperDetailMarkdownPreview {
+  padding: 20px;
+  background-color: #fdfcfb;
+  border: 1px solid #e8dfd2;
+  border-radius: 6px;
+  max-height: 400px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.paperDetailMarkdownPreview::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, #fdfcfb);
+  pointer-events: none;
+}
+
+.paperDetailMarkdownPreview h1,
+.paperDetailMarkdownPreview h2,
+.paperDetailMarkdownPreview h3,
+.paperDetailMarkdownPreview h4,
+.paperDetailMarkdownPreview h5,
+.paperDetailMarkdownPreview h6 {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  color: #3a332b;
+}
+
+.paperDetailMarkdownPreview h1 { font-size: 1.5em; }
+.paperDetailMarkdownPreview h2 { font-size: 1.3em; }
+.paperDetailMarkdownPreview h3 { font-size: 1.1em; }
+
+.paperDetailMarkdownPreview p {
+  margin-bottom: 1em;
+  line-height: 1.6;
+}
+
+.paperDetailMarkdownPreview ul,
+.paperDetailMarkdownPreview ol {
+  margin-bottom: 1em;
+  padding-left: 2em;
+}
+
+.paperDetailMarkdownPreview li {
+  margin-bottom: 0.3em;
+}
+
+.paperDetailMarkdownPreview blockquote {
+  margin: 1em 0;
+  padding-left: 1em;
+  border-left: 3px solid #8b7355;
+  color: #5c5449;
+  font-style: italic;
+}
+
+.paperDetailMarkdownPreview code {
+  background-color: #f0ebe4;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+  font-family: 'Courier New', monospace;
+}
+
+.paperDetailMarkdownPreview pre {
+  background-color: #f0ebe4;
+  padding: 1em;
+  border-radius: 5px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+
+.paperDetailMarkdownPreview pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+.paperDetailMarkdownPreview a {
+  color: #8b7355;
+  text-decoration: underline;
+}
+
+.paperDetailMarkdownPreview a:hover {
+  color: #6d5a44;
+}
+
+.paperDetailMarkdownPreview img {
+  max-width: 100%;
+  height: auto;
+  margin: 1em 0;
+}
+
+.paperDetailMarkdownPreview table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.paperDetailMarkdownPreview th,
+.paperDetailMarkdownPreview td {
+  border: 1px solid #e8dfd2;
+  padding: 0.5em;
+  text-align: left;
+}
+
+.paperDetailMarkdownPreview th {
+  background-color: #f8f5f0;
+  font-weight: 600;
+}
+
+.paperDetailMarkdownPreview hr {
+  border: none;
+  border-top: 1px solid #e8dfd2;
+  margin: 2em 0;
+}
