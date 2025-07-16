@@ -259,6 +259,23 @@
   color: #3d3a34;
 }
 
+.publishButton {
+  background-color: #8b7355;
+  border: none;
+  color: white;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  animation: fadeIn 0.2s ease;
+}
+
+.publishButton:hover {
+  background-color: #6d5a44;
+}
+
 .viewModeToggle {
   background: transparent;
   border: none;
@@ -598,6 +615,197 @@
   margin: 4px 0;
 }
 
+/* Publish modal styles */
+.publishModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 32px;
+}
+
+.publishModal {
+  background-color: #faf8f5;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.publishModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  border-bottom: 1px solid #d4c5b0;
+  background-color: #f9f6f2;
+}
+
+.publishModalHeader h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #3d3a34;
+}
+
+.closePublishButton {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: #5c5449;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.closePublishButton:hover {
+  background-color: #ede8e2;
+}
+
+.publishModalContent {
+  flex: 1;
+  padding: 24px 32px;
+  overflow-y: auto;
+}
+
+.publishModalInfo {
+  margin-bottom: 24px;
+}
+
+.publishModalInfo p {
+  margin: 0;
+  color: #5c5449;
+  line-height: 1.6;
+}
+
+.versionsList {
+  margin-bottom: 24px;
+}
+
+.versionItem {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #e6e0d6;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.versionItem:hover {
+  border-color: #d4c5b0;
+  background-color: #f9f6f2;
+}
+
+.versionItem.selected {
+  border-color: #8b7355;
+  background-color: #f5f3f0;
+}
+
+.versionRadio {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 2px;
+}
+
+.versionRadio input[type="radio"] {
+  cursor: pointer;
+}
+
+.versionDetails {
+  flex: 1;
+}
+
+.versionTitle {
+  font-weight: 600;
+  color: #3d3a34;
+  margin-bottom: 4px;
+}
+
+.versionDate {
+  font-size: 14px;
+  color: #8b8075;
+  margin-bottom: 4px;
+}
+
+.versionStatus {
+  font-size: 14px;
+  color: #6d5a44;
+}
+
+.versionMessage {
+  font-size: 14px;
+  color: #6d5a44;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.versionDivider {
+  font-size: 13px;
+  font-weight: 500;
+  color: #8b8075;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 20px 0 12px 0;
+}
+
+.publishModalActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding: 20px 32px;
+  border-top: 1px solid #d4c5b0;
+  background-color: #f9f6f2;
+}
+
+.cancelPublishButton {
+  padding: 10px 24px;
+  border: 1px solid #d4c5b0;
+  border-radius: 6px;
+  background-color: transparent;
+  color: #5c5449;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancelPublishButton:hover {
+  background-color: #ede8e2;
+}
+
+.confirmPublishButton {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  background-color: #8b7355;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.confirmPublishButton:hover:not(:disabled) {
+  background-color: #6d5a44;
+}
+
+.confirmPublishButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .sizeControls {
   display: flex;
   align-items: center;
@@ -885,6 +1093,17 @@
   
   .contextMenu {
     min-width: 160px;
+  }
+  
+  .publishModal {
+    max-width: 95vw;
+  }
+  
+  .publishModalHeader,
+  .publishModalContent,
+  .publishModalActions {
+    padding-left: 20px;
+    padding-right: 20px;
   }
   
   .insertMenu {

@@ -22,7 +22,9 @@ export function EditorPage() {
   const [abstract, setAbstract] = useState('')
   const [content, setContent] = useState('')
   const [tags, setTags] = useState('')
-  const [published, setPublished] = useState(false)
+  const [showPublishModal, setShowPublishModal] = useState(false)
+  const [selectedVersionId, setSelectedVersionId] = useState<string | null>(null)
+  const [publishing, setPublishing] = useState(false)
   const [, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [showMetadata, setShowMetadata] = useState(false)
@@ -128,7 +130,6 @@ export function EditorPage() {
             setContent(paperContent)
             reset(paperContent)
             setTags(paper.tags.join(', '))
-            setPublished(paper.published)
             setLastSaved(new Date())
             setSaveStatus('saved')
           }
@@ -257,14 +258,14 @@ export function EditorPage() {
 
   // Load revisions when panel is opened
   useEffect(() => {
-    if (showRevisions && paper) {
+    if ((showRevisions || showPublishModal) && paper) {
       setLoadingRevisions(true)
       api.get(`/papers/${paper.id}/revisions`)
         .then(({ revisions }) => setRevisions(revisions))
         .catch((err) => setError(err.message))
         .finally(() => setLoadingRevisions(false))
     }
-  }, [showRevisions, paper])
+  }, [showRevisions, showPublishModal, paper])
 
   // Update time since last save
   useEffect(() => {
@@ -313,7 +314,7 @@ export function EditorPage() {
       }
 
       if (paper) {
-        const updateData: UpdatePaperInput = { ...paperData, published }
+        const updateData: UpdatePaperInput = { ...paperData }
         const { paper: updated } = await api.put(`/papers/${paper.id}`, updateData)
         setPaper(updated)
       } else {
@@ -333,7 +334,7 @@ export function EditorPage() {
     } finally {
       setSaving(false)
     }
-  }, [title, abstract, content, tags, published, paper, navigate])
+  }, [title, abstract, content, tags, paper, navigate])
 
   const onSaveRef = useRef(performSave);
   onSaveRef.current = performSave;
@@ -351,7 +352,7 @@ export function EditorPage() {
       setSaveStatus('unsaved')
       debouncedSave()
     }
-  }, [title, abstract, content, tags, published])
+  }, [title, abstract, content, tags])
 
   // const handleManualSave = () => {
   //   debouncedSave.cancel()
@@ -486,17 +487,15 @@ export function EditorPage() {
               >
                 History
               </button>
+              {paper && (
+                <button 
+                  className={styles.publishButton}
+                  onClick={() => setShowPublishModal(true)}
+                >
+                  Publish
+                </button>
+              )}
             </>
-          )}
-          {paper && (
-            <label className={styles.publishToggle}>
-              <input
-                type="checkbox"
-                checked={published}
-                onChange={(e) => setPublished(e.target.checked)}
-              />
-              <span>Published</span>
-            </label>
           )}
           <Link to="/dashboard" className={styles.exitButton}>✕</Link>
         </div>
@@ -778,6 +777,110 @@ export function EditorPage() {
               <div className={styles.revisionPreviewDivider} />
               <div className={styles.revisionPreviewMarkdown}>
                 <MarkdownRenderer content={previewRevision.content || ''} />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {showPublishModal && paper && (
+        <div className={styles.publishModalOverlay} onClick={() => setShowPublishModal(false)}>
+          <div className={styles.publishModal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.publishModalHeader}>
+              <h2>Publish Version</h2>
+              <button 
+                className={styles.closePublishButton}
+                onClick={() => setShowPublishModal(false)}
+              >
+                ✕
+              </button>
+            </div>
+            <div className={styles.publishModalContent}>
+              <div className={styles.publishModalInfo}>
+                <p>Select a version to publish. Published versions will be publicly accessible.</p>
+              </div>
+              
+              <div className={styles.versionsList}>
+                <div 
+                  className={`${styles.versionItem} ${selectedVersionId === 'current' ? styles.selected : ''}`}
+                  onClick={() => setSelectedVersionId('current')}
+                >
+                  <div className={styles.versionRadio}>
+                    <input 
+                      type="radio" 
+                      name="version" 
+                      checked={selectedVersionId === 'current'}
+                      onChange={() => {}}
+                    />
+                  </div>
+                  <div className={styles.versionDetails}>
+                    <div className={styles.versionTitle}>Current Version</div>
+                    <div className={styles.versionDate}>Last saved {timeSinceLastSave}</div>
+                    <div className={styles.versionStatus}>
+                      {saveStatus === 'saved' ? 'All changes saved' : 'Unsaved changes'}
+                    </div>
+                  </div>
+                </div>
+                
+                {revisions.length > 0 && (
+                  <>
+                    <div className={styles.versionDivider}>Previous Versions</div>
+                    {revisions.map((revision) => (
+                      <div 
+                        key={revision.id}
+                        className={`${styles.versionItem} ${selectedVersionId === revision.id ? styles.selected : ''}`}
+                        onClick={() => setSelectedVersionId(revision.id)}
+                      >
+                        <div className={styles.versionRadio}>
+                          <input 
+                            type="radio" 
+                            name="version" 
+                            checked={selectedVersionId === revision.id}
+                            onChange={() => {}}
+                          />
+                        </div>
+                        <div className={styles.versionDetails}>
+                          <div className={styles.versionTitle}>{revision.title}</div>
+                          <div className={styles.versionDate}>
+                            {formatRevisionDate(revision.createdAt)}
+                          </div>
+                          {revision.message && (
+                            <div className={styles.versionMessage}>{revision.message}</div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                )}
+              </div>
+              
+              <div className={styles.publishModalActions}>
+                <button 
+                  className={styles.cancelPublishButton}
+                  onClick={() => setShowPublishModal(false)}
+                >
+                  Cancel
+                </button>
+                <button 
+                  className={styles.confirmPublishButton}
+                  onClick={async () => {
+                    if (!selectedVersionId) return
+                    
+                    setPublishing(true)
+                    try {
+                      // TODO: Call API to publish version
+                      console.log('Publishing version:', selectedVersionId)
+                      setShowPublishModal(false)
+                    } catch (err) {
+                      console.error('Failed to publish:', err)
+                    } finally {
+                      setPublishing(false)
+                    }
+                  }}
+                  disabled={!selectedVersionId || publishing}
+                >
+                  {publishing ? 'Publishing...' : 'Publish Version'}
+                </button>
               </div>
             </div>
           </div>
