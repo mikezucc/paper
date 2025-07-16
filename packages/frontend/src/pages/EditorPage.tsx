@@ -5,6 +5,7 @@ import { Paper, CreatePaperInput, UpdatePaperInput } from '@paper/shared'
 import { api } from '../utils/api'
 import { MarkdownRenderer } from '../components/MarkdownRenderer'
 import { useUndoRedo } from '../hooks/useUndoRedo'
+import { Confetti } from '../components/Confetti'
 import styles from '../styles/components.module.css'
 
 interface Revision {
@@ -38,6 +39,9 @@ export function EditorPage() {
     publishedAt: string
     slug: string
   }>>([])
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [publishedUrl, setPublishedUrl] = useState('')
+  const [copied, setCopied] = useState(false)
   const [, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [showMetadata, setShowMetadata] = useState(false)
@@ -994,8 +998,9 @@ export function EditorPage() {
                       const { publishedVersions: updated } = await api.get(`/papers/${paper.id}/published`)
                       setPublishedVersions(updated)
                       
-                      // Show success in UI (you could add a toast here)
-                      alert(`Version published successfully! URL: /p/${publishedVersion.slug}`)
+                      // Show success modal
+                      setPublishedUrl(`${window.location.origin}/p/${publishedVersion.slug}`)
+                      setShowSuccessModal(true)
                     } catch (err: any) {
                       setError(err.message || 'Failed to publish version')
                     } finally {
@@ -1005,6 +1010,59 @@ export function EditorPage() {
                   disabled={!selectedVersionId || publishing}
                 >
                   {publishing ? 'Publishing...' : 'Publish Version'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {showSuccessModal && (
+        <div className={styles.successModalOverlay}>
+          <Confetti />
+          <div className={styles.successModal}>
+            <div className={styles.successModalContent}>
+              <div className={styles.successIcon}>
+                🎉
+              </div>
+              <h1 className={styles.successTitle}>Congratulations!</h1>
+              <p className={styles.successMessage}>
+                Your paper has been published successfully.
+              </p>
+              <div className={styles.successUrl}>
+                <input
+                  type="text"
+                  value={publishedUrl}
+                  readOnly
+                  className={styles.successUrlInput}
+                  onClick={(e) => (e.target as HTMLInputElement).select()}
+                />
+                <button
+                  className={styles.copyButton}
+                  onClick={() => {
+                    navigator.clipboard.writeText(publishedUrl)
+                    setCopied(true)
+                    setTimeout(() => setCopied(false), 2000)
+                  }}
+                >
+                  {copied ? '✓ Copied!' : 'Copy Link'}
+                </button>
+              </div>
+              <div className={styles.successActions}>
+                <button
+                  className={styles.viewPublishedButton}
+                  onClick={() => window.open(publishedUrl, '_blank')}
+                >
+                  View Published Version
+                </button>
+                <button
+                  className={styles.continueEditingButton}
+                  onClick={() => {
+                    setShowSuccessModal(false)
+                    setCopied(false)
+                  }}
+                >
+                  Continue Editing
                 </button>
               </div>
             </div>

@@ -905,6 +905,158 @@
   font-weight: 500;
 }
 
+/* Success modal styles */
+.successModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1500;
+  animation: fadeIn 0.3s ease;
+}
+
+.successModal {
+  background-color: #faf8f5;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+  padding: 48px;
+  text-align: center;
+  animation: scaleIn 0.3s ease;
+  position: relative;
+  z-index: 1501;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.successModalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.successIcon {
+  font-size: 72px;
+  line-height: 1;
+  animation: bounce 0.6s ease;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.successTitle {
+  margin: 0;
+  font-size: 36px;
+  color: #3d3a34;
+  font-weight: 700;
+}
+
+.successMessage {
+  margin: 0;
+  font-size: 18px;
+  color: #5c5449;
+  line-height: 1.6;
+}
+
+.successUrl {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  padding: 16px;
+  background-color: #f5f3f0;
+  border-radius: 12px;
+}
+
+.successUrlInput {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #d4c5b0;
+  border-radius: 8px;
+  background-color: white;
+  font-size: 14px;
+  color: #3d3a34;
+  font-family: monospace;
+}
+
+.copyButton {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #8b7355;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.copyButton:hover {
+  background-color: #6d5a44;
+}
+
+.successActions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.viewPublishedButton {
+  flex: 1;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 8px;
+  background-color: #8b7355;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.viewPublishedButton:hover {
+  background-color: #6d5a44;
+}
+
+.continueEditingButton {
+  flex: 1;
+  padding: 14px 24px;
+  border: 1px solid #d4c5b0;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #5c5449;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.continueEditingButton:hover {
+  background-color: #ede8e2;
+}
+
 .sizeControls {
   display: flex;
   align-items: center;
@@ -1218,6 +1370,23 @@
   .publishModalActions {
     padding-left: 20px;
     padding-right: 20px;
+  }
+  
+  .successModal {
+    padding: 32px;
+    max-width: 90vw;
+  }
+  
+  .successTitle {
+    font-size: 28px;
+  }
+  
+  .successMessage {
+    font-size: 16px;
+  }
+  
+  .successActions {
+    flex-direction: column;
   }
   
   .insertMenu {
