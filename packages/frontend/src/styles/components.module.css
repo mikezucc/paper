@@ -1824,36 +1824,6 @@
   gap: 16px;
 }
 
-.viewToggle {
-  display: flex;
-  background-color: #f8f5f0;
-  border: 1px solid #e8dfd2;
-  border-radius: 6px;
-  padding: 2px;
-}
-
-.viewToggleButton {
-  padding: 6px 8px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  color: #8a7c6d;
-  transition: all 0.2s ease;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.viewToggleButton:hover {
-  color: #5c5449;
-}
-
-.viewToggleButton.active {
-  background-color: white;
-  color: #3a332b;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
 
 .newPaperButton {
   padding: 8px 16px;
@@ -1897,78 +1867,8 @@
   background-color: #6d5a44;
 }
 
-/* Card View Styles */
-.cardViewContainer {
-  padding: 32px;
-}
+/* Card View Styles - removed as we only use list view now */
 
-.filtersBar {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.searchInput {
-  flex: 1;
-  padding: 10px 16px;
-  border: 1px solid #e8dfd2;
-  border-radius: 6px;
-  font-size: 14px;
-  background-color: white;
-}
-
-.searchInput:focus {
-  outline: none;
-  border-color: #8b7355;
-}
-
-.filterSelect {
-  padding: 10px 16px;
-  border: 1px solid #e8dfd2;
-  border-radius: 6px;
-  font-size: 14px;
-  background-color: white;
-  cursor: pointer;
-}
-
-.filterSelect:focus {
-  outline: none;
-  border-color: #8b7355;
-}
-
-.cardsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
-}
-
-.paperCard {
-  background-color: white;
-  border: 1px solid #e8dfd2;
-  border-radius: 8px;
-  padding: 20px;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.paperCard:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
-}
-
-.paperCardHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 8px;
-}
-
-.paperCardTitle {
-  font-size: 18px;
-  font-weight: 600;
-  color: #3a332b;
-  margin: 0;
-  line-height: 1.3;
-}
 
 .statusBadge {
   padding: 4px 8px;
@@ -1989,44 +1889,6 @@
   color: #8a7c6d;
 }
 
-.paperCardDate {
-  font-size: 13px;
-  color: #8a7c6d;
-  margin-bottom: 12px;
-}
-
-.paperCardAbstract {
-  font-size: 14px;
-  line-height: 1.5;
-  color: #5c5449;
-  margin-bottom: 12px;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.paperCardTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 16px;
-}
-
-.paperCardTag {
-  padding: 4px 8px;
-  background-color: #f8f5f0;
-  color: #5c5449;
-  font-size: 12px;
-  border-radius: 4px;
-}
-
-.paperCardActions {
-  display: flex;
-  gap: 8px;
-  padding-top: 12px;
-  border-top: 1px solid #f0ebe4;
-}
 
 .editButton,
 .viewButton,
@@ -2293,17 +2155,6 @@
 }
 
 /* Additional styles for browse papers */
-.paperCardMeta {
-  display: flex;
-  gap: 12px;
-  font-size: 13px;
-  color: #8a7c6d;
-  margin-bottom: 12px;
-}
-
-.paperCardAuthor {
-  color: #6d5a44;
-}
 
 .paperListItemAuthor {
   color: #6d5a44;

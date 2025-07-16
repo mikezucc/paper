@@ -5,14 +5,9 @@ import { api } from '../utils/api'
 import { MarkdownRenderer } from '../components/MarkdownRenderer'
 import styles from '../styles/components.module.css'
 
-type ViewMode = 'card' | 'list'
-
 export function DashboardPage() {
   const [papers, setPapers] = useState<Paper[]>([])
   const [loading, setLoading] = useState(true)
-  const [viewMode, setViewMode] = useState<ViewMode>(() => 
-    (localStorage.getItem('dashboardViewMode') as ViewMode) || 'card'
-  )
   const [selectedPaper, setSelectedPaper] = useState<Paper | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [tagFilter, setTagFilter] = useState<string>('')
@@ -23,17 +18,14 @@ export function DashboardPage() {
     api.get('/papers/user/papers')
       .then(({ papers }) => {
         setPapers(papers)
-        // Auto-select first paper in list view
-        if (viewMode === 'list' && papers.length > 0 && !selectedPaper) {
+        // Auto-select first paper
+        if (papers.length > 0 && !selectedPaper) {
           setSelectedPaper(papers[0])
         }
       })
       .finally(() => setLoading(false))
   }, [])
 
-  useEffect(() => {
-    localStorage.setItem('dashboardViewMode', viewMode)
-  }, [viewMode])
 
   const handleDelete = async (paperId: string) => {
     if (confirm('Are you sure you want to delete this paper?')) {
@@ -79,10 +71,8 @@ export function DashboardPage() {
     return matchesSearch && matchesTag && matchesStatus
   })
 
-  // Keyboard navigation for list view
+  // Keyboard navigation
   useEffect(() => {
-    if (viewMode !== 'list') return
-
     const handleKeyDown = (e: KeyboardEvent) => {
       const currentIndex = filteredPapers.findIndex(p => p.id === selectedPaper?.id)
       
@@ -110,126 +100,25 @@ export function DashboardPage() {
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [viewMode, selectedPaper, filteredPapers, navigate])
+  }, [selectedPaper, filteredPapers, navigate])
 
   if (loading) {
     return <div className={styles.container}>Loading...</div>
   }
 
-  const renderDashboardActions = () => (
-    <>
-      <div className={styles.viewToggle}>
-        <button
-          className={`${styles.viewToggleButton} ${viewMode === 'card' ? styles.active : ''}`}
-          onClick={() => setViewMode('card')}
-          title="Card view"
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-            <rect x="1" y="1" width="6" height="6" />
-            <rect x="9" y="1" width="6" height="6" />
-            <rect x="1" y="9" width="6" height="6" />
-            <rect x="9" y="9" width="6" height="6" />
-          </svg>
-        </button>
-        <button
-          className={`${styles.viewToggleButton} ${viewMode === 'list' ? styles.active : ''}`}
-          onClick={() => setViewMode('list')}
-          title="List view"
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-            <rect x="1" y="2" width="14" height="2" />
-            <rect x="1" y="7" width="14" height="2" />
-            <rect x="1" y="12" width="14" height="2" />
-          </svg>
-        </button>
-      </div>
-      <Link to="/editor" className={styles.newPaperButton}>New Paper</Link>
-    </>
-  )
 
   return (
     <div className={styles.dashboardContainer}>
-      <div className={styles.dashboardHeader}>
-        <h1>My Papers</h1>
-        {viewMode === 'card' && (
-          <div className={styles.dashboardActions}>
-            {renderDashboardActions()}
-          </div>
-        )}
-      </div>
-
       {papers.length === 0 ? (
         <div className={styles.emptyState}>
           <p>You haven't created any papers yet.</p>
           <Link to="/editor" className={styles.newPaperButtonLarge}>Create your first paper</Link>
         </div>
-      ) : viewMode === 'card' ? (
-        <div className={styles.cardViewContainer}>
-          <div className={styles.filtersBar}>
-            <input
-              type="text"
-              placeholder="Search papers..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className={styles.searchInput}
-            />
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value as 'all' | 'published' | 'draft')}
-              className={styles.filterSelect}
-            >
-              <option value="all">All Papers</option>
-              <option value="published">Published</option>
-              <option value="draft">Drafts</option>
-            </select>
-            <select
-              value={tagFilter}
-              onChange={(e) => setTagFilter(e.target.value)}
-              className={styles.filterSelect}
-            >
-              <option value="">All Tags</option>
-              {allTags.map(tag => (
-                <option key={tag} value={tag}>{tag}</option>
-              ))}
-            </select>
-          </div>
-          
-          <div className={styles.cardsGrid}>
-            {filteredPapers.map((paper) => (
-              <div key={paper.id} className={styles.paperCard}>
-                <div className={styles.paperCardHeader}>
-                  <h2 className={styles.paperCardTitle}>{paper.title}</h2>
-                  <span className={`${styles.statusBadge} ${paper.published ? styles.published : styles.draft}`}>
-                    {paper.published ? 'Published' : 'Draft'}
-                  </span>
-                </div>
-                <div className={styles.paperCardDate}>
-                  {formatDate(paper.updatedAt)}
-                </div>
-                <p className={styles.paperCardAbstract}>{paper.abstract}</p>
-                {paper.tags.length > 0 && (
-                  <div className={styles.paperCardTags}>
-                    {paper.tags.map((tag, i) => (
-                      <span key={i} className={styles.paperCardTag}>{tag}</span>
-                    ))}
-                  </div>
-                )}
-                <div className={styles.paperCardActions}>
-                  <Link to={`/editor/${paper.id}`} className={styles.editButton}>Edit</Link>
-                  {paper.published && (
-                    <Link to={`/paper/${paper.slug}`} className={styles.viewButton}>View</Link>
-                  )}
-                  <button onClick={() => handleDelete(paper.id)} className={styles.deleteButton}>Delete</button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       ) : (
         <div className={styles.listViewContainer}>
           <div className={styles.listSidebar}>
             <div className={styles.listSidebarActions}>
-              {renderDashboardActions()}
+              <Link to="/editor" className={styles.newPaperButton}>New Paper</Link>
             </div>
             <div className={styles.listFilters}>
               <input

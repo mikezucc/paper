@@ -4,8 +4,6 @@ import { api } from '../utils/api'
 import { MarkdownRenderer } from '../components/MarkdownRenderer'
 import styles from '../styles/components.module.css'
 
-type ViewMode = 'card' | 'list'
-
 interface PublishedPaper {
   id: string
   slug: string
@@ -25,9 +23,6 @@ interface PublishedPaper {
 export function HomePage() {
   const [papers, setPapers] = useState<PublishedPaper[]>([])
   const [loading, setLoading] = useState(true)
-  const [viewMode, setViewMode] = useState<ViewMode>(() => 
-    (localStorage.getItem('browseViewMode') as ViewMode) || 'card'
-  )
   const [selectedPaper, setSelectedPaper] = useState<PublishedPaper | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [tagFilter, setTagFilter] = useState<string>('')
@@ -38,17 +33,14 @@ export function HomePage() {
     api.get('/papers')
       .then(({ papers }) => {
         setPapers(papers)
-        // Auto-select first paper in list view
-        if (viewMode === 'list' && papers.length > 0 && !selectedPaper) {
+        // Auto-select first paper
+        if (papers.length > 0 && !selectedPaper) {
           setSelectedPaper(papers[0])
         }
       })
       .finally(() => setLoading(false))
   }, [])
 
-  useEffect(() => {
-    localStorage.setItem('browseViewMode', viewMode)
-  }, [viewMode])
 
   const formatDate = (dateValue: string | Date | undefined) => {
     if (!dateValue) return 'Unknown date'
@@ -88,10 +80,8 @@ export function HomePage() {
     return matchesSearch && matchesTag && matchesAuthor
   })
 
-  // Keyboard navigation for list view
+  // Keyboard navigation
   useEffect(() => {
-    if (viewMode !== 'list') return
-
     const handleKeyDown = (e: KeyboardEvent) => {
       const currentIndex = filteredPapers.findIndex(p => p.id === selectedPaper?.id)
       
@@ -119,124 +109,22 @@ export function HomePage() {
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [viewMode, selectedPaper, filteredPapers, navigate])
+  }, [selectedPaper, filteredPapers, navigate])
 
   if (loading) {
     return <div className={styles.container}>Loading...</div>
   }
 
-  const renderViewToggle = () => (
-    <div className={styles.viewToggle}>
-      <button
-        className={`${styles.viewToggleButton} ${viewMode === 'card' ? styles.active : ''}`}
-        onClick={() => setViewMode('card')}
-        title="Card view"
-      >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-          <rect x="1" y="1" width="6" height="6" />
-          <rect x="9" y="1" width="6" height="6" />
-          <rect x="1" y="9" width="6" height="6" />
-          <rect x="9" y="9" width="6" height="6" />
-        </svg>
-      </button>
-      <button
-        className={`${styles.viewToggleButton} ${viewMode === 'list' ? styles.active : ''}`}
-        onClick={() => setViewMode('list')}
-        title="List view"
-      >
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-          <rect x="1" y="2" width="14" height="2" />
-          <rect x="1" y="7" width="14" height="2" />
-          <rect x="1" y="12" width="14" height="2" />
-        </svg>
-      </button>
-    </div>
-  )
 
   return (
     <div className={styles.dashboardContainer}>
-      <div className={styles.dashboardHeader}>
-        <h1>Browse Papers</h1>
-        {viewMode === 'card' && (
-          <div className={styles.dashboardActions}>
-            {renderViewToggle()}
-          </div>
-        )}
-      </div>
-
       {papers.length === 0 ? (
         <div className={styles.emptyState}>
           <p>No papers have been published yet.</p>
         </div>
-      ) : viewMode === 'card' ? (
-        <div className={styles.cardViewContainer}>
-          <div className={styles.filtersBar}>
-            <input
-              type="text"
-              placeholder="Search papers..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className={styles.searchInput}
-            />
-            <select
-              value={authorFilter}
-              onChange={(e) => setAuthorFilter(e.target.value)}
-              className={styles.filterSelect}
-            >
-              <option value="">All Authors</option>
-              {allAuthors.map(author => (
-                <option key={author} value={author}>{getAuthorName(author)}</option>
-              ))}
-            </select>
-            <select
-              value={tagFilter}
-              onChange={(e) => setTagFilter(e.target.value)}
-              className={styles.filterSelect}
-            >
-              <option value="">All Tags</option>
-              {allTags.map(tag => (
-                <option key={tag} value={tag}>{tag}</option>
-              ))}
-            </select>
-          </div>
-          
-          <div className={styles.cardsGrid}>
-            {filteredPapers.map((paper) => (
-              <Link
-                key={paper.id}
-                to={`/p/${paper.slug}`}
-                className={styles.paperCard}
-                style={{ textDecoration: 'none' }}
-              >
-                <div className={styles.paperCardHeader}>
-                  <h2 className={styles.paperCardTitle}>{paper.title}</h2>
-                </div>
-                <div className={styles.paperCardMeta}>
-                  <span className={styles.paperCardDate}>
-                    {formatDate(paper.publishedAt)}
-                  </span>
-                  <span className={styles.paperCardAuthor}>
-                    by {getAuthorName(paper.paper.user.email)}
-                  </span>
-                </div>
-                <p className={styles.paperCardAbstract}>{paper.abstract}</p>
-                {paper.tags.length > 0 && (
-                  <div className={styles.paperCardTags}>
-                    {paper.tags.map((tag, i) => (
-                      <span key={i} className={styles.paperCardTag}>{tag}</span>
-                    ))}
-                  </div>
-                )}
-              </Link>
-            ))}
-          </div>
-        </div>
       ) : (
         <div className={styles.listViewContainer}>
           <div className={styles.listSidebar}>
-            <div className={styles.listSidebarActions}>
-              {renderViewToggle()}
-            </div>
             <div className={styles.listFilters}>
               <input
                 type="text"
