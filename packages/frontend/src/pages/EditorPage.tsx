@@ -50,13 +50,40 @@ export function EditorPage() {
     parseInt(localStorage.getItem('editorFontSize') || '18')
   )
   const [showToolbar, setShowToolbar] = useState(false)
+  const [showInsertMenu, setShowInsertMenu] = useState(false)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   // Font options
   const fontOptions = [
     { value: 'golos', label: 'Golos Text', family: "'Golos Text', monospace" },
+    { value: 'inter', label: 'Inter', family: "'Inter', sans-serif" },
+    { value: 'crimson', label: 'Crimson Text', family: "'Crimson Text', serif" },
+    { value: 'jetbrains', label: 'JetBrains Mono', family: "'JetBrains Mono', monospace" },
+    { value: 'merriweather', label: 'Merriweather', family: "'Merriweather', serif" },
+    { value: 'source-sans', label: 'Source Sans', family: "'Source Sans 3', sans-serif" },
+    { value: 'lora', label: 'Lora', family: "'Lora', serif" },
+    { value: 'roboto-slab', label: 'Roboto Slab', family: "'Roboto Slab', serif" },
     { value: 'system', label: 'System', family: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' },
-    { value: 'serif', label: 'Serif', family: 'Georgia, "Times New Roman", serif' },
-    { value: 'mono', label: 'Monospace', family: '"SF Mono", Monaco, Consolas, monospace' },
+    { value: 'mono', label: 'System Mono', family: '"SF Mono", Monaco, Consolas, monospace' },
+  ]
+
+  // Markdown templates
+  const markdownTemplates = [
+    { label: 'Link', template: '[link text](https://example.com)', cursor: 1 },
+    { label: 'Image', template: '![alt text](image-url.jpg)', cursor: 2 },
+    { label: 'Bold', template: '**bold text**', cursor: 2 },
+    { label: 'Italic', template: '*italic text*', cursor: 1 },
+    { label: 'Code Block', template: '```language\ncode here\n```', cursor: 3 },
+    { label: 'Inline Code', template: '`code`', cursor: 1 },
+    { label: 'Heading 1', template: '# Heading 1', cursor: 2 },
+    { label: 'Heading 2', template: '## Heading 2', cursor: 3 },
+    { label: 'Heading 3', template: '### Heading 3', cursor: 4 },
+    { label: 'Bullet List', template: '- Item 1\n- Item 2\n- Item 3', cursor: 2 },
+    { label: 'Numbered List', template: '1. Item 1\n2. Item 2\n3. Item 3', cursor: 3 },
+    { label: 'Blockquote', template: '> Quote text', cursor: 2 },
+    { label: 'Horizontal Rule', template: '---', cursor: 3 },
+    { label: 'Table', template: '| Header 1 | Header 2 |\n|----------|----------|\n| Cell 1   | Cell 2   |', cursor: 2 },
+    { label: 'Task List', template: '- [ ] Task 1\n- [ ] Task 2\n- [x] Completed task', cursor: 6 },
   ]
 
   useEffect(() => {
@@ -87,6 +114,40 @@ export function EditorPage() {
   useEffect(() => {
     localStorage.setItem('editorFontSize', fontSize.toString())
   }, [fontSize])
+
+  // Close insert menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (showInsertMenu && !(event.target as Element).closest('.insertButtonContainer')) {
+        setShowInsertMenu(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [showInsertMenu])
+
+  // Insert template at cursor position
+  const insertTemplate = (template: string, cursorOffset: number) => {
+    if (!textareaRef.current) return
+    
+    const textarea = textareaRef.current
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+    const newContent = content.substring(0, start) + template + content.substring(end)
+    
+    setContent(newContent)
+    setShowInsertMenu(false)
+    
+    // Set cursor position after template is inserted
+    setTimeout(() => {
+      textarea.focus()
+      const newPosition = start + cursorOffset
+      textarea.setSelectionRange(newPosition, newPosition)
+    }, 0)
+  }
 
   // Load revisions when panel is opened
   useEffect(() => {
@@ -361,6 +422,30 @@ export function EditorPage() {
                 </button>
               </div>
             </div>
+            <div className={styles.toolbarGroup}>
+              <div className={`${styles.insertButtonContainer} insertButtonContainer`}>
+                <button 
+                  className={styles.insertButton}
+                  onClick={() => setShowInsertMenu(!showInsertMenu)}
+                  title="Insert Markdown"
+                >
+                  + Insert
+                </button>
+                {showInsertMenu && (
+                  <div className={styles.insertMenu}>
+                    {markdownTemplates.map((item, index) => (
+                      <button
+                        key={index}
+                        className={styles.insertMenuItem}
+                        onClick={() => insertTemplate(item.template, item.cursor)}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -445,6 +530,7 @@ export function EditorPage() {
       <div className={`${styles.editorContent} ${viewMode === 'focused' ? styles.focusedMode : ''}`}>
         <div className={styles.editorPane}>
           <textarea
+            ref={textareaRef}
             className={styles.markdownTextarea}
             value={content}
             onChange={(e) => setContent(e.target.value)}

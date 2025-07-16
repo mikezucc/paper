@@ -426,6 +426,73 @@
   color: #3d3a34;
 }
 
+/* Insert button and menu styles */
+.insertButtonContainer {
+  position: relative;
+}
+
+.insertButton {
+  padding: 6px 16px;
+  border: 1px solid #d4c5b0;
+  border-radius: 4px;
+  background-color: #faf8f5;
+  color: #3d3a34;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.insertButton:hover {
+  background-color: #ede8e2;
+  border-color: #baa992;
+}
+
+.insertMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  background-color: #faf8f5;
+  border: 1px solid #d4c5b0;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 180px;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.insertMenuItem {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  border: none;
+  background-color: transparent;
+  color: #3d3a34;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.insertMenuItem:hover {
+  background-color: #ede8e2;
+}
+
+.insertMenuItem:first-child {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.insertMenuItem:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
 .editorError {
   background-color: #f5d6d6;
   color: #8b3a3a;
@@ -544,6 +611,11 @@
     flex-direction: column;
     gap: 16px;
     align-items: flex-start;
+  }
+  
+  .insertMenu {
+    right: 0;
+    left: auto;
   }
   
   .editorContent.focusedMode {
