@@ -237,7 +237,7 @@ export function EditorPage() {
         onMouseEnter={() => setHeaderHovered(true)}
         onMouseLeave={() => setHeaderHovered(false)}
       >
-        <div className={styles.editorHeaderLeft}>
+        <div className={`${styles.editorHeaderLeft} ${headerHovered ? styles.visible : styles.hidden}`}>
           <input
             className={styles.titleInput}
             value={title}

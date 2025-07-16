@@ -151,9 +151,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 24px;
+  height: 56px;
+  background-color: #f5f3f0;
+}
+
+.editorHeader:hover {
   background-color: #f9f6f2;
   border-bottom: 1px solid #d4c5b0;
-  height: 56px;
 }
 
 .editorHeaderLeft {
@@ -161,6 +165,17 @@
   align-items: center;
   gap: 16px;
   flex: 1;
+  transition: opacity 0.2s ease;
+}
+
+.editorHeaderLeft.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.editorHeaderLeft.visible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .editorHeaderRight {
@@ -354,10 +369,10 @@
   max-width: 800px;
   width: 100%;
   height: calc(100vh - 136px);
-  border: 1px solid #d4c5b0;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
   background-color: #faf8f5;
+  border-right: none;
+
 }
 
 .editorContent.focusedMode .editorPane.previewPane {
