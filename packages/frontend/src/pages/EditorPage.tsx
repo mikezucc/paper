@@ -10,6 +10,7 @@ import styles from '../styles/components.module.css'
 import { ImageInsertDialog } from '../components/ImageInsertDialog';
 import { FileUploadModal } from '../components/FileUploadModal';
 import { downloadMarkdown } from '../utils/fileHandlers';
+import { DiffViewer } from '../components/DiffViewer';
 
 interface Revision {
   id: string
@@ -68,6 +69,15 @@ export function EditorPage() {
     tags: string[]
     createdAt: string
   } | null>(null)
+  const [compareRevision, setCompareRevision] = useState<{
+    id: string
+    title: string
+    abstract: string
+    content: string
+    tags: string[]
+    createdAt: string
+  } | null>(null)
+  const [showDiffView, setShowDiffView] = useState(false)
   const [viewMode, setViewMode] = useState<'split' | 'focused'>('split')
   const [selectedFont, setSelectedFont] = useState(() => 
     localStorage.getItem('editorFont') || 'golos'
@@ -82,6 +92,9 @@ export function EditorPage() {
   const [showImageDialog, setShowImageDialog] = useState(false)
   const [showUploadModal, setShowUploadModal] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const editorPaneRef = useRef<HTMLDivElement>(null)
+  const previewPaneRef = useRef<HTMLDivElement>(null)
+  const isScrollSyncingRef = useRef(false)
   const toolbarRef = useRef<HTMLDivElement>(null)
   const insertRef = useRef<HTMLDivElement>(null)
   const contextMenuRef = useRef<HTMLDivElement>(null)
@@ -326,6 +339,66 @@ export function EditorPage() {
     }
   }, [handleUndo, handleRedo])
 
+  // Synchronized scrolling between editor and preview
+  useEffect(() => {
+    if (viewMode !== 'split') return
+
+    const handleEditorScroll = () => {
+      if (isScrollSyncingRef.current) return
+      if (!editorPaneRef.current || !previewPaneRef.current) return
+
+      isScrollSyncingRef.current = true
+      
+      const editorScrollTop = editorPaneRef.current.scrollTop
+      const editorScrollHeight = editorPaneRef.current.scrollHeight - editorPaneRef.current.clientHeight
+      const scrollPercentage = editorScrollHeight > 0 ? editorScrollTop / editorScrollHeight : 0
+      
+      const previewScrollHeight = previewPaneRef.current.scrollHeight - previewPaneRef.current.clientHeight
+      previewPaneRef.current.scrollTop = scrollPercentage * previewScrollHeight
+      
+      setTimeout(() => {
+        isScrollSyncingRef.current = false
+      }, 50)
+    }
+
+    const handlePreviewScroll = () => {
+      if (isScrollSyncingRef.current) return
+      if (!editorPaneRef.current || !previewPaneRef.current) return
+
+      isScrollSyncingRef.current = true
+      
+      const previewScrollTop = previewPaneRef.current.scrollTop
+      const previewScrollHeight = previewPaneRef.current.scrollHeight - previewPaneRef.current.clientHeight
+      const scrollPercentage = previewScrollHeight > 0 ? previewScrollTop / previewScrollHeight : 0
+      
+      const editorScrollHeight = editorPaneRef.current.scrollHeight - editorPaneRef.current.clientHeight
+      editorPaneRef.current.scrollTop = scrollPercentage * editorScrollHeight
+      
+      setTimeout(() => {
+        isScrollSyncingRef.current = false
+      }, 50)
+    }
+
+    const editorPane = editorPaneRef.current
+    const previewPane = previewPaneRef.current
+
+    if (editorPane) {
+      editorPane.addEventListener('scroll', handleEditorScroll, { passive: true })
+    }
+    if (previewPane) {
+      previewPane.addEventListener('scroll', handlePreviewScroll, { passive: true })
+    }
+
+    return () => {
+      if (editorPane) {
+        editorPane.removeEventListener('scroll', handleEditorScroll)
+      }
+      if (previewPane) {
+        previewPane.removeEventListener('scroll', handlePreviewScroll)
+      }
+    }
+  }, [viewMode])
+
   // Load revisions when panel is opened
   useEffect(() => {
     if ((showRevisions || showPublishModal) && paper) {
@@ -466,6 +539,19 @@ export function EditorPage() {
     try {
       const { revision } = await api.get(`/papers/${paper.id}/revisions/${revisionId}`)
       setPreviewRevision(revision)
+    } catch (err: any) {
+      setError(err.message)
+    }
+  }
+
+  const handleCompareRevision = async (revisionId: string) => {
+    if (!paper) return
+
+    try {
+      const { revision } = await api.get(`/papers/${paper.id}/revisions/${revisionId}`)
+      setCompareRevision(revision)
+      setShowDiffView(true)
+      setShowRevisions(false)
     } catch (err: any) {
       setError(err.message)
     }
@@ -821,6 +907,12 @@ export function EditorPage() {
                       View
                     </button>
                     <button 
+                      className={styles.compareButton}
+                      onClick={() => handleCompareRevision(revision.id)}
+                    >
+                      Compare
+                    </button>
+                    <button 
                       className={styles.restoreButton}
                       onClick={() => handleRestoreRevision(revision.id)}
                     >
@@ -837,7 +929,7 @@ export function EditorPage() {
       {error && <div className={styles.editorError}>{error}</div>}
 
       <div className={`${styles.editorContent} ${viewMode === 'focused' ? styles.focusedMode : ''}`}>
-        <div className={styles.editorPane}>
+        <div className={styles.editorPane} ref={editorPaneRef}>
           <textarea
             ref={textareaRef}
             className={styles.markdownTextarea}
@@ -858,7 +950,7 @@ export function EditorPage() {
             }}
           />
         </div>
-        <div className={`${styles.editorPane} ${viewMode === 'focused' ? styles.previewPane : ''}`}>
+        <div className={`${styles.editorPane} ${viewMode === 'focused' ? styles.previewPane : ''}`} ref={previewPaneRef}>
           <div 
             className={styles.preview}
             style={{
@@ -909,6 +1001,37 @@ export function EditorPage() {
               <div className={styles.revisionPreviewMarkdown}>
                 <MarkdownRenderer content={previewRevision.content || ''} />
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {showDiffView && compareRevision && (
+        <div className={styles.diffViewOverlay} onClick={() => {
+          setShowDiffView(false)
+          setCompareRevision(null)
+        }}>
+          <div className={styles.diffViewModal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.diffViewHeader}>
+              <h2>Compare Versions</h2>
+              <button 
+                className={styles.closeDiffButton}
+                onClick={() => {
+                  setShowDiffView(false)
+                  setCompareRevision(null)
+                }}
+              >
+                ✕
+              </button>
+            </div>
+            <div className={styles.diffViewContent}>
+              <DiffViewer
+                oldContent={compareRevision.content || ''}
+                newContent={content}
+                oldTitle={`Version from ${formatRevisionDate(compareRevision.createdAt)}`}
+                newTitle="Current Version"
+                viewMode="unified"
+              />
             </div>
           </div>
         </div>
