@@ -301,6 +301,28 @@
   color: #3d3a34;
 }
 
+.insertToggle {
+  background: transparent;
+  border: none;
+  color: #5c5449;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: 400;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+.insertToggle:hover {
+  background-color: #ede8e2;
+  color: #3d3a34;
+}
+
 .saveButton {
   border: none;
   padding: 8px 20px;
@@ -487,6 +509,34 @@
 .insertGridItem:hover {
   background-color: #f5f3f0;
   border-color: #d4c5b0;
+}
+
+/* Insert popover styles */
+.insertPopoverContainer {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 8px;
+  margin-left: 40px;
+  z-index: 1000;
+  animation: popoverFadeIn 0.2s ease;
+}
+
+.insertPopover {
+  background-color: #faf8f5;
+  border: 1px solid #d4c5b0;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  width: 480px;
+  padding: 20px;
+}
+
+.insertPopoverTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #3d3a34;
+  margin: 0 0 16px 0;
 }
 
 .sizeControls {
@@ -742,6 +792,12 @@
     font-size: 14px;
   }
   
+  .insertToggle {
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+  }
+  
   .toolbarPopoverContainer {
     left: auto;
     right: 12px;
@@ -758,6 +814,14 @@
   
   .insertGrid {
     grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .insertPopoverContainer {
+    margin-left: 20px;
+  }
+  
+  .insertPopover {
+    width: 300px;
   }
   
   .insertMenu {

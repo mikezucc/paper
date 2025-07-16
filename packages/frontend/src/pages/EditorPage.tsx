@@ -54,6 +54,7 @@ export function EditorPage() {
   const [showInsertMenu, setShowInsertMenu] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const toolbarRef = useRef<HTMLDivElement>(null)
+  const insertRef = useRef<HTMLDivElement>(null)
   
   // Undo/Redo functionality
   const { addToHistory, undo, redo, canUndo, canRedo, reset } = useUndoRedo(content)
@@ -145,7 +146,8 @@ export function EditorPage() {
   // Close menus when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (showInsertMenu && !(event.target as Element).closest('.insertButtonContainer')) {
+      if (showInsertMenu && insertRef.current && !insertRef.current.contains(event.target as Node) && 
+          !(event.target as Element).closest(`.${styles.insertToggle}`)) {
         setShowInsertMenu(false)
       }
       if (showToolbar && toolbarRef.current && !toolbarRef.current.contains(event.target as Node) && 
@@ -421,6 +423,13 @@ export function EditorPage() {
           >
             Aa
           </button>
+          <button 
+            className={styles.insertToggle}
+            onClick={() => setShowInsertMenu(!showInsertMenu)}
+            title="Insert Markdown"
+          >
+            +
+          </button>
         </div>
         <div className={`${styles.editorHeaderRight} ${headerHovered ? styles.visible : styles.hidden}`}>
           {headerHovered && (
@@ -526,20 +535,25 @@ export function EditorPage() {
               ))}
             </div>
             
-            <div className={styles.toolbarSection}>
-              <h3 className={styles.toolbarSectionTitle}>Insert Markdown</h3>
-              <div className={styles.insertGrid}>
-                {markdownTemplates.map((item, index) => (
-                  <button
-                    key={index}
-                    className={styles.insertGridItem}
-                    onClick={() => insertTemplate(item.template, item.cursor)}
-                    title={item.template}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
+          </div>
+        </div>
+      )}
+      
+      {showInsertMenu && (
+        <div className={styles.insertPopoverContainer}>
+          <div ref={insertRef} className={styles.insertPopover}>
+            <h3 className={styles.insertPopoverTitle}>Insert Markdown</h3>
+            <div className={styles.insertGrid}>
+              {markdownTemplates.map((item, index) => (
+                <button
+                  key={index}
+                  className={styles.insertGridItem}
+                  onClick={() => insertTemplate(item.template, item.cursor)}
+                  title={item.template}
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
           </div>
         </div>
@@ -645,7 +659,14 @@ export function EditorPage() {
           />
         </div>
         <div className={`${styles.editorPane} ${viewMode === 'focused' ? styles.previewPane : ''}`}>
-          <div className={styles.preview}>
+          <div 
+            className={styles.preview}
+            style={{
+              fontFamily: allFonts.find(f => f.value === selectedFont)?.family,
+              fontSize: `${fontSize}px`,
+              lineHeight: fontSize >= 24 ? '1.8' : '1.6'
+            }}
+          >
             <MarkdownRenderer content={content} />
           </div>
         </div>
