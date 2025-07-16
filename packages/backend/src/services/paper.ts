@@ -2,6 +2,7 @@ import { CreatePaperInput, UpdatePaperInput } from '@paper/shared'
 import { db } from '../utils/db'
 import { AppError } from '../middleware/error'
 import { emailService } from './email'
+import { generateVersionDescription } from '../utils/versionDescription'
 
 export class PaperService {
   async listPublished() {
@@ -92,15 +93,33 @@ export class PaperService {
       throw new AppError(404, 'Paper not found')
     }
 
-    // Create a revision before updating (only if content has changed)
-    if (data.content !== undefined && data.content !== paper.content) {
+    // Check if any significant changes were made
+    const hasContentChange = data.content !== undefined && data.content !== paper.content
+    const hasTitleChange = data.title !== undefined && data.title !== paper.title
+    const hasAbstractChange = data.abstract !== undefined && data.abstract !== paper.abstract
+    const hasTagsChange = data.tags !== undefined && JSON.stringify(data.tags) !== JSON.stringify(paper.tags)
+
+    // Create a revision before updating if there are any changes
+    if (hasContentChange || hasTitleChange || hasAbstractChange || hasTagsChange) {
+      // Generate automatic description
+      const autoDescription = generateVersionDescription(
+        paper.content,
+        data.content ?? paper.content,
+        paper.title,
+        data.title ?? paper.title,
+        paper.abstract,
+        data.abstract ?? paper.abstract
+      )
+
       await db.paperRevision.create({
         data: {
           paperId: paper.id,
+          authorId: userId,
           title: paper.title,
           abstract: paper.abstract,
           content: paper.content,
           tags: paper.tags,
+          autoDescription,
         },
       })
     }
@@ -134,7 +153,14 @@ export class PaperService {
         id: true,
         title: true,
         message: true,
+        autoDescription: true,
         createdAt: true,
+        author: {
+          select: {
+            id: true,
+            email: true,
+          },
+        },
       },
     })
   }
@@ -150,6 +176,14 @@ export class PaperService {
 
     const revision = await db.paperRevision.findFirst({
       where: { id: revisionId, paperId },
+      include: {
+        author: {
+          select: {
+            id: true,
+            email: true,
+          },
+        },
+      },
     })
 
     if (!revision) {
@@ -180,11 +214,13 @@ export class PaperService {
     await db.paperRevision.create({
       data: {
         paperId: paper.id,
+        authorId: userId,
         title: paper.title,
         abstract: paper.abstract,
         content: paper.content,
         tags: paper.tags,
         message: 'Before restore',
+        autoDescription: 'Snapshot before restoring previous version',
       },
     })
 
@@ -200,6 +236,39 @@ export class PaperService {
     })
 
     return updated
+  }
+
+  async createManualRevision(userId: string, paperId: string, message: string) {
+    const paper = await db.paper.findFirst({
+      where: { id: paperId, userId },
+    })
+
+    if (!paper) {
+      throw new AppError(404, 'Paper not found')
+    }
+
+    const revision = await db.paperRevision.create({
+      data: {
+        paperId: paper.id,
+        authorId: userId,
+        title: paper.title,
+        abstract: paper.abstract,
+        content: paper.content,
+        tags: paper.tags,
+        message,
+        autoDescription: 'Manual checkpoint',
+      },
+      include: {
+        author: {
+          select: {
+            id: true,
+            email: true,
+          },
+        },
+      },
+    })
+
+    return revision
   }
 
   async delete(userId: string, paperId: string) {

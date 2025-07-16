@@ -19,6 +19,7 @@ model User {
   papers      Paper[]
   sessions    Session[]
   viewRecords ViewRecord[]
+  revisions   PaperRevision[]
 }
 
 model Session {
@@ -61,18 +62,22 @@ model Paper {
 model PaperRevision {
   id          String    @id @default(cuid())
   paperId     String
+  authorId    String?   // User who created this revision
   title       String
   abstract    String
   content     String?   @db.Text
   tags        String[]
   message     String?   // Optional revision message
+  autoDescription String? // Auto-generated description of changes
   createdAt   DateTime  @default(now())
   
   paper       Paper     @relation(fields: [paperId], references: [id], onDelete: Cascade)
+  author      User?     @relation(fields: [authorId], references: [id], onDelete: SetNull)
   publishedVersions PublishedVersion[]
   
   @@index([paperId])
   @@index([createdAt])
+  @@index([authorId])
 }
 
 model PublishedVersion {

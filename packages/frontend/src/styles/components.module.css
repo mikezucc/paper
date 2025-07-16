@@ -2879,3 +2879,580 @@
   background-color: #c8e6c9;
   border-color: #81c784;
 }
+
+/* Revision Panel Updates */
+.revisionsPanelTitle {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.createVersionButton {
+  padding: 6px 12px;
+  background-color: #8b7355;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.createVersionButton:hover {
+  background-color: #6d5a44;
+}
+
+.revisionMeta {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.revisionAuthor {
+  color: #8b7355;
+}
+
+.revisionDescription {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background-color: #f8f5f0;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #5a5651;
+  line-height: 1.5;
+}
+
+/* Create Version Modal */
+.createVersionOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.createVersionModal {
+  background-color: #faf8f5;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  width: 90vw;
+  max-width: 500px;
+  overflow: hidden;
+}
+
+.createVersionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: 1px solid #d4c5b0;
+  background-color: #f5f3f0;
+}
+
+.createVersionHeader h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #3d3a34;
+}
+
+.closeCreateVersionButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #8b7355;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.closeCreateVersionButton:hover {
+  background-color: #f0ebe4;
+}
+
+.createVersionContent {
+  padding: 24px;
+}
+
+.createVersionDescription {
+  margin: 0 0 16px 0;
+  color: #5a5651;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.versionMessageInput {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d4c5b0;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  background-color: #fff;
+  transition: border-color 0.2s;
+}
+
+.versionMessageInput:focus {
+  outline: none;
+  border-color: #8b7355;
+}
+
+.createVersionActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.confirmCreateButton {
+  padding: 8px 16px;
+  background-color: #8b7355;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.confirmCreateButton:hover:not(:disabled) {
+  background-color: #6d5a44;
+}
+
+.confirmCreateButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Merge Styles */
+.mergeButton {
+  background: transparent;
+  color: #5c5449;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mergeModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.mergeModalContent {
+  background-color: #faf8f5;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  width: 90vw;
+  max-width: 1400px;
+  height: 85vh;
+  overflow: hidden;
+}
+
+.mergeView {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.mergeHeader {
+  padding: 24px;
+  border-bottom: 1px solid #d4c5b0;
+  background-color: #f5f3f0;
+}
+
+.mergeHeader h2 {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #3d3a34;
+}
+
+.mergeDescription {
+  margin: 0;
+  color: #5a5651;
+  font-size: 14px;
+}
+
+.mergeActions {
+  display: flex;
+  gap: 12px;
+  padding: 16px 24px;
+  background-color: #f8f5f0;
+  border-bottom: 1px solid #e6e0d6;
+}
+
+.selectAllButton,
+.deselectAllButton,
+.togglePreviewButton {
+  padding: 6px 12px;
+  border: 1px solid #d4c5b0;
+  background-color: #fff;
+  color: #3d3a34;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.selectAllButton:hover,
+.deselectAllButton:hover,
+.togglePreviewButton:hover {
+  background-color: #f5f3f0;
+  border-color: #8b7355;
+}
+
+.mergeContent {
+  flex: 1;
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  overflow: hidden;
+}
+
+.changeGroupsList {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 12px;
+}
+
+.changeGroupsList h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #3d3a34;
+}
+
+.noChanges {
+  text-align: center;
+  color: #666;
+  padding: 40px;
+}
+
+.changeGroup {
+  margin-bottom: 16px;
+  border: 1px solid #d4c5b0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.changeGroup:hover {
+  border-color: #8b7355;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.changeGroup.selected {
+  border-color: #8b7355;
+  background-color: #f8f5f0;
+}
+
+.changeGroupLabel {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px;
+  cursor: pointer;
+}
+
+.changeGroupCheckbox {
+  margin-right: 12px;
+  margin-top: 4px;
+}
+
+.changeGroupInfo {
+  flex: 1;
+}
+
+.changeGroupTitle {
+  font-weight: 600;
+  color: #3d3a34;
+  margin-bottom: 4px;
+}
+
+.changeGroupDescription {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.changeGroupType {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.changeGroupType.addition {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.changeGroupType.deletion {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+
+.changeGroupType.modification {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.changeGroupPreview {
+  padding: 0 16px 16px 44px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+}
+
+.previewLine {
+  white-space: pre;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+}
+
+.previewLine.added {
+  color: #1b5e20;
+}
+
+.previewLine.removed {
+  color: #b71c1c;
+}
+
+.linePrefix {
+  display: inline-block;
+  width: 16px;
+  font-weight: 600;
+}
+
+.moreLines {
+  color: #666;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.mergePreview {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid #d4c5b0;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+}
+
+.mergePreview h3 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #3d3a34;
+}
+
+.mergeFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 24px;
+  border-top: 1px solid #d4c5b0;
+  background-color: #f5f3f0;
+}
+
+.applyMergeButton {
+  padding: 10px 20px;
+  background-color: #8b7355;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.applyMergeButton:hover:not(:disabled) {
+  background-color: #6d5a44;
+}
+
+.applyMergeButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Paper Selection Modal */
+.paperSelectionOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.paperSelectionModal {
+  background-color: #faf8f5;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  width: 90vw;
+  max-width: 600px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.paperSelectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: 1px solid #d4c5b0;
+  background-color: #f5f3f0;
+}
+
+.paperSelectionHeader h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #3d3a34;
+}
+
+.closePaperSelectionButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #8b7355;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.closePaperSelectionButton:hover {
+  background-color: #f0ebe4;
+}
+
+.paperSelectionSearch {
+  padding: 16px 24px;
+  background-color: #f8f5f0;
+  border-bottom: 1px solid #e6e0d6;
+}
+
+.paperSearchInput {
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid #d4c5b0;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #fff;
+  transition: border-color 0.2s;
+}
+
+.paperSearchInput:focus {
+  outline: none;
+  border-color: #8b7355;
+}
+
+.paperSelectionList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.noPapersFound {
+  text-align: center;
+  color: #666;
+  padding: 40px;
+}
+
+.paperSelectionItem {
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid #d4c5b0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: #fff;
+}
+
+.paperSelectionItem:hover {
+  border-color: #8b7355;
+  background-color: #f8f5f0;
+}
+
+.paperSelectionItem.selected {
+  border-color: #8b7355;
+  background-color: #f0ebe4;
+}
+
+.paperSelectionTitle {
+  font-weight: 600;
+  color: #3d3a34;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.paperSelectionAbstract {
+  color: #5a5651;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.paperSelectionDate {
+  font-size: 12px;
+  color: #999;
+}
+
+.paperSelectionFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 24px;
+  border-top: 1px solid #d4c5b0;
+  background-color: #f5f3f0;
+}
+
+.selectPaperButton {
+  padding: 8px 16px;
+  background-color: #8b7355;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.selectPaperButton:hover:not(:disabled) {
+  background-color: #6d5a44;
+}
+
+.selectPaperButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -126,6 +126,21 @@ papersRouter.post('/:id/revisions/:revisionId/restore', async (req: AuthRequest,
   }
 })
 
+// Manual version creation endpoint
+papersRouter.post('/:id/revisions', async (req: AuthRequest, res, next) => {
+  try {
+    const { message } = req.body
+    const revision = await paperService.createManualRevision(
+      req.userId!,
+      req.params.id,
+      message
+    )
+    res.json({ revision })
+  } catch (error) {
+    next(error)
+  }
+})
+
 // View analytics endpoint
 papersRouter.get('/:id/analytics', async (req: AuthRequest, res, next) => {
   try {

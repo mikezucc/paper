@@ -116,9 +116,6 @@ export function DashboardPage() {
       ) : (
         <div className={styles.listViewContainer}>
           <div className={styles.listSidebar}>
-            <div className={styles.listSidebarActions}>
-              <Link to="/editor" className={styles.newPaperButton}>New Paper</Link>
-            </div>
             <div className={styles.listFilters}>
               <input
                 type="text"

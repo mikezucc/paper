@@ -11,12 +11,19 @@ import { ImageInsertDialog } from '../components/ImageInsertDialog';
 import { FileUploadModal } from '../components/FileUploadModal';
 import { downloadMarkdown } from '../utils/fileHandlers';
 import { DiffViewer } from '../components/DiffViewer';
+import { MergeView } from '../components/MergeView';
+import { PaperSelectionModal } from '../components/PaperSelectionModal';
 
 interface Revision {
   id: string
   title: string
   message?: string
+  autoDescription?: string
   createdAt: string
+  author?: {
+    id: string
+    email: string
+  }
 }
 
 export function EditorPage() {
@@ -78,6 +85,12 @@ export function EditorPage() {
     createdAt: string
   } | null>(null)
   const [showDiffView, setShowDiffView] = useState(false)
+  const [showCreateVersionModal, setShowCreateVersionModal] = useState(false)
+  const [versionMessage, setVersionMessage] = useState('')
+  const [showMergeModal, setShowMergeModal] = useState(false)
+  const [mergeSourcePaper, setMergeSourcePaper] = useState<any>(null)
+  const [showPaperSelection, setShowPaperSelection] = useState(false)
+  const [availablePapers, setAvailablePapers] = useState<any[]>([])
   const [viewMode, setViewMode] = useState<'split' | 'focused'>('split')
   const [selectedFont, setSelectedFont] = useState(() => 
     localStorage.getItem('editorFont') || 'golos'
@@ -557,6 +570,54 @@ export function EditorPage() {
     }
   }
 
+  const handleCreateVersion = async () => {
+    if (!paper || !versionMessage.trim()) return
+
+    try {
+      await api.post(`/papers/${paper.id}/revisions`, { message: versionMessage })
+      setShowCreateVersionModal(false)
+      setVersionMessage('')
+      
+      // Refresh revisions list
+      const { revisions } = await api.get(`/papers/${paper.id}/revisions`)
+      setRevisions(revisions)
+    } catch (err: any) {
+      setError(err.message)
+    }
+  }
+
+  const handleApplyMerge = (mergedContent: string) => {
+    setContent(mergedContent)
+    setShowMergeModal(false)
+    setMergeSourcePaper(null)
+    // The auto-save will handle saving the merged content
+  }
+
+  const handleStartMerge = async () => {
+    try {
+      // Get list of user's papers to merge from
+      const { papers } = await api.get('/papers/user/papers')
+      // Filter out current paper
+      const otherPapers = papers.filter((p: any) => p.id !== paper?.id)
+      
+      if (otherPapers.length === 0) {
+        setError('No other papers available to merge from')
+        return
+      }
+
+      setAvailablePapers(otherPapers)
+      setShowPaperSelection(true)
+    } catch (err: any) {
+      setError(err.message)
+    }
+  }
+
+  const handleSelectPaperForMerge = (selectedPaper: any) => {
+    setMergeSourcePaper(selectedPaper)
+    setShowPaperSelection(false)
+    setShowMergeModal(true)
+  }
+
   // Handle version selection in publish modal
   const handleVersionSelect = async (versionId: string) => {
     setSelectedVersionId(versionId)
@@ -694,6 +755,12 @@ export function EditorPage() {
                 onClick={() => setShowRevisions(!showRevisions)}
               >
                 History
+              </button>
+              <button 
+                className={styles.mergeButton}
+                onClick={handleStartMerge}
+              >
+                Merge
               </button>
               {paper && (
                 <button 
@@ -874,7 +941,15 @@ export function EditorPage() {
       {showRevisions && (
         <div className={styles.revisionsPanel}>
           <div className={styles.revisionsPanelHeader}>
-            <h3>Revision History</h3>
+            <div className={styles.revisionsPanelTitle}>
+              <h3>Revision History</h3>
+              <button 
+                className={styles.createVersionButton}
+                onClick={() => setShowCreateVersionModal(true)}
+              >
+                + Create Version
+              </button>
+            </div>
             <button 
               className={styles.closePanelButton}
               onClick={() => setShowRevisions(false)}
@@ -892,11 +967,20 @@ export function EditorPage() {
                 <div key={revision.id} className={styles.revisionItem}>
                   <div className={styles.revisionInfo}>
                     <div className={styles.revisionTitle}>{revision.title}</div>
-                    <div className={styles.revisionDate}>
-                      {formatRevisionDate(revision.createdAt)}
+                    <div className={styles.revisionMeta}>
+                      <span className={styles.revisionDate}>
+                        {formatRevisionDate(revision.createdAt)}
+                      </span>
+                      {revision.author && (
+                        <span className={styles.revisionAuthor}>
+                          by {revision.author.email}
+                        </span>
+                      )}
                     </div>
-                    {revision.message && (
-                      <div className={styles.revisionMessage}>{revision.message}</div>
+                    {(revision.message || revision.autoDescription) && (
+                      <div className={styles.revisionDescription}>
+                        {revision.message || revision.autoDescription}
+                      </div>
                     )}
                   </div>
                   <div className={styles.revisionActions}>
@@ -1033,6 +1117,84 @@ export function EditorPage() {
                 viewMode="unified"
               />
             </div>
+          </div>
+        </div>
+      )}
+      
+      {showCreateVersionModal && (
+        <div className={styles.createVersionOverlay} onClick={() => setShowCreateVersionModal(false)}>
+          <div className={styles.createVersionModal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.createVersionHeader}>
+              <h2>Create Version</h2>
+              <button 
+                className={styles.closeCreateVersionButton}
+                onClick={() => {
+                  setShowCreateVersionModal(false)
+                  setVersionMessage('')
+                }}
+              >
+                ✕
+              </button>
+            </div>
+            <div className={styles.createVersionContent}>
+              <p className={styles.createVersionDescription}>
+                Create a manual checkpoint of your current work with a description.
+              </p>
+              <textarea
+                className={styles.versionMessageInput}
+                placeholder="Describe the changes in this version..."
+                value={versionMessage}
+                onChange={(e) => setVersionMessage(e.target.value)}
+                rows={4}
+              />
+              <div className={styles.createVersionActions}>
+                <button
+                  className={styles.cancelButton}
+                  onClick={() => {
+                    setShowCreateVersionModal(false)
+                    setVersionMessage('')
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  className={styles.confirmCreateButton}
+                  onClick={handleCreateVersion}
+                  disabled={!versionMessage.trim()}
+                >
+                  Create Version
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showPaperSelection && (
+        <PaperSelectionModal
+          papers={availablePapers}
+          onSelect={handleSelectPaperForMerge}
+          onCancel={() => setShowPaperSelection(false)}
+        />
+      )}
+      
+      {showMergeModal && mergeSourcePaper && (
+        <div className={styles.mergeModalOverlay} onClick={() => {
+          setShowMergeModal(false)
+          setMergeSourcePaper(null)
+        }}>
+          <div className={styles.mergeModalContent} onClick={(e) => e.stopPropagation()}>
+            <MergeView
+              baseContent={content}
+              incomingContent={mergeSourcePaper.content || ''}
+              baseTitle={title}
+              incomingTitle={mergeSourcePaper.title}
+              onApply={handleApplyMerge}
+              onCancel={() => {
+                setShowMergeModal(false)
+                setMergeSourcePaper(null)
+              }}
+            />
           </div>
         </div>
       )}
