@@ -17,6 +17,9 @@ import '../styles/markdown.css'
 marked.setOptions({
   gfm: true,
   breaks: true,
+  // Allow HTML tags in markdown
+  // Note: This allows raw HTML which could be a security risk if content comes from untrusted sources
+  // Since this is for user's own content, it should be safe
 })
 
 export function MarkdownRenderer({ content }: { content: string }) {

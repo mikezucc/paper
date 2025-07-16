@@ -7,6 +7,8 @@ import { MarkdownRenderer } from '../components/MarkdownRenderer'
 import { useUndoRedo } from '../hooks/useUndoRedo'
 import { Confetti } from '../components/Confetti'
 import styles from '../styles/components.module.css'
+import { ImageInsertDialog } from '../components/ImageInsertDialog';
+
 
 interface Revision {
   id: string
@@ -76,6 +78,7 @@ export function EditorPage() {
   const [showInsertMenu, setShowInsertMenu] = useState(false)
   const [showContextMenu, setShowContextMenu] = useState(false)
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 })
+  const [showImageDialog, setShowImageDialog] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const toolbarRef = useRef<HTMLDivElement>(null)
   const insertRef = useRef<HTMLDivElement>(null)
@@ -122,6 +125,7 @@ export function EditorPage() {
   const markdownTemplates = [
     { label: 'Link', template: '[link text](https://example.com)', cursor: 1 },
     { label: 'Image', template: '![alt text](image-url.jpg)', cursor: 2 },
+    { label: 'Image (HTML)', template: 'custom', cursor: 0, action: () => setShowImageDialog(true) },
     { label: 'Bold', template: '**bold text**', cursor: 2 },
     { label: 'Italic', template: '*italic text*', cursor: 1 },
     { label: 'Code Block', template: '```language\ncode here\n```', cursor: 3 },
@@ -229,6 +233,26 @@ export function EditorPage() {
     setTimeout(() => {
       textarea.focus()
       const newPosition = start + cursorOffset
+      textarea.setSelectionRange(newPosition, newPosition)
+      addToHistory(newContent, newPosition, newPosition)
+    }, 0)
+  }
+
+  // Handle HTML image insertion
+  const handleImageInsert = (html: string) => {
+    if (!textareaRef.current) return
+    
+    const textarea = textareaRef.current
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+    const newContent = content.substring(0, start) + html + content.substring(end)
+    
+    setContent(newContent)
+    
+    // Set cursor position after HTML is inserted
+    setTimeout(() => {
+      textarea.focus()
+      const newPosition = start + html.length
       textarea.setSelectionRange(newPosition, newPosition)
       addToHistory(newContent, newPosition, newPosition)
     }, 0)
@@ -677,8 +701,14 @@ export function EditorPage() {
                 <button
                   key={index}
                   className={styles.insertGridItem}
-                  onClick={() => insertTemplate(item.template, item.cursor)}
-                  title={item.template}
+                  onClick={() => {
+                    if (item.action) {
+                      item.action()
+                    } else {
+                      insertTemplate(item.template, item.cursor)
+                    }
+                  }}
+                  title={item.template === 'custom' ? 'Insert HTML image with custom dimensions' : item.template}
                 >
                   {item.label}
                 </button>
@@ -1119,6 +1149,13 @@ export function EditorPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {showImageDialog && (
+        <ImageInsertDialog
+          onInsert={handleImageInsert}
+          onClose={() => setShowImageDialog(false)}
+        />
       )}
     </div>
   )

@@ -106,7 +106,6 @@ export function DashboardPage() {
     return <div className={styles.container}>Loading...</div>
   }
 
-
   return (
     <div className={styles.dashboardContainer}>
       {papers.length === 0 ? (

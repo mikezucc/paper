@@ -1478,6 +1478,151 @@
   }
 }
 
+/* Modal styles */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  padding: 32px;
+}
+
+.modalContent {
+  background-color: #faf8f5;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #d4c5b0;
+}
+
+.modalHeader h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #3d3a34;
+}
+
+.closeButton {
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  color: #5c5449;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.closeButton:hover {
+  background-color: #ede8e2;
+}
+
+.modalBody {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding: 20px 24px;
+  border-top: 1px solid #d4c5b0;
+  background-color: #f9f6f2;
+}
+
+.cancelButton {
+  padding: 10px 24px;
+  border: 1px solid #d4c5b0;
+  border-radius: 6px;
+  background-color: transparent;
+  color: #5c5449;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancelButton:hover {
+  background-color: #ede8e2;
+}
+
+.primaryButton {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  background-color: #8b7355;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background-color: #6d5a44;
+}
+
+.primaryButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.previewSection {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid #e6e0d6;
+}
+
+.imagePreview {
+  margin-top: var(--space-sm);
+  padding: var(--space-md);
+  background-color: #f5f3f0;
+  border: 1px solid #e6e0d6;
+  border-radius: 6px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imagePreview img {
+  max-height: 300px;
+}
+
+.insertImageResultHidden {
+  display: none;
+}
+
 /* Save status indicator styles */
 .saveStatus {
   font-size: 14px;
