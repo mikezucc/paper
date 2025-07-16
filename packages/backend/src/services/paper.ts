@@ -351,6 +351,65 @@ export class PaperService {
     return publishedVersionsWithCanonical
   }
 
+  async trackView(paperId: string, userId?: string, ipAddress?: string, userAgent?: string, referrer?: string) {
+    await db.viewRecord.create({
+      data: {
+        paperId,
+        userId,
+        ipAddress,
+        userAgent,
+        referrer,
+      },
+    })
+  }
+
+  async getViewCount(paperId: string): Promise<number> {
+    return db.viewRecord.count({
+      where: { paperId },
+    })
+  }
+
+  async getViewAnalytics(paperId: string, days: number = 30) {
+    const startDate = new Date()
+    startDate.setDate(startDate.getDate() - days)
+
+    const views = await db.viewRecord.findMany({
+      where: {
+        paperId,
+        viewedAt: {
+          gte: startDate,
+        },
+      },
+      select: {
+        viewedAt: true,
+        userId: true,
+      },
+      orderBy: {
+        viewedAt: 'asc',
+      },
+    })
+
+    // Group by date
+    const viewsByDate = views.reduce((acc, view) => {
+      const date = view.viewedAt.toISOString().split('T')[0]
+      if (!acc[date]) {
+        acc[date] = { total: 0, unique: new Set() }
+      }
+      acc[date].total++
+      if (view.userId) {
+        acc[date].unique.add(view.userId)
+      }
+      return acc
+    }, {} as Record<string, { total: number; unique: Set<string> }>)
+
+    // Convert to array format
+    return Object.entries(viewsByDate).map(([date, data]) => ({
+      date,
+      totalViews: data.total,
+      uniqueViews: data.unique.size,
+    }))
+  }
+
   private generateSlug(title: string): string {
     return title
       .toLowerCase()

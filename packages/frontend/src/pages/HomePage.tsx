@@ -18,6 +18,7 @@ interface PublishedPaper {
       email: string
     }
   }
+  viewCount?: number
 }
 
 export function HomePage() {
@@ -170,6 +171,11 @@ export function HomePage() {
                     <span className={styles.paperListItemAuthor}>
                       {getAuthorName(paper.paper.user.email)}
                     </span>
+                    {paper.viewCount !== undefined && (
+                      <span className={styles.paperListItemViews}>
+                        {paper.viewCount} {paper.viewCount === 1 ? 'view' : 'views'}
+                      </span>
+                    )}
                   </div>
                 </div>
               ))}
@@ -189,6 +195,11 @@ export function HomePage() {
                       <span className={styles.paperDetailAuthor}>
                         by {getAuthorName(selectedPaper.paper.user.email)}
                       </span>
+                      {selectedPaper.viewCount !== undefined && (
+                        <span className={styles.paperDetailViews}>
+                          {selectedPaper.viewCount} {selectedPaper.viewCount === 1 ? 'view' : 'views'}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className={styles.paperDetailActions}>

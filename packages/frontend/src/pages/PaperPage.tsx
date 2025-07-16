@@ -20,6 +20,7 @@ interface PublishedPaper {
       email: string
     }
   }
+  viewCount?: number
 }
 
 export function PaperPage() {
@@ -67,6 +68,9 @@ export function PaperPage() {
           <h1>{paper.title}</h1>
           <div className={styles.paperMeta}>
             By {paper.user?.email || paper.paper?.user?.email || 'Anonymous'} • {new Date(paper.publishedAt).toLocaleDateString()}
+            {paper.viewCount !== undefined && (
+              <> • {paper.viewCount} {paper.viewCount === 1 ? 'view' : 'views'}</>
+            )}
           </div>
           {paper.abstract && (
             <p style={{ fontSize: 'var(--size-lg)', fontStyle: 'italic', marginTop: 'var(--space-md)' }}>

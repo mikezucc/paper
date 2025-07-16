@@ -16,6 +16,7 @@ model User {
   
   papers      Paper[]
   sessions    Session[]
+  viewRecords ViewRecord[]
 }
 
 model Session {
@@ -47,6 +48,7 @@ model Paper {
   revisions   PaperRevision[]
   publishedVersions PublishedVersion[]
   canonicalPublishedVersion PublishedVersion? @relation("CanonicalVersion", fields: [canonicalPublishedVersionId], references: [id], onDelete: SetNull)
+  viewRecords ViewRecord[]
   
   @@index([userId])
   @@index([slug])
@@ -93,4 +95,22 @@ model PublishedVersion {
   @@index([slug])
   @@index([publishedAt])
   @@index([replacedById])
+}
+
+model ViewRecord {
+  id          String    @id @default(cuid())
+  paperId     String
+  userId      String?   // Optional - track logged in users
+  ipAddress   String?   // Optional - anonymized IP for unique visitor tracking
+  userAgent   String?   // Optional - browser/device info
+  referrer    String?   // Optional - where the view came from
+  viewedAt    DateTime  @default(now())
+  
+  paper       Paper     @relation(fields: [paperId], references: [id], onDelete: Cascade)
+  user        User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  @@index([paperId])
+  @@index([viewedAt])
+  @@index([userId])
+  @@index([paperId, viewedAt])
 }
