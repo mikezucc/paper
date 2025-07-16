@@ -1623,6 +1623,69 @@
   display: none;
 }
 
+/* File upload/download styles */
+.uploadButton {
+  background: transparent;
+  border: 1px solid #d4c5b0;
+  color: #5c5449;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.uploadButton:hover:not(:disabled) {
+  background-color: #ede8e2;
+  color: #3d3a34;
+  border-color: #baa992;
+}
+
+.uploadButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.downloadButton {
+  background: transparent;
+  border: 1px solid #d4c5b0;
+  color: #5c5449;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.downloadButton:hover {
+  background-color: #ede8e2;
+  color: #3d3a34;
+  border-color: #baa992;
+}
+
+.uploadError {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  padding: 8px 12px;
+  background-color: #f5d6d6;
+  color: #8b3a3a;
+  font-size: 14px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
 /* Save status indicator styles */
 .saveStatus {
   font-size: 14px;

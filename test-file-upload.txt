@@ -1,0 +1,14 @@
+Test Document for Paper Editor
+
+This is a plain text file that will be converted to markdown.
+
+Features to Test:
+- Text paragraphs are preserved
+- Line breaks are handled correctly
+- Special characters like & and < are preserved
+
+Multiple paragraphs should be separated properly.
+
+This is another paragraph after a blank line.
+
+And this is the final paragraph with some inline text like *emphasis* and **strong** text that should be preserved as-is in the markdown.

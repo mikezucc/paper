@@ -8,7 +8,8 @@ import { useUndoRedo } from '../hooks/useUndoRedo'
 import { Confetti } from '../components/Confetti'
 import styles from '../styles/components.module.css'
 import { ImageInsertDialog } from '../components/ImageInsertDialog';
-
+import { FileUploadButton } from '../components/FileUploadButton';
+import { downloadMarkdown } from '../utils/fileHandlers';
 
 interface Revision {
   id: string
@@ -239,6 +240,30 @@ export function EditorPage() {
   }
 
   // Handle HTML image insertion
+  // Handle file upload
+  const handleFileUpload = (content: string, filename: string) => {
+    // Update the content
+    setContent(content)
+    
+    // If it's a new document (no ID), update the title from filename
+    if (!id && filename) {
+      const titleFromFilename = filename.replace(/\.(md|txt|docx)$/i, '')
+      setTitle(titleFromFilename)
+    }
+    
+    // Reset undo history with new content
+    if (textareaRef.current) {
+      reset(content)
+      setSaveStatus('unsaved')
+    }
+  }
+
+  // Handle markdown download
+  const handleDownload = () => {
+    const filename = title || 'untitled'
+    downloadMarkdown(content, filename)
+  }
+
   const handleImageInsert = (html: string) => {
     if (!textareaRef.current) return
     
@@ -557,6 +582,17 @@ export function EditorPage() {
               >
                 Save now
               </button> */}
+              <FileUploadButton 
+                onFileLoad={handleFileUpload}
+                className={styles.uploadButton}
+              />
+              <button 
+                className={styles.downloadButton}
+                onClick={handleDownload}
+                title="Download as markdown file"
+              >
+                💾 Download
+              </button>
               <button 
                 className={styles.metadataToggle}
                 onClick={() => setShowMetadata(!showMetadata)}
