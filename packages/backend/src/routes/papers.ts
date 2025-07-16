@@ -101,3 +101,30 @@ papersRouter.post('/:id/revisions/:revisionId/restore', async (req: AuthRequest,
     next(error)
   }
 })
+
+// Publishing endpoints
+papersRouter.post('/:id/publish', async (req: AuthRequest, res, next) => {
+  try {
+    const { versionId } = req.body // 'current' or revision ID
+    const publishedVersion = await paperService.publishVersion(
+      req.userId!,
+      req.params.id,
+      versionId
+    )
+    res.json({ publishedVersion })
+  } catch (error) {
+    next(error)
+  }
+})
+
+papersRouter.get('/:id/published', async (req: AuthRequest, res, next) => {
+  try {
+    const publishedVersions = await paperService.listPublishedVersions(
+      req.userId!,
+      req.params.id
+    )
+    res.json({ publishedVersions })
+  } catch (error) {
+    next(error)
+  }
+})

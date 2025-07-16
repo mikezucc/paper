@@ -754,6 +754,9 @@
 .versionStatus {
   font-size: 14px;
   color: #6d5a44;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .versionMessage {
@@ -891,6 +894,15 @@
 .versionPreviewMarkdown {
   color: #3d3a34;
   line-height: 1.6;
+}
+
+.publishedBadge {
+  background-color: #2e7d32;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .sizeControls {

@@ -44,6 +44,7 @@ model Paper {
   
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   revisions   PaperRevision[]
+  publishedVersions PublishedVersion[]
   
   @@index([userId])
   @@index([slug])
@@ -62,7 +63,27 @@ model PaperRevision {
   createdAt   DateTime  @default(now())
   
   paper       Paper     @relation(fields: [paperId], references: [id], onDelete: Cascade)
+  publishedVersions PublishedVersion[]
   
   @@index([paperId])
   @@index([createdAt])
+}
+
+model PublishedVersion {
+  id          String    @id @default(cuid())
+  paperId     String
+  revisionId  String?   // NULL if published from current version
+  slug        String    @unique // Unique URL for this published version
+  title       String
+  abstract    String
+  content     String?   @db.Text
+  tags        String[]
+  publishedAt DateTime  @default(now())
+  
+  paper       Paper     @relation(fields: [paperId], references: [id], onDelete: Cascade)
+  revision    PaperRevision? @relation(fields: [revisionId], references: [id], onDelete: SetNull)
+  
+  @@index([paperId])
+  @@index([slug])
+  @@index([publishedAt])
 }

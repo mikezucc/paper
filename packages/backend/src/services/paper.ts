@@ -4,18 +4,16 @@ import { AppError } from '../middleware/error'
 
 export class PaperService {
   async listPublished() {
-    return db.paper.findMany({
-      where: { published: true },
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        slug: true,
-        title: true,
-        abstract: true,
-        tags: true,
-        createdAt: true,
-        user: {
-          select: { email: true },
+    // Now returns published versions instead of papers
+    return db.publishedVersion.findMany({
+      orderBy: { publishedAt: 'desc' },
+      include: {
+        paper: {
+          select: {
+            user: {
+              select: { email: true },
+            },
+          },
         },
       },
     })
@@ -40,20 +38,29 @@ export class PaperService {
   }
 
   async getBySlug(slug: string) {
-    const paper = await db.paper.findUnique({
+    // Now looks up published versions by slug
+    const publishedVersion = await db.publishedVersion.findUnique({
       where: { slug },
       include: {
-        user: {
-          select: { email: true },
+        paper: {
+          include: {
+            user: {
+              select: { email: true },
+            },
+          },
         },
       },
     })
 
-    if (!paper || !paper.published) {
-      throw new AppError(404, 'Paper not found')
+    if (!publishedVersion) {
+      throw new AppError(404, 'Published version not found')
     }
 
-    return paper
+    // Return in a format compatible with existing frontend
+    return {
+      ...publishedVersion,
+      user: publishedVersion.paper.user,
+    }
   }
 
   async create(userId: string, data: CreatePaperInput) {
@@ -101,7 +108,6 @@ export class PaperService {
         title: data.title,
         abstract: data.abstract,
         tags: data.tags,
-        published: data.published,
         content: data.content,
       },
     })
@@ -205,6 +211,98 @@ export class PaperService {
     await db.paper.delete({
       where: { id: paperId },
     })
+  }
+
+  async publishVersion(userId: string, paperId: string, versionId: string) {
+    const paper = await db.paper.findFirst({
+      where: { id: paperId, userId },
+    })
+
+    if (!paper) {
+      throw new AppError(404, 'Paper not found')
+    }
+
+    let title: string
+    let abstract: string
+    let content: string | null
+    let tags: string[]
+    let revisionId: string | null = null
+
+    if (versionId === 'current') {
+      // Publish current version
+      title = paper.title
+      abstract = paper.abstract
+      content = paper.content
+      tags = paper.tags
+    } else {
+      // Publish specific revision
+      const revision = await db.paperRevision.findFirst({
+        where: {
+          id: versionId,
+          paperId: paperId,
+        },
+      })
+
+      if (!revision) {
+        throw new AppError(404, 'Revision not found')
+      }
+
+      title = revision.title
+      abstract = revision.abstract
+      content = revision.content
+      tags = revision.tags
+      revisionId = revision.id
+    }
+
+    // Generate unique slug for this published version
+    const timestamp = Date.now()
+    const randomSuffix = Math.random().toString(36).substring(2, 8)
+    const baseSlug = title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .substring(0, 50)
+    const slug = `${baseSlug}-${timestamp}-${randomSuffix}`
+
+    const publishedVersion = await db.publishedVersion.create({
+      data: {
+        paperId,
+        revisionId,
+        slug,
+        title,
+        abstract,
+        content,
+        tags,
+      },
+    })
+
+    return publishedVersion
+  }
+
+  async listPublishedVersions(userId: string, paperId: string) {
+    const paper = await db.paper.findFirst({
+      where: { id: paperId, userId },
+    })
+
+    if (!paper) {
+      throw new AppError(404, 'Paper not found')
+    }
+
+    const publishedVersions = await db.publishedVersion.findMany({
+      where: { paperId },
+      orderBy: { publishedAt: 'desc' },
+      include: {
+        revision: {
+          select: {
+            id: true,
+            message: true,
+            createdAt: true,
+          },
+        },
+      },
+    })
+
+    return publishedVersions
   }
 
   private generateSlug(title: string): string {

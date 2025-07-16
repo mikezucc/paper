@@ -32,6 +32,12 @@ export function EditorPage() {
   } | null>(null)
   const [loadingVersionDetails, setLoadingVersionDetails] = useState(false)
   const [publishing, setPublishing] = useState(false)
+  const [publishedVersions, setPublishedVersions] = useState<Array<{
+    id: string
+    revisionId: string | null
+    publishedAt: string
+    slug: string
+  }>>([])
   const [, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [showMetadata, setShowMetadata] = useState(false)
@@ -273,6 +279,15 @@ export function EditorPage() {
         .finally(() => setLoadingRevisions(false))
     }
   }, [showRevisions, showPublishModal, paper])
+
+  // Load published versions
+  useEffect(() => {
+    if (paper) {
+      api.get(`/papers/${paper.id}/published`)
+        .then(({ publishedVersions }) => setPublishedVersions(publishedVersions))
+        .catch((err) => console.error('Failed to load published versions:', err))
+    }
+  }, [paper])
 
   // Update time since last save
   useEffect(() => {
@@ -862,6 +877,9 @@ export function EditorPage() {
                     <div className={styles.versionDate}>Last saved {timeSinceLastSave}</div>
                     <div className={styles.versionStatus}>
                       {saveStatus === 'saved' ? 'All changes saved' : 'Unsaved changes'}
+                      {publishedVersions.some(pv => pv.revisionId === null) && (
+                        <span className={styles.publishedBadge}>Published</span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -890,6 +908,9 @@ export function EditorPage() {
                           </div>
                           {revision.message && (
                             <div className={styles.versionMessage}>{revision.message}</div>
+                          )}
+                          {publishedVersions.some(pv => pv.revisionId === revision.id) && (
+                            <span className={styles.publishedBadge}>Published</span>
                           )}
                         </div>
                       </div>
@@ -955,15 +976,28 @@ export function EditorPage() {
                 <button 
                   className={styles.confirmPublishButton}
                   onClick={async () => {
-                    if (!selectedVersionId) return
+                    if (!selectedVersionId || !paper) return
                     
                     setPublishing(true)
                     try {
-                      // TODO: Call API to publish version
-                      console.log('Publishing version:', selectedVersionId)
+                      const { publishedVersion } = await api.post(`/papers/${paper.id}/publish`, {
+                        versionId: selectedVersionId
+                      })
+                      
+                      // Show success message or navigate to published version
+                      console.log('Published successfully:', publishedVersion)
                       setShowPublishModal(false)
-                    } catch (err) {
-                      console.error('Failed to publish:', err)
+                      setSelectedVersionId(null)
+                      setSelectedVersionDetails(null)
+                      
+                      // Reload published versions
+                      const { publishedVersions: updated } = await api.get(`/papers/${paper.id}/published`)
+                      setPublishedVersions(updated)
+                      
+                      // Show success in UI (you could add a toast here)
+                      alert(`Version published successfully! URL: /p/${publishedVersion.slug}`)
+                    } catch (err: any) {
+                      setError(err.message || 'Failed to publish version')
                     } finally {
                       setPublishing(false)
                     }
