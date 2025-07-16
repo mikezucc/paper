@@ -22,7 +22,7 @@ export function EditorPage() {
   const [content, setContent] = useState('')
   const [tags, setTags] = useState('')
   const [published, setPublished] = useState(false)
-  const [saving, setSaving] = useState(false)
+  const [, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [showMetadata, setShowMetadata] = useState(false)
   const [showRevisions, setShowRevisions] = useState(false)
@@ -43,6 +43,21 @@ export function EditorPage() {
     createdAt: string
   } | null>(null)
   const [viewMode, setViewMode] = useState<'split' | 'focused'>('split')
+  const [selectedFont, setSelectedFont] = useState(() => 
+    localStorage.getItem('editorFont') || 'golos'
+  )
+  const [fontSize, setFontSize] = useState(() => 
+    parseInt(localStorage.getItem('editorFontSize') || '18')
+  )
+  const [showToolbar, setShowToolbar] = useState(false)
+
+  // Font options
+  const fontOptions = [
+    { value: 'golos', label: 'Golos Text', family: "'Golos Text', monospace" },
+    { value: 'system', label: 'System', family: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' },
+    { value: 'serif', label: 'Serif', family: 'Georgia, "Times New Roman", serif' },
+    { value: 'mono', label: 'Monospace', family: '"SF Mono", Monaco, Consolas, monospace' },
+  ]
 
   useEffect(() => {
     if (id) {
@@ -63,6 +78,15 @@ export function EditorPage() {
         .catch((err) => setError(err.message))
     }
   }, [id])
+
+  // Save preferences to localStorage
+  useEffect(() => {
+    localStorage.setItem('editorFont', selectedFont)
+  }, [selectedFont])
+
+  useEffect(() => {
+    localStorage.setItem('editorFontSize', fontSize.toString())
+  }, [fontSize])
 
   // Load revisions when panel is opened
   useEffect(() => {
@@ -162,10 +186,10 @@ export function EditorPage() {
     }
   }, [title, abstract, content, tags, published])
 
-  const handleManualSave = () => {
-    debouncedSave.cancel()
-    performSave()
-  }
+  // const handleManualSave = () => {
+  //   debouncedSave.cancel()
+  //   performSave()
+  // }
 
   const handleRestoreRevision = async (revisionId: string) => {
     if (!paper) return
@@ -277,6 +301,13 @@ export function EditorPage() {
               >
                 {viewMode === 'split' ? '⚟' : '⚏'}
               </button>
+              <button 
+                className={styles.toolbarToggle}
+                onClick={() => setShowToolbar(!showToolbar)}
+                title="Text formatting"
+              >
+                Aa
+              </button>
             </>
           )}
           {paper && (
@@ -292,6 +323,47 @@ export function EditorPage() {
           <Link to="/dashboard" className={styles.exitButton}>✕</Link>
         </div>
       </div>
+
+      {showToolbar && (
+        <div className={styles.toolbarPanel}>
+          <div className={styles.toolbarContent}>
+            <div className={styles.toolbarGroup}>
+              <label className={styles.toolbarLabel}>Font</label>
+              <select 
+                className={styles.fontSelector}
+                value={selectedFont}
+                onChange={(e) => setSelectedFont(e.target.value)}
+              >
+                {fontOptions.map(font => (
+                  <option key={font.value} value={font.value}>
+                    {font.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className={styles.toolbarGroup}>
+              <label className={styles.toolbarLabel}>Size</label>
+              <div className={styles.sizeControls}>
+                <button 
+                  className={styles.sizeButton}
+                  onClick={() => setFontSize(Math.max(12, fontSize - 2))}
+                  disabled={fontSize <= 12}
+                >
+                  −
+                </button>
+                <span className={styles.sizeDisplay}>{fontSize}px</span>
+                <button 
+                  className={styles.sizeButton}
+                  onClick={() => setFontSize(Math.min(32, fontSize + 2))}
+                  disabled={fontSize >= 32}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showMetadata && (
         <div className={styles.metadataPanel}>
@@ -377,6 +449,11 @@ export function EditorPage() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Write your paper content in Markdown..."
+            style={{
+              fontFamily: fontOptions.find(f => f.value === selectedFont)?.family,
+              fontSize: `${fontSize}px`,
+              lineHeight: fontSize >= 24 ? '1.8' : '1.6'
+            }}
           />
         </div>
         <div className={`${styles.editorPane} ${viewMode === 'focused' ? styles.previewPane : ''}`}>

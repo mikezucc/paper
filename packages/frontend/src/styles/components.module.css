@@ -261,6 +261,25 @@
   color: #3d3a34;
 }
 
+.toolbarToggle {
+  background: transparent;
+  border: none;
+  color: #5c5449;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  animation: fadeIn 0.2s ease;
+  font-family: Georgia, serif;
+}
+
+.toolbarToggle:hover {
+  background-color: #ede8e2;
+  color: #3d3a34;
+}
+
 .saveButton {
   border: none;
   padding: 8px 20px;
@@ -318,6 +337,93 @@
   max-width: 800px;
   display: grid;
   gap: 16px;
+}
+
+/* Toolbar panel styles */
+.toolbarPanel {
+  background-color: #f9f6f2;
+  border-bottom: 1px solid #d4c5b0;
+  padding: 16px 24px;
+}
+
+.toolbarContent {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.toolbarGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toolbarLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #5c5449;
+}
+
+.fontSelector {
+  padding: 6px 12px;
+  border: 1px solid #d4c5b0;
+  border-radius: 4px;
+  background-color: #faf8f5;
+  color: #3d3a34;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.fontSelector:hover {
+  border-color: #baa992;
+}
+
+.fontSelector:focus {
+  border-color: #8b7355;
+}
+
+.sizeControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #faf8f5;
+  border: 1px solid #d4c5b0;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.sizeButton {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background-color: transparent;
+  color: #5c5449;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.sizeButton:hover:not(:disabled) {
+  background-color: #ede8e2;
+}
+
+.sizeButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.sizeDisplay {
+  min-width: 48px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3d3a34;
 }
 
 .editorError {
@@ -427,6 +533,17 @@
     width: 32px;
     height: 32px;
     font-size: 18px;
+  }
+  
+  .toolbarToggle {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+  
+  .toolbarContent {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
   }
   
   .editorContent.focusedMode {
