@@ -7,9 +7,9 @@ class API {
   }
 
   private async request(path: string, options: RequestInit = {}) {
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      ...options.headers,
+      ...(options.headers as Record<string, string>),
     }
 
     if (this.authToken) {
