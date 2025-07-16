@@ -38,6 +38,8 @@ export function FileUploadButton({ onFileLoad, className }: FileUploadButtonProp
     }
   }
 
+  console.log(new Date(), 'Rendering FileUploadButton, isLoading:', isLoading, 'error:', error);
+
   return (
     <div style={{ position: 'relative', display: 'inline-block' }}>
       <input
@@ -45,7 +47,6 @@ export function FileUploadButton({ onFileLoad, className }: FileUploadButtonProp
         type="file"
         accept={acceptedTypes}
         onChange={handleFileSelect}
-        style={{ display: 'none' }}
         id="markdown-file-upload"
       />
       <label 
@@ -62,9 +63,9 @@ export function FileUploadButton({ onFileLoad, className }: FileUploadButtonProp
         title="Upload markdown (.md), text (.txt), or Word (.docx) file"
       >
         {isLoading ? (
-          <>📄 Loading...</>
+          <>Loading...</>
         ) : (
-          <>📄 Upload</>
+          <>Upload</>
         )}
       </label>
       {error && (
