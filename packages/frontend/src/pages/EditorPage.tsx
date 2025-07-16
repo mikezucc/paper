@@ -588,14 +588,14 @@ export function EditorPage() {
                 onClick={() => setShowUploadModal(true)}
                 title="Upload markdown (.md), text (.txt), or Word (.docx) file"
               >
-                📄 Upload
+                Upload
               </button>
               <button 
                 className={styles.downloadButton}
                 onClick={handleDownload}
                 title="Download as markdown file"
               >
-                💾 Download
+                Download
               </button>
               <button 
                 className={styles.metadataToggle}

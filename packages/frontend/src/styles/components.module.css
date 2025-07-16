@@ -271,12 +271,10 @@
   background: transparent;
   border: none;
   color: #5c5449;
-  padding: 8px 16px;
   cursor: pointer;
   font-size: 16px;
   font-weight: 500;
   transition: all 0.2s ease;
-  width: 80px;
   animation: fadeIn 0.2s ease;
 }
 
@@ -292,7 +290,6 @@
 }
 
 .metadataToggle:hover {
-  background-color: #ede8e2;
   color: #3d3a34;
 }
 
@@ -1363,7 +1360,6 @@
   }
   
   .metadataToggle {
-    padding: 6px 12px;
     font-size: 14px;
     width: auto;
     min-width: 60px;
@@ -1626,9 +1622,7 @@
 /* File upload/download styles */
 .uploadButton {
   background: transparent;
-  border: 1px solid #d4c5b0;
   color: #5c5449;
-  padding: 8px 16px;
   cursor: pointer;
   font-size: 16px;
   font-weight: 500;
@@ -1640,9 +1634,7 @@
 }
 
 .uploadButton:hover:not(:disabled) {
-  background-color: #ede8e2;
   color: #3d3a34;
-  border-color: #baa992;
 }
 
 .uploadButton:disabled {
@@ -1652,9 +1644,7 @@
 
 .downloadButton {
   background: transparent;
-  border: 1px solid #d4c5b0;
   color: #5c5449;
-  padding: 8px 16px;
   cursor: pointer;
   font-size: 16px;
   font-weight: 500;
@@ -1666,9 +1656,7 @@
 }
 
 .downloadButton:hover {
-  background-color: #ede8e2;
   color: #3d3a34;
-  border-color: #baa992;
 }
 
 .uploadError {
