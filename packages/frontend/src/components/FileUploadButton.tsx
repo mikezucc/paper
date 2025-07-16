@@ -11,6 +11,9 @@ export function FileUploadButton({ onFileLoad, className }: FileUploadButtonProp
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  
+  const acceptedTypes = getAcceptedFileTypes()
+  console.log('Accepted file types:', acceptedTypes)
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log('File selected', event.target.files);
@@ -35,23 +38,27 @@ export function FileUploadButton({ onFileLoad, className }: FileUploadButtonProp
     }
   }
 
-  const handleClick = () => {
-    fileInputRef.current?.click()
-  }
-
   return (
-    <>
+    <div style={{ position: 'relative', display: 'inline-block' }}>
       <input
         ref={fileInputRef}
         type="file"
-        accept={getAcceptedFileTypes()}
+        accept={acceptedTypes}
         onChange={handleFileSelect}
         style={{ display: 'none' }}
+        id="markdown-file-upload"
       />
-      <button
-        onClick={handleClick}
-        disabled={isLoading}
+      <label 
+        htmlFor="markdown-file-upload"
         className={className || styles.uploadButton}
+        style={{ 
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '6px',
+          cursor: isLoading ? 'not-allowed' : 'pointer',
+          opacity: isLoading ? 0.6 : 1,
+          pointerEvents: isLoading ? 'none' : 'auto'
+        }}
         title="Upload markdown (.md), text (.txt), or Word (.docx) file"
       >
         {isLoading ? (
@@ -59,12 +66,12 @@ export function FileUploadButton({ onFileLoad, className }: FileUploadButtonProp
         ) : (
           <>📄 Upload</>
         )}
-      </button>
+      </label>
       {error && (
         <div className={styles.uploadError}>
           {error}
         </div>
       )}
-    </>
+    </div>
   )
 }
