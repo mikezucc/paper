@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { api } from '../utils/api'
@@ -6,12 +6,18 @@ import styles from '../styles/components.module.css'
 
 export function LoginPage() {
   const navigate = useNavigate()
-  const { login } = useAuth()
+  const { login, user } = useAuth()
   const [email, setEmail] = useState('')
   const [code, setCode] = useState('')
   const [step, setStep] = useState<'email' | 'code'>('email')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard')
+    }
+  }, [user, navigate])
 
   const handleRequestCode = async (e: React.FormEvent) => {
     e.preventDefault()
