@@ -17,6 +17,7 @@ export function App() {
             <Route index element={<HomePage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="paper/:slug" element={<PaperPage />} />
+            <Route path="p/:slug" element={<PaperPage />} />
             <Route
               path="dashboard"
               element={

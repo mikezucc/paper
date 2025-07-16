@@ -1057,6 +1057,39 @@
   background-color: #ede8e2;
 }
 
+/* Paper page styles */
+.readingProgress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #8b7355;
+  transform-origin: left;
+  transition: transform 0.1s ease-out;
+  z-index: 100;
+}
+
+.paperMeta {
+  color: #8b8075;
+  font-size: 16px;
+  margin-top: 12px;
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background-color: #ede8e2;
+  color: #5c5449;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+}
+
 .sizeControls {
   display: flex;
   align-items: center;

@@ -1,13 +1,30 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Paper } from '@paper/shared'
 import { api } from '../utils/api'
 import { MarkdownRenderer } from '../components/MarkdownRenderer'
 import styles from '../styles/components.module.css'
 
+interface PublishedPaper {
+  id: string
+  slug: string
+  title: string
+  abstract: string
+  content: string | null
+  tags: string[]
+  publishedAt: string
+  user?: {
+    email: string
+  }
+  paper?: {
+    user: {
+      email: string
+    }
+  }
+}
+
 export function PaperPage() {
   const { slug } = useParams<{ slug: string }>()
-  const [paper, setPaper] = useState<Paper & { content: string } | null>(null)
+  const [paper, setPaper] = useState<PublishedPaper | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -49,7 +66,7 @@ export function PaperPage() {
         <header style={{ marginBottom: 'var(--space-xl)' }}>
           <h1>{paper.title}</h1>
           <div className={styles.paperMeta}>
-            By {paper.user?.email} • {new Date(paper.createdAt).toLocaleDateString()}
+            By {paper.user?.email || paper.paper?.user?.email || 'Anonymous'} • {new Date(paper.publishedAt).toLocaleDateString()}
           </div>
           {paper.abstract && (
             <p style={{ fontSize: 'var(--size-lg)', fontStyle: 'italic', marginTop: 'var(--space-md)' }}>
