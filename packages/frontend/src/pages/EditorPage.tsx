@@ -52,9 +52,12 @@ export function EditorPage() {
   )
   const [showToolbar, setShowToolbar] = useState(false)
   const [showInsertMenu, setShowInsertMenu] = useState(false)
+  const [showContextMenu, setShowContextMenu] = useState(false)
+  const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 })
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const toolbarRef = useRef<HTMLDivElement>(null)
   const insertRef = useRef<HTMLDivElement>(null)
+  const contextMenuRef = useRef<HTMLDivElement>(null)
   
   // Undo/Redo functionality
   const { addToHistory, undo, redo, canUndo, canRedo, reset } = useUndoRedo(content)
@@ -154,13 +157,40 @@ export function EditorPage() {
           !(event.target as Element).closest(`.${styles.toolbarToggle}`)) {
         setShowToolbar(false)
       }
+      if (showContextMenu && contextMenuRef.current && !contextMenuRef.current.contains(event.target as Node)) {
+        setShowContextMenu(false)
+      }
     }
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [showInsertMenu, showToolbar])
+  }, [showInsertMenu, showToolbar, showContextMenu])
+
+  // Handle right-click on textarea
+  const handleContextMenu = useCallback((e: React.MouseEvent<HTMLTextAreaElement>) => {
+    e.preventDefault()
+    
+    // Calculate position to ensure menu stays within viewport
+    const menuWidth = 220 // approximate width
+    const menuHeight = 320 // approximate height
+    const padding = 10
+    
+    let x = e.clientX
+    let y = e.clientY
+    
+    // Adjust if menu would go outside viewport
+    if (x + menuWidth > window.innerWidth - padding) {
+      x = window.innerWidth - menuWidth - padding
+    }
+    if (y + menuHeight > window.innerHeight - padding) {
+      y = window.innerHeight - menuHeight - padding
+    }
+    
+    setContextMenuPosition({ x, y })
+    setShowContextMenu(true)
+  }, [])
 
   // Insert template at cursor position
   const insertTemplate = (template: string, cursorOffset: number) => {
@@ -539,6 +569,45 @@ export function EditorPage() {
         </div>
       )}
       
+      {showContextMenu && (
+        <div 
+          ref={contextMenuRef}
+          className={styles.contextMenu}
+          style={{
+            position: 'fixed',
+            left: `${contextMenuPosition.x}px`,
+            top: `${contextMenuPosition.y}px`,
+            zIndex: 1001
+          }}
+        >
+          <h3 className={styles.contextMenuTitle}>Insert Markdown</h3>
+          <div className={styles.contextMenuItems}>
+            {markdownTemplates.slice(0, 8).map((item, index) => (
+              <button
+                key={index}
+                className={styles.contextMenuItem}
+                onClick={() => {
+                  insertTemplate(item.template, item.cursor)
+                  setShowContextMenu(false)
+                }}
+              >
+                {item.label}
+              </button>
+            ))}
+            <div className={styles.contextMenuDivider} />
+            <button
+              className={styles.contextMenuItem}
+              onClick={() => {
+                setShowContextMenu(false)
+                setShowInsertMenu(true)
+              }}
+            >
+              More options...
+            </button>
+          </div>
+        </div>
+      )}
+      
       {showInsertMenu && (
         <div className={styles.insertPopoverContainer}>
           <div ref={insertRef} className={styles.insertPopover}>
@@ -650,6 +719,7 @@ export function EditorPage() {
                 addToHistory(newContent, textareaRef.current.selectionStart, textareaRef.current.selectionEnd)
               }
             }}
+            onContextMenu={handleContextMenu}
             placeholder="Write your paper content in Markdown..."
             style={{
               fontFamily: allFonts.find(f => f.value === selectedFont)?.family,

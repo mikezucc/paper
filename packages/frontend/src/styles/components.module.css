@@ -539,6 +539,65 @@
   margin: 0 0 16px 0;
 }
 
+/* Context menu styles */
+.contextMenu {
+  background-color: #faf8f5;
+  border: 1px solid #d4c5b0;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  min-width: 200px;
+  padding: 8px 0;
+  animation: contextMenuFadeIn 0.15s ease;
+}
+
+@keyframes contextMenuFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.contextMenuTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #8b8075;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+  padding: 4px 16px 8px;
+}
+
+.contextMenuItems {
+  display: flex;
+  flex-direction: column;
+}
+
+.contextMenuItem {
+  padding: 8px 16px;
+  border: none;
+  background-color: transparent;
+  color: #3d3a34;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.contextMenuItem:hover {
+  background-color: #ede8e2;
+}
+
+.contextMenuDivider {
+  height: 1px;
+  background-color: #e6e0d6;
+  margin: 4px 0;
+}
+
 .sizeControls {
   display: flex;
   align-items: center;
@@ -822,6 +881,10 @@
   
   .insertPopover {
     width: 300px;
+  }
+  
+  .contextMenu {
+    min-width: 160px;
   }
   
   .insertMenu {
