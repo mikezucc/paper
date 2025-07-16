@@ -546,6 +546,9 @@ export function EditorPage() {
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Untitled Paper"
           />
+          <span className={`${styles.saveStatus} ${styles[saveStatus]}`}>
+            {getSaveStatusDisplay()}
+          </span>
         </div>
         <div className={styles.editorHeaderCenter}>
           <button 
@@ -573,9 +576,6 @@ export function EditorPage() {
         <div className={`${styles.editorHeaderRight} ${headerHovered ? styles.visible : styles.hidden}`}>
           {headerHovered && (
             <>
-              <span className={`${styles.saveStatus} ${styles[saveStatus]}`}>
-                {getSaveStatusDisplay()}
-              </span>
               {/* <button 
                 className={styles.saveButton}
                 onClick={handleManualSave} 
