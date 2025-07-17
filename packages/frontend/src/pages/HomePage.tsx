@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../utils/api'
 import { MarkdownRenderer } from '../components/MarkdownRenderer'
-import { ViewToggle } from '../components/ViewToggle'
 import { useMobileToggle } from '../hooks/useMobileToggle'
 import styles from '../styles/components.module.css'
 
@@ -30,7 +29,6 @@ export function HomePage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [tagFilter, setTagFilter] = useState<string>('')
   const [authorFilter, setAuthorFilter] = useState<string>('')
-  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list')
   const navigate = useNavigate()
   const { isMobile, isOpen, toggle } = useMobileToggle()
 
@@ -127,11 +125,11 @@ export function HomePage() {
         <div className={styles.emptyState}>
           <p>No papers have been published yet.</p>
         </div>
-      ) : viewMode === 'grid' ? (
+      ) : isMobile ? (
+        // Mobile view - Grid layout
         <div className={styles.dashboardContainer}>
           <div className={styles.dashboardHeader}>
             <div className={styles.dashboardHeaderContent}>
-              <ViewToggle view={viewMode} onViewChange={setViewMode} />
               <div className={styles.dashboardHeaderFilters}>
                 <input
                   type="text"
@@ -167,13 +165,8 @@ export function HomePage() {
             {filteredPapers.map((paper) => (
               <div
                 key={paper.id}
-                className={`${styles.paperGridCard} ${selectedPaper?.id === paper.id ? styles.selected : ''}`}
-                onClick={() => {
-                  setSelectedPaper(paper)
-                  if (isMobile) {
-                    navigate(`/p/${paper.slug}`)
-                  }
-                }}
+                className={styles.paperGridCard}
+                onClick={() => navigate(`/p/${paper.slug}`)}
               >
                 <h3 className={styles.paperGridTitle}>{paper.title}</h3>
                 {paper.abstract && (
@@ -200,6 +193,7 @@ export function HomePage() {
           </div>
         </div>
       ) : (
+        // Desktop view - List layout
         <div className={styles.listViewContainer}>
           <div className={`${styles.listSidebar} ${isMobile && !isOpen ? styles.collapsed : ''}`}>
             {isMobile && (
@@ -238,10 +232,6 @@ export function HomePage() {
                   <option key={tag} value={tag}>{tag}</option>
                 ))}
               </select>
-            </div>
-            
-            <div className={styles.listSidebarActions}>
-              <ViewToggle view={viewMode} onViewChange={setViewMode} />
             </div>
             
             <div className={styles.papersList}>

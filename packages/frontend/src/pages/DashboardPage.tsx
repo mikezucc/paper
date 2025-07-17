@@ -115,7 +115,77 @@ export function DashboardPage() {
           <p>You haven't created any papers yet.</p>
           <Link to="/editor" className={styles.newPaperButtonLarge}>Create your first paper</Link>
         </div>
+      ) : isMobile ? (
+        // Mobile view - Grid layout
+        <div className={styles.dashboardContainer}>
+          <div className={styles.dashboardHeader}>
+            <div className={styles.dashboardHeaderContent}>
+              <div className={styles.dashboardHeaderFilters}>
+                <input
+                  type="text"
+                  placeholder="Search papers..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className={styles.searchInput}
+                />
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value as 'all' | 'published' | 'draft')}
+                  className={styles.filterSelect}
+                >
+                  <option value="all">All Papers</option>
+                  <option value="published">Published</option>
+                  <option value="draft">Drafts</option>
+                </select>
+                <select
+                  value={tagFilter}
+                  onChange={(e) => setTagFilter(e.target.value)}
+                  className={styles.filterSelect}
+                >
+                  <option value="">All Tags</option>
+                  {allTags.map(tag => (
+                    <option key={tag} value={tag}>{tag}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className={styles.dashboardActions}>
+            <Link to="/editor" className={styles.newPaperButton}>Create new paper</Link>
+          </div>
+          <div className={styles.papersGrid}>
+            {filteredPapers.map((paper) => (
+              <div
+                key={paper.id}
+                className={styles.paperGridCard}
+                onClick={() => navigate(`/editor/${paper.id}`)}
+              >
+                <h3 className={styles.paperGridTitle}>{paper.title}</h3>
+                {paper.abstract && (
+                  <p className={styles.paperGridAbstract}>{paper.abstract}</p>
+                )}
+                <div className={styles.paperGridMeta}>
+                  <span>{formatDate(paper.updatedAt)}</span>
+                  <span className={paper.publishedPaper ? styles.statusPublished : styles.statusDraft}>
+                    {paper.publishedPaper ? 'Published' : 'Draft'}
+                  </span>
+                </div>
+                {paper.tags.length > 0 && (
+                  <div className={styles.paperGridTags}>
+                    {paper.tags.slice(0, 3).map((tag, i) => (
+                      <span key={i} className={styles.paperGridTag}>{tag}</span>
+                    ))}
+                    {paper.tags.length > 3 && (
+                      <span className={styles.paperGridTag}>+{paper.tags.length - 3}</span>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       ) : (
+        // Desktop view - List layout
         <div className={styles.listViewContainer}>
           <div className={`${styles.listSidebar} ${isMobile && !isOpen ? styles.collapsed : ''}`}>
             {isMobile && (

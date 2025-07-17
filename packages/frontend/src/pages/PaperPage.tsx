@@ -68,7 +68,7 @@ export function PaperPage() {
         <header style={{ marginBottom: 'var(--space-xl)' }}>
           <h1>{paper.title}</h1>
           <div className={styles.paperMeta}>
-            By {paper.user?.email || paper.paper?.user?.email || 'Anonymous'} • {new Date(paper.publishedAt).toLocaleDateString()}
+            {paper.user?.email || paper.paper?.user?.email || 'Anonymous'} • {new Date(paper.publishedAt).toLocaleDateString()}
             {paper.viewCount !== undefined && (
               <> • {paper.viewCount} {paper.viewCount === 1 ? 'view' : 'views'}</>
             )}

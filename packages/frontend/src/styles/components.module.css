@@ -3807,33 +3807,6 @@
   background-color: var(--color-bg);
 }
 
-.viewToggle {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.viewToggleButton {
-  padding: 6px 10px;
-  border: 1px solid var(--color-border);
-  background: var(--color-bg);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.viewToggleButton:hover {
-  background-color: var(--color-subtle);
-}
-
-.viewToggleButton.active {
-  background-color: var(--color-primary);
-  color: var(--color-white);
-  border-color: var(--color-primary);
-}
 
 .papersGrid {
   display: grid;
@@ -3912,6 +3885,39 @@
   font-size: var(--size-xs);
 }
 
+/* Dashboard actions */
+.dashboardActions {
+  padding: 0 var(--space-md) var(--space-md);
+  max-width: var(--max-width-wide);
+  margin: 0 auto;
+}
+
+.newPaperButton {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--size-sm);
+  transition: background-color var(--transition-base);
+}
+
+.newPaperButton:hover {
+  background-color: var(--color-primary-hover);
+}
+
+/* Status indicators */
+.statusPublished {
+  color: var(--color-success);
+  font-weight: var(--font-weight-medium);
+}
+
+.statusDraft {
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
 /* Responsive grid adjustments */
 @media (max-width: 768px) {
   .papersGrid {
@@ -3921,6 +3927,16 @@
   
   .paperGridCard {
     padding: var(--space-sm);
+  }
+  
+  .dashboardHeaderFilters {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .searchInput,
+  .filterSelect {
+    width: 100%;
   }
 }
 
