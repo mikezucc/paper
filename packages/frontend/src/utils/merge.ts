@@ -8,6 +8,8 @@ export interface ChangeGroup {
   startLine: number
   endLine: number
   lines: DiffLine[]
+  contextBefore: DiffLine[]
+  contextAfter: DiffLine[]
   selected: boolean
 }
 
@@ -30,6 +32,7 @@ function groupConsecutiveChanges(diffLines: DiffLine[]): ChangeGroup[] {
   let currentGroup: DiffLine[] = []
   let groupType: 'addition' | 'deletion' | 'modification' | null = null
   let groupStartIdx = -1
+  const contextLines = 3 // Number of context lines to show before and after
   
   for (let i = 0; i < diffLines.length; i++) {
     const line = diffLines[i]
@@ -65,6 +68,24 @@ function groupConsecutiveChanges(diffLines: DiffLine[]): ChangeGroup[] {
           description = `Removed ${removedLines} lines`
         }
         
+        // Get context lines
+        const contextBefore: DiffLine[] = []
+        const contextAfter: DiffLine[] = []
+        
+        // Get context before
+        for (let j = Math.max(0, groupStartIdx - contextLines); j < groupStartIdx; j++) {
+          if (diffLines[j].type === 'unchanged') {
+            contextBefore.push(diffLines[j])
+          }
+        }
+        
+        // Get context after
+        for (let j = i; j < Math.min(diffLines.length, i + contextLines); j++) {
+          if (diffLines[j].type === 'unchanged') {
+            contextAfter.push(diffLines[j])
+          }
+        }
+        
         groups.push({
           id: groupId,
           type: groupType,
@@ -74,6 +95,8 @@ function groupConsecutiveChanges(diffLines: DiffLine[]): ChangeGroup[] {
           endLine: currentGroup[currentGroup.length - 1].oldLineNumber || 
                    currentGroup[currentGroup.length - 1].newLineNumber || 0,
           lines: currentGroup,
+          contextBefore,
+          contextAfter,
           selected: true // Default to selected
         })
         
@@ -123,6 +146,25 @@ function groupConsecutiveChanges(diffLines: DiffLine[]): ChangeGroup[] {
       description = `Removed ${removedLines} lines`
     }
     
+    // Get context lines for last group
+    const contextBefore: DiffLine[] = []
+    const contextAfter: DiffLine[] = []
+    
+    // Get context before
+    for (let j = Math.max(0, groupStartIdx - contextLines); j < groupStartIdx; j++) {
+      if (diffLines[j].type === 'unchanged') {
+        contextBefore.push(diffLines[j])
+      }
+    }
+    
+    // Get context after (from end of group to end of diff)
+    const groupEndIdx = diffLines.length
+    for (let j = groupEndIdx; j < Math.min(diffLines.length, groupEndIdx + contextLines); j++) {
+      if (j < diffLines.length && diffLines[j].type === 'unchanged') {
+        contextAfter.push(diffLines[j])
+      }
+    }
+    
     groups.push({
       id: groupId,
       type: groupType,
@@ -132,6 +174,8 @@ function groupConsecutiveChanges(diffLines: DiffLine[]): ChangeGroup[] {
       endLine: currentGroup[currentGroup.length - 1].oldLineNumber || 
                currentGroup[currentGroup.length - 1].newLineNumber || 0,
       lines: currentGroup,
+      contextBefore,
+      contextAfter,
       selected: true
     })
   }

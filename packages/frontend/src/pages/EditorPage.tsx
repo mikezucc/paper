@@ -1329,9 +1329,6 @@ export function EditorPage() {
                 
                 {selectedVersionDetails && (
                   <div className={styles.versionPreview}>
-                    <div className={styles.versionPreviewHeader}>
-                      <h3>Preview</h3>
-                    </div>
                     <div className={styles.versionPreviewContent}>
                       {loadingVersionDetails ? (
                         <div className={styles.loadingPreview}>Loading preview...</div>

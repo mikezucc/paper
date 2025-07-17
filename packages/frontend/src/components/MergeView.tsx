@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { identifyChangeGroups, applySelectedChanges, ChangeGroup } from '../utils/merge'
 import { DiffViewer } from './DiffViewer'
+import { MarkdownRenderer } from './MarkdownRenderer'
 import styles from '../styles/components.module.css'
 
 interface MergeViewProps {
@@ -23,7 +24,7 @@ export function MergeView({
   const [changeGroups, setChangeGroups] = useState<ChangeGroup[]>([])
   const [selectedGroups, setSelectedGroups] = useState<Set<string>>(new Set())
   const [previewContent, setPreviewContent] = useState('')
-  const [showPreview, setShowPreview] = useState(false)
+  const [showMarkdownPreview, setShowMarkdownPreview] = useState(false)
 
   useEffect(() => {
     const groups = identifyChangeGroups(baseContent, incomingContent)
@@ -61,6 +62,20 @@ export function MergeView({
     onApply(mergedContent)
   }
 
+  const renderDiffLine = (line: any, idx: number) => {
+    const prefix = line.type === 'added' ? '+' : line.type === 'removed' ? '-' : ' '
+    const className = line.type === 'added' ? styles.added : line.type === 'removed' ? styles.removed : styles.unchanged
+    
+    return (
+      <div key={idx} className={`${styles.diffCodeLine} ${className}`}>
+        <span className={styles.lineNumber}>{line.oldLineNumber || ''}</span>
+        <span className={styles.lineNumber}>{line.newLineNumber || ''}</span>
+        <span className={styles.linePrefix}>{prefix}</span>
+        <span className={styles.lineContent}>{line.content || '\u00A0'}</span>
+      </div>
+    )
+  }
+
   return (
     <div className={styles.mergeView}>
       <div className={styles.mergeHeader}>
@@ -78,74 +93,84 @@ export function MergeView({
           Deselect All
         </button>
         <button 
-          onClick={() => setShowPreview(!showPreview)} 
+          onClick={() => setShowMarkdownPreview(!showMarkdownPreview)} 
           className={styles.togglePreviewButton}
         >
-          {showPreview ? 'Hide Preview' : 'Show Preview'}
+          {showMarkdownPreview ? 'Show Diff' : 'Show Markdown'}
         </button>
       </div>
 
-      <div className={styles.mergeContent}>
-        <div className={styles.changeGroupsList}>
+      <div className={styles.mergeMainContent}>
+        <div className={styles.changeGroupsColumn}>
           <h3>Change Groups</h3>
-          {changeGroups.length === 0 ? (
-            <p className={styles.noChanges}>No changes to merge</p>
-          ) : (
-            changeGroups.map(group => (
-              <div 
-                key={group.id} 
-                className={`${styles.changeGroup} ${selectedGroups.has(group.id) ? styles.selected : ''}`}
-              >
-                <label className={styles.changeGroupLabel}>
-                  <input
-                    type="checkbox"
-                    checked={selectedGroups.has(group.id)}
-                    onChange={() => toggleGroup(group.id)}
-                    className={styles.changeGroupCheckbox}
-                  />
-                  <div className={styles.changeGroupInfo}>
-                    <div className={styles.changeGroupTitle}>{group.title}</div>
-                    <div className={styles.changeGroupDescription}>{group.description}</div>
-                    <div className={`${styles.changeGroupType} ${styles[group.type]}`}>
-                      {group.type}
-                    </div>
+          <div className={styles.changeGroupsList}>
+            {changeGroups.length === 0 ? (
+              <p className={styles.noChanges}>No changes to merge</p>
+            ) : (
+              changeGroups.map(group => (
+                <div 
+                  key={group.id} 
+                  className={`${styles.changeGroup} ${selectedGroups.has(group.id) ? styles.selected : ''}`}
+                >
+                  <div className={styles.changeGroupHeader}>
+                    <label className={styles.changeGroupLabel}>
+                      <input
+                        type="checkbox"
+                        checked={selectedGroups.has(group.id)}
+                        onChange={() => toggleGroup(group.id)}
+                        className={styles.changeGroupCheckbox}
+                      />
+                      <div className={styles.changeGroupInfo}>
+                        <div className={styles.changeGroupTitle}>{group.title}</div>
+                        <div className={styles.changeGroupDescription}>{group.description}</div>
+                        <div className={`${styles.changeGroupType} ${styles[group.type]}`}>
+                          {group.type}
+                        </div>
+                      </div>
+                    </label>
                   </div>
-                </label>
-                <div className={styles.changeGroupPreview}>
-                  {group.lines.slice(0, 3).map((line, idx) => (
-                    <div 
-                      key={idx} 
-                      className={`${styles.previewLine} ${styles[line.type]}`}
-                    >
-                      <span className={styles.linePrefix}>
-                        {line.type === 'added' ? '+' : line.type === 'removed' ? '-' : ' '}
-                      </span>
-                      {line.content}
-                    </div>
-                  ))}
-                  {group.lines.length > 3 && (
-                    <div className={styles.moreLines}>
-                      ...and {group.lines.length - 3} more lines
-                    </div>
-                  )}
+                  <div className={styles.changeGroupDiff}>
+                    {/* Context before */}
+                    {group.contextBefore.map((line, idx) => (
+                      <div key={`before-${idx}`} className={styles.contextLine}>
+                        {renderDiffLine(line, idx)}
+                      </div>
+                    ))}
+                    
+                    {/* Changed lines */}
+                    {group.lines.map((line, idx) => renderDiffLine(line, idx))}
+                    
+                    {/* Context after */}
+                    {group.contextAfter.map((line, idx) => (
+                      <div key={`after-${idx}`} className={styles.contextLine}>
+                        {renderDiffLine(line, idx)}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))
-          )}
+              ))
+            )}
+          </div>
         </div>
 
-        {showPreview && (
-          <div className={styles.mergePreview}>
-            <h3>Preview</h3>
-            <DiffViewer
-              oldContent={baseContent}
-              newContent={previewContent}
-              oldTitle={baseTitle}
-              newTitle="Merged Result"
-              viewMode="unified"
-            />
+        <div className={styles.mergePreviewColumn}>
+          <h3>Preview</h3>
+          <div className={styles.mergePreviewContent}>
+            {showMarkdownPreview ? (
+              <div className={styles.markdownPreview}>
+                <MarkdownRenderer content={previewContent} />
+              </div>
+            ) : (
+              <DiffViewer
+                oldContent={baseContent}
+                newContent={previewContent}
+                oldTitle={baseTitle}
+                newTitle="Merged Result"
+                viewMode="unified"
+              />
+            )}
           </div>
-        )}
+        </div>
       </div>
 
       <div className={styles.mergeFooter}>
