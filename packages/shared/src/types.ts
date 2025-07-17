@@ -14,6 +14,7 @@ export interface Paper {
   content: string
   tags: string[]
   published: boolean
+  font?: string
   createdAt: Date
   updatedAt: Date
 }

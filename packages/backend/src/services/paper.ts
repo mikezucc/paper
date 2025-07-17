@@ -119,6 +119,7 @@ export class PaperService {
           abstract: paper.abstract,
           content: paper.content,
           tags: paper.tags,
+          font: paper.font,
           autoDescription,
         },
       })
@@ -219,6 +220,7 @@ export class PaperService {
         abstract: paper.abstract,
         content: paper.content,
         tags: paper.tags,
+        font: paper.font,
         message: 'Before restore',
         autoDescription: 'Snapshot before restoring previous version',
       },
@@ -232,6 +234,7 @@ export class PaperService {
         abstract: revision.abstract,
         content: revision.content,
         tags: revision.tags,
+        font: revision.font,
       },
     })
 
@@ -255,6 +258,7 @@ export class PaperService {
         abstract: paper.abstract,
         content: paper.content,
         tags: paper.tags,
+        font: paper.font,
         message,
         autoDescription: 'Manual checkpoint',
       },
@@ -301,6 +305,7 @@ export class PaperService {
     let abstract: string
     let content: string | null
     let tags: string[]
+    let font: string | null | undefined
     let revisionId: string | null = null
 
     if (versionId === 'current') {
@@ -309,6 +314,7 @@ export class PaperService {
       abstract = paper.abstract
       content = paper.content
       tags = paper.tags
+      font = paper.font
     } else {
       // Publish specific revision
       const revision = await db.paperRevision.findFirst({
@@ -326,6 +332,7 @@ export class PaperService {
       abstract = revision.abstract
       content = revision.content
       tags = revision.tags
+      font = revision.font
       revisionId = revision.id
     }
 
@@ -351,6 +358,7 @@ export class PaperService {
           abstract,
           content,
           tags,
+          font,
         },
       })
 

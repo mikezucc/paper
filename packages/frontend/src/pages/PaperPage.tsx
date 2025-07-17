@@ -11,6 +11,7 @@ interface PublishedPaper {
   abstract: string
   content: string | null
   tags: string[]
+  font?: string
   publishedAt: string
   user?: {
     email: string
@@ -88,7 +89,7 @@ export function PaperPage() {
           )}
         </header>
         
-        <MarkdownRenderer content={paper.content || ''} />
+        <MarkdownRenderer content={paper.content || ''} font={paper.font} />
       </article>
     </>
   )

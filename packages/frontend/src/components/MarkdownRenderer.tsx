@@ -22,12 +22,36 @@ marked.setOptions({
   // Since this is for user's own content, it should be safe
 })
 
-export function MarkdownRenderer({ content }: { content: string }) {
+export function MarkdownRenderer({ content, font }: { content: string; font?: string }) {
   const html = useMemo(() => marked(content), [content])
   
   useEffect(() => {
     Prism.highlightAll()
   }, [html])
+  
+  // Get font family from font value
+  const getFontFamily = (fontValue?: string) => {
+    if (!fontValue) return 'Golos Text, -apple-system, BlinkMacSystemFont, sans-serif'
+    
+    const fontMap: Record<string, string> = {
+      'golos': 'Golos Text, -apple-system, BlinkMacSystemFont, sans-serif',
+      'geist': 'Geist, -apple-system, BlinkMacSystemFont, sans-serif',
+      'neue-montreal': 'Neue Montreal, -apple-system, BlinkMacSystemFont, sans-serif',
+      'roboto': 'Roboto, -apple-system, BlinkMacSystemFont, sans-serif',
+      'inter': 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+      'poppins': 'Poppins, -apple-system, BlinkMacSystemFont, sans-serif',
+      'source-serif': 'Source Serif Pro, Georgia, serif',
+      'crimson': 'Crimson Text, Georgia, serif',
+      'georgia': 'Georgia, serif',
+      'playfair': 'Playfair Display, Georgia, serif',
+      'jetbrains': 'JetBrains Mono, monospace',
+      'cascadia': 'Cascadia Code, monospace',
+      'sf-mono': 'SF Mono, Monaco, monospace',
+      'comic-sans': 'Comic Sans MS, cursive',
+    }
+    
+    return fontMap[fontValue] || fontMap['golos']
+  }
   
   return (
     <div
@@ -38,7 +62,7 @@ export function MarkdownRenderer({ content }: { content: string }) {
         color: '#3d3a34',
         padding: '24px',
         minHeight: '100%',
-        fontFamily: 'Golos Text, -apple-system, BlinkMacSystemFont, sans-serif',
+        fontFamily: getFontFamily(font),
         fontSize: '16px',
         lineHeight: '1.7',
       }}

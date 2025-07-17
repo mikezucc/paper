@@ -43,6 +43,7 @@ model Paper {
   content     String?   @db.Text
   tags        String[]
   published   Boolean   @default(false)
+  font        String?
   canonicalPublishedVersionId String? @unique
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -67,6 +68,7 @@ model PaperRevision {
   abstract    String
   content     String?   @db.Text
   tags        String[]
+  font        String?
   message     String?   // Optional revision message
   autoDescription String? // Auto-generated description of changes
   createdAt   DateTime  @default(now())
@@ -89,6 +91,7 @@ model PublishedVersion {
   abstract    String
   content     String?   @db.Text
   tags        String[]
+  font        String?
   replacedById String?  // ID of the version that replaced this one
   publishedAt DateTime  @default(now())
   

@@ -5,6 +5,7 @@ export const createPaperSchema = z.object({
   abstract: z.string().max(500),
   content: z.string(),
   tags: z.array(z.string()).max(10),
+  font: z.string().optional(),
 })
 
 export const updatePaperSchema = z.object({
@@ -13,6 +14,7 @@ export const updatePaperSchema = z.object({
   content: z.string().optional(),
   tags: z.array(z.string()).max(10).optional(),
   published: z.boolean().optional(),
+  font: z.string().optional(),
 })
 
 export type CreatePaperInput = z.infer<typeof createPaperSchema>

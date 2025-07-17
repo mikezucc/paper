@@ -182,6 +182,9 @@ export function EditorPage() {
             setContent(paperContent)
             reset(paperContent)
             setTags(paper.tags.join(', '))
+            if (paper.font) {
+              setSelectedFont(paper.font)
+            }
             setLastSaved(new Date())
             setSaveStatus('saved')
           }
@@ -476,6 +479,7 @@ export function EditorPage() {
         abstract,
         content,
         tags: tags.split(',').map(t => t.trim()).filter(Boolean),
+        font: selectedFont,
       }
 
       if (paper) {
@@ -1043,7 +1047,7 @@ export function EditorPage() {
               lineHeight: fontSize >= 24 ? '1.8' : '1.6'
             }}
           >
-            <MarkdownRenderer content={content} />
+            <MarkdownRenderer content={content} font={selectedFont} />
           </div>
         </div>
       </div>
