@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../utils/api'
 import { MarkdownRenderer } from '../components/MarkdownRenderer'
+import { ViewToggle } from '../components/ViewToggle'
+import { useMobileToggle } from '../hooks/useMobileToggle'
 import styles from '../styles/components.module.css'
 
 interface PublishedPaper {
@@ -28,7 +30,9 @@ export function HomePage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [tagFilter, setTagFilter] = useState<string>('')
   const [authorFilter, setAuthorFilter] = useState<string>('')
+  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list')
   const navigate = useNavigate()
+  const { isMobile, isOpen, toggle } = useMobileToggle()
 
   useEffect(() => {
     api.get('/papers')
@@ -123,9 +127,89 @@ export function HomePage() {
         <div className={styles.emptyState}>
           <p>No papers have been published yet.</p>
         </div>
+      ) : viewMode === 'grid' ? (
+        <div className={styles.dashboardContainer}>
+          <div className={styles.dashboardHeader}>
+            <div className={styles.dashboardHeaderContent}>
+              <ViewToggle view={viewMode} onViewChange={setViewMode} />
+              <div className={styles.dashboardHeaderFilters}>
+                <input
+                  type="text"
+                  placeholder="Search papers..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className={styles.searchInput}
+                />
+                <select
+                  value={authorFilter}
+                  onChange={(e) => setAuthorFilter(e.target.value)}
+                  className={styles.filterSelect}
+                >
+                  <option value="">All Authors</option>
+                  {allAuthors.map(author => (
+                    <option key={author} value={author}>{getAuthorName(author)}</option>
+                  ))}
+                </select>
+                <select
+                  value={tagFilter}
+                  onChange={(e) => setTagFilter(e.target.value)}
+                  className={styles.filterSelect}
+                >
+                  <option value="">All Tags</option>
+                  {allTags.map(tag => (
+                    <option key={tag} value={tag}>{tag}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className={styles.papersGrid}>
+            {filteredPapers.map((paper) => (
+              <div
+                key={paper.id}
+                className={`${styles.paperGridCard} ${selectedPaper?.id === paper.id ? styles.selected : ''}`}
+                onClick={() => {
+                  setSelectedPaper(paper)
+                  if (isMobile) {
+                    navigate(`/p/${paper.slug}`)
+                  }
+                }}
+              >
+                <h3 className={styles.paperGridTitle}>{paper.title}</h3>
+                {paper.abstract && (
+                  <p className={styles.paperGridAbstract}>{paper.abstract}</p>
+                )}
+                <div className={styles.paperGridMeta}>
+                  <span>{formatDate(paper.publishedAt)}</span>
+                  {paper.viewCount !== undefined && (
+                    <span>{paper.viewCount} views</span>
+                  )}
+                </div>
+                {paper.tags.length > 0 && (
+                  <div className={styles.paperGridTags}>
+                    {paper.tags.slice(0, 3).map((tag, i) => (
+                      <span key={i} className={styles.paperGridTag}>{tag}</span>
+                    ))}
+                    {paper.tags.length > 3 && (
+                      <span className={styles.paperGridTag}>+{paper.tags.length - 3}</span>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       ) : (
         <div className={styles.listViewContainer}>
-          <div className={styles.listSidebar}>
+          <div className={`${styles.listSidebar} ${isMobile && !isOpen ? styles.collapsed : ''}`}>
+            {isMobile && (
+              <div className={`${styles.mobileToggle} ${isOpen ? styles.open : ''}`} onClick={toggle}>
+                <span>Filter Papers ({filteredPapers.length})</span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                </svg>
+              </div>
+            )}
             <div className={styles.listFilters}>
               <input
                 type="text"
@@ -154,6 +238,10 @@ export function HomePage() {
                   <option key={tag} value={tag}>{tag}</option>
                 ))}
               </select>
+            </div>
+            
+            <div className={styles.listSidebarActions}>
+              <ViewToggle view={viewMode} onViewChange={setViewMode} />
             </div>
             
             <div className={styles.papersList}>

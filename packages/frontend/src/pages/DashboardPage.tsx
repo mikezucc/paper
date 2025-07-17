@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Paper } from '@paper/shared'
 import { api } from '../utils/api'
 import { MarkdownRenderer } from '../components/MarkdownRenderer'
+import { useMobileToggle } from '../hooks/useMobileToggle'
 import styles from '../styles/components.module.css'
 
 export function DashboardPage() {
@@ -13,6 +14,7 @@ export function DashboardPage() {
   const [tagFilter, setTagFilter] = useState<string>('')
   const [statusFilter, setStatusFilter] = useState<'all' | 'published' | 'draft'>('all')
   const navigate = useNavigate()
+  const { isMobile, isOpen, toggle } = useMobileToggle()
 
   useEffect(() => {
     api.get('/papers/user/papers')
@@ -115,7 +117,15 @@ export function DashboardPage() {
         </div>
       ) : (
         <div className={styles.listViewContainer}>
-          <div className={styles.listSidebar}>
+          <div className={`${styles.listSidebar} ${isMobile && !isOpen ? styles.collapsed : ''}`}>
+            {isMobile && (
+              <div className={`${styles.mobileToggle} ${isOpen ? styles.open : ''}`} onClick={toggle}>
+                <span>My Papers ({filteredPapers.length})</span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                </svg>
+              </div>
+            )}
             <div className={styles.listFilters}>
               <input
                 type="text"

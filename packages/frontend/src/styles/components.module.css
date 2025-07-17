@@ -43,12 +43,12 @@
 .paperCard {
   padding: var(--space-md);
   border: 1px solid var(--color-border);
-  transition: background-color 0.2s ease;
+  transition: background-color var(--transition-base);
   cursor: pointer;
 }
 
 .paperCard:hover {
-  background-color: var(--color-background-subtle);
+  background-color: var(--color-subtle);
 }
 
 .form {
@@ -67,7 +67,7 @@
 }
 
 .error {
-  color: var(--color-text-error);
+  color: var(--color-error);
   margin-top: var(--space-sm);
 }
 
@@ -96,7 +96,7 @@
 }
 
 .linkButton:hover {
-  color: var(--color-primary-dark);
+  color: var(--color-primary-hover);
 }
 
 .termsContainer {
@@ -106,11 +106,11 @@
   padding: var(--space-md);
   border: 1px solid var(--color-border);
   border-radius: 4px;
-  background-color: var(--color-background-subtle);
+  background-color: var(--color-subtle);
 }
 
 .success {
-  color: var(--color-text-success);
+  color: var(--color-success);
   margin-top: var(--space-sm);
 }
 
@@ -139,18 +139,18 @@
   grid-template-columns: 1fr 1fr;
   gap: var(--space-md);
   height: calc(100vh - 200px);
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
 }
 
 .editorPane {
-  border: 1px solid #d4c5b0;
+  border: 1px solid var(--markdown-link-border);
   overflow: auto;
-  background-color: #f9f6f2;
+  background-color: var(--markdown-table-alt-bg);
 }
 
 .preview {
   padding: 0;
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
 }
 
 .markdownTextarea {
@@ -163,12 +163,12 @@
   border: none;
   outline: none;
   resize: none;
-  background-color: #f9f6f2;
-  color: #3d3a34;
+  background-color: var(--markdown-table-alt-bg);
+  color: var(--markdown-text);
 }
 
 .markdownTextarea:focus {
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
 }
 
 /* Full page editor styles */
@@ -180,7 +180,7 @@
   bottom: 0;
   display: flex;
   flex-direction: column;
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
 }
 
 .editorHeader {
@@ -189,15 +189,15 @@
   align-items: center;
   padding: 12px 24px;
   height: 56px;
-  background-color: #f5f3f0;
+  background-color: var(--color-subtle);
   position: relative;
   overflow: visible;
   z-index: 100;
 }
 
 .editorHeader:hover {
-  background-color: #f9f6f2;
-  border-bottom: 1px solid #d4c5b0;
+  background-color: var(--markdown-table-alt-bg);
+  border-bottom: 1px solid var(--markdown-link-border);
 }
 
 @media (max-width: 768px) {
@@ -215,7 +215,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--transition-base);
 }
 
 .editorHeaderLeft.hidden {
@@ -239,7 +239,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--transition-base);
   justify-self: end;
 }
 
@@ -258,23 +258,23 @@
   border: none;
   font-size: 16px;
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
   outline: none;
   min-width: 300px;
 }
 
 .titleInput::placeholder {
-  color: #8b8075;
+  color: var(--markdown-comment);
 }
 
 .metadataToggle {
   background: transparent;
   border: none;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   cursor: pointer;
   font-size: 16px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   animation: fadeIn 0.2s ease;
 }
 
@@ -290,35 +290,35 @@
 }
 
 .metadataToggle:hover {
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .publishButton {
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   border: none;
   color: white;
   padding: 8px 20px;
   cursor: pointer;
   font-size: 16px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   border-radius: 4px;
   animation: fadeIn 0.2s ease;
 }
 
 .publishButton:hover {
-  background-color: #6d5a44;
+  background-color: var(--markdown-link-hover);
 }
 
 .viewModeToggle {
   background: transparent;
   border: none;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   padding: 8px;
   cursor: pointer;
   font-size: 20px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   width: 36px;
   height: 36px;
   display: flex;
@@ -329,39 +329,39 @@
 }
 
 .viewModeToggle:hover {
-  background-color: #ede8e2;
-  color: #3d3a34;
+  background-color: var(--markdown-code-bg);
+  color: var(--markdown-text);
 }
 
 .toolbarToggle {
   background: transparent;
   border: none;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   padding: 8px 12px;
   cursor: pointer;
   font-size: 16px;
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   border-radius: 4px;
   animation: fadeIn 0.2s ease;
   font-family: Georgia, serif;
 }
 
 .toolbarToggle:hover {
-  background-color: #ede8e2;
-  color: #3d3a34;
+  background-color: var(--markdown-code-bg);
+  color: var(--markdown-text);
 }
 
 .insertToggle {
   background: transparent;
   border: none;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   width: 36px;
   height: 36px;
   cursor: pointer;
   font-size: 24px;
   font-weight: 400;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -370,8 +370,8 @@
 }
 
 .insertToggle:hover {
-  background-color: #ede8e2;
-  color: #3d3a34;
+  background-color: var(--markdown-code-bg);
+  color: var(--markdown-text);
 }
 
 .saveButton {
@@ -381,7 +381,7 @@
   cursor: pointer;
   font-weight: 500;
   font-size: 16px;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--transition-base);
   min-width: 100px;
 }
 
@@ -395,7 +395,7 @@
   align-items: center;
   gap: 6px;
   font-size: 16px;
-  color: #5c5449;
+  color: var(--markdown-code-text);
 }
 
 .publishToggle input {
@@ -410,20 +410,20 @@
   height: 36px;
   border-radius: 4px;
   background: transparent;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   text-decoration: none;
   font-size: 16px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
 }
 
 .exitButton:hover {
-  background-color: #ede8e2;
+  background-color: var(--markdown-code-bg);
 }
 
 .metadataPanel {
-  background-color: #f9f6f2;
-  border-bottom: 1px solid #d4c5b0;
+  background-color: var(--markdown-table-alt-bg);
+  border-bottom: 1px solid var(--markdown-link-border);
   padding: 20px 24px;
 }
 
@@ -456,10 +456,10 @@
 }
 
 .toolbarPopover {
-  background-color: #faf8f5;
-  border: 1px solid #d4c5b0;
+  background-color: var(--markdown-code-bg);
+  border: 1px solid var(--markdown-link-border);
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 24px var(--shadow-md);
   width: 580px;
   max-height: 80vh;
   overflow-y: auto;
@@ -477,7 +477,7 @@
 .toolbarSectionTitle {
   font-size: 16px;
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
   margin: 0 0 12px 0;
 }
 
@@ -490,7 +490,7 @@
 .toolbarDivider {
   width: 1px;
   height: 24px;
-  background-color: #d4c5b0;
+  background-color: var(--markdown-link-border);
   margin: 0 8px;
 }
 
@@ -501,7 +501,7 @@
 .fontCategoryTitle {
   font-size: 13px;
   font-weight: 500;
-  color: #8b8075;
+  color: var(--markdown-comment);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 0 0 8px 0;
@@ -515,13 +515,13 @@
 
 .fontOption {
   padding: 10px 12px;
-  border: 1px solid #e6e0d6;
+  border: 1px solid var(--markdown-hr-color);
   border-radius: 6px;
   background-color: transparent;
-  color: #3d3a34;
+  color: var(--markdown-text);
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all var(--transition-fast);
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
@@ -529,14 +529,14 @@
 }
 
 .fontOption:hover {
-  background-color: #f5f3f0;
-  border-color: #d4c5b0;
+  background-color: var(--color-subtle);
+  border-color: var(--markdown-link-border);
 }
 
 .fontOption.selected {
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   color: white;
-  border-color: #8b7355;
+  border-color: var(--markdown-link);
 }
 
 .insertGrid {
@@ -547,19 +547,19 @@
 
 .insertGridItem {
   padding: 8px 12px;
-  border: 1px solid #e6e0d6;
+  border: 1px solid var(--markdown-hr-color);
   border-radius: 6px;
   background-color: transparent;
-  color: #3d3a34;
+  color: var(--markdown-text);
   font-size: 13px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all var(--transition-fast);
   text-align: center;
 }
 
 .insertGridItem:hover {
-  background-color: #f5f3f0;
-  border-color: #d4c5b0;
+  background-color: var(--color-subtle);
+  border-color: var(--markdown-link-border);
 }
 
 /* Insert popover styles */
@@ -575,10 +575,10 @@
 }
 
 .insertPopover {
-  background-color: #faf8f5;
-  border: 1px solid #d4c5b0;
+  background-color: var(--markdown-code-bg);
+  border: 1px solid var(--markdown-link-border);
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 24px var(--shadow-md);
   width: 480px;
   padding: 20px;
 }
@@ -586,16 +586,16 @@
 .insertPopoverTitle {
   font-size: 16px;
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
   margin: 0 0 16px 0;
 }
 
 /* Context menu styles */
 .contextMenu {
-  background-color: #faf8f5;
-  border: 1px solid #d4c5b0;
+  background-color: var(--markdown-code-bg);
+  border: 1px solid var(--markdown-link-border);
   border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 16px var(--shadow-md);
   min-width: 200px;
   padding: 8px 0;
   animation: contextMenuFadeIn 0.15s ease;
@@ -615,7 +615,7 @@
 .contextMenuTitle {
   font-size: 12px;
   font-weight: 600;
-  color: #8b8075;
+  color: var(--markdown-comment);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 0;
@@ -631,7 +631,7 @@
   padding: 8px 16px;
   border: none;
   background-color: transparent;
-  color: #3d3a34;
+  color: var(--markdown-text);
   font-size: 14px;
   text-align: left;
   cursor: pointer;
@@ -640,12 +640,12 @@
 }
 
 .contextMenuItem:hover {
-  background-color: #ede8e2;
+  background-color: var(--markdown-code-bg);
 }
 
 .contextMenuDivider {
   height: 1px;
-  background-color: #e6e0d6;
+  background-color: var(--markdown-hr-color);
   margin: 4px 0;
 }
 
@@ -656,7 +656,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--shadow-xl);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -665,9 +665,9 @@
 }
 
 .publishModal {
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 32px var(--shadow-md);
   max-width: 1200px;
   width: 90%;
   height: 85vh;
@@ -681,29 +681,29 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px 32px;
-  border-bottom: 1px solid #d4c5b0;
-  background-color: #f9f6f2;
+  border-bottom: 1px solid var(--markdown-link-border);
+  background-color: var(--markdown-table-alt-bg);
 }
 
 .publishModalHeader h2 {
   margin: 0;
   font-size: 24px;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .closePublishButton {
   background: transparent;
   border: none;
   font-size: 24px;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 4px;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--transition-base);
 }
 
 .closePublishButton:hover {
-  background-color: #ede8e2;
+  background-color: var(--markdown-code-bg);
 }
 
 .publishModalContent {
@@ -715,12 +715,12 @@
 
 .publishModalInfo {
   padding: 20px 32px;
-  border-bottom: 1px solid #e6e0d6;
+  border-bottom: 1px solid var(--markdown-hr-color);
 }
 
 .publishModalInfo p {
   margin: 0;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   line-height: 1.6;
 }
 
@@ -734,29 +734,29 @@
 .versionsList {
   padding: 24px;
   overflow-y: auto;
-  border-right: 1px solid #d4c5b0;
-  background-color: #f9f6f2;
+  border-right: 1px solid var(--markdown-link-border);
+  background-color: var(--markdown-table-alt-bg);
 }
 
 .versionItem {
   display: flex;
   gap: 16px;
   padding: 16px;
-  border: 1px solid #e6e0d6;
+  border: 1px solid var(--markdown-hr-color);
   border-radius: 8px;
   margin-bottom: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
 }
 
 .versionItem:hover {
-  border-color: #d4c5b0;
-  background-color: #f9f6f2;
+  border-color: var(--markdown-link-border);
+  background-color: var(--markdown-table-alt-bg);
 }
 
 .versionItem.selected {
-  border-color: #8b7355;
-  background-color: #f5f3f0;
+  border-color: var(--markdown-link);
+  background-color: var(--color-subtle);
 }
 
 .versionRadio {
@@ -775,19 +775,19 @@
 
 .versionTitle {
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
   margin-bottom: 4px;
 }
 
 .versionDate {
   font-size: 14px;
-  color: #8b8075;
+  color: var(--markdown-comment);
   margin-bottom: 4px;
 }
 
 .versionStatus {
   font-size: 14px;
-  color: #6d5a44;
+  color: var(--markdown-link-hover);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -795,7 +795,7 @@
 
 .versionMessage {
   font-size: 14px;
-  color: #6d5a44;
+  color: var(--markdown-link-hover);
   font-style: italic;
   margin-top: 4px;
 }
@@ -803,7 +803,7 @@
 .versionDivider {
   font-size: 13px;
   font-weight: 500;
-  color: #8b8075;
+  color: var(--markdown-comment);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 20px 0 12px 0;
@@ -814,40 +814,40 @@
   gap: 12px;
   justify-content: flex-end;
   padding: 20px 32px;
-  border-top: 1px solid #d4c5b0;
-  background-color: #f9f6f2;
+  border-top: 1px solid var(--markdown-link-border);
+  background-color: var(--markdown-table-alt-bg);
 }
 
 .cancelPublishButton {
   padding: 10px 24px;
-  border: 1px solid #d4c5b0;
+  border: 1px solid var(--markdown-link-border);
   border-radius: 6px;
   background-color: transparent;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
 }
 
 .cancelPublishButton:hover {
-  background-color: #ede8e2;
+  background-color: var(--markdown-code-bg);
 }
 
 .confirmPublishButton {
   padding: 10px 24px;
   border: none;
   border-radius: 6px;
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   color: white;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
 }
 
 .confirmPublishButton:hover:not(:disabled) {
-  background-color: #6d5a44;
+  background-color: var(--markdown-link-hover);
 }
 
 .confirmPublishButton:disabled {
@@ -864,14 +864,14 @@
 
 .versionPreviewHeader {
   padding: 20px 32px;
-  border-bottom: 1px solid #e6e0d6;
-  background-color: #f9f6f2;
+  border-bottom: 1px solid var(--markdown-hr-color);
+  background-color: var(--markdown-table-alt-bg);
 }
 
 .versionPreviewHeader h3 {
   margin: 0;
   font-size: 18px;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .versionPreviewContent {
@@ -885,7 +885,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: #8b8075;
+  color: var(--markdown-comment);
   font-style: italic;
 }
 
@@ -896,12 +896,12 @@
 .versionPreviewMeta h2 {
   margin: 0 0 12px 0;
   font-size: 28px;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .versionPreviewAbstract {
   margin: 0 0 16px 0;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   line-height: 1.6;
 }
 
@@ -912,8 +912,8 @@
 }
 
 .versionPreviewTag {
-  background-color: #ede8e2;
-  color: #5c5449;
+  background-color: var(--markdown-code-bg);
+  color: var(--markdown-code-text);
   padding: 4px 12px;
   border-radius: 16px;
   font-size: 13px;
@@ -921,17 +921,17 @@
 
 .versionPreviewDivider {
   height: 1px;
-  background-color: #d4c5b0;
+  background-color: var(--markdown-link-border);
   margin: 24px 0;
 }
 
 .versionPreviewMarkdown {
-  color: #3d3a34;
+  color: var(--markdown-text);
   line-height: 1.6;
 }
 
 .publishedBadge {
-  background-color: #2e7d32;
+  background-color: var(--color-success);
   color: white;
   padding: 2px 8px;
   border-radius: 12px;
@@ -955,9 +955,9 @@
 }
 
 .successModal {
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
   border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 60px var(--shadow-lg);
   max-width: 500px;
   width: 90%;
   padding: 48px;
@@ -1003,14 +1003,14 @@
 .successTitle {
   margin: 0;
   font-size: 36px;
-  color: #3d3a34;
+  color: var(--markdown-text);
   font-weight: 700;
 }
 
 .successMessage {
   margin: 0;
   font-size: 18px;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   line-height: 1.6;
 }
 
@@ -1019,18 +1019,18 @@
   gap: 8px;
   width: 100%;
   padding: 16px;
-  background-color: #f5f3f0;
+  background-color: var(--color-subtle);
   border-radius: 12px;
 }
 
 .successUrlInput {
   flex: 1;
   padding: 12px 16px;
-  border: 1px solid #d4c5b0;
+  border: 1px solid var(--markdown-link-border);
   border-radius: 8px;
   background-color: white;
   font-size: 14px;
-  color: #3d3a34;
+  color: var(--markdown-text);
   font-family: monospace;
 }
 
@@ -1038,17 +1038,17 @@
   padding: 12px 20px;
   border: none;
   border-radius: 8px;
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   color: white;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   white-space: nowrap;
 }
 
 .copyButton:hover {
-  background-color: #6d5a44;
+  background-color: var(--markdown-link-hover);
 }
 
 .successActions {
@@ -1062,33 +1062,33 @@
   padding: 14px 24px;
   border: none;
   border-radius: 8px;
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   color: white;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
 }
 
 .viewPublishedButton:hover {
-  background-color: #6d5a44;
+  background-color: var(--markdown-link-hover);
 }
 
 .continueEditingButton {
   flex: 1;
   padding: 14px 24px;
-  border: 1px solid #d4c5b0;
+  border: 1px solid var(--markdown-link-border);
   border-radius: 8px;
   background-color: transparent;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
 }
 
 .continueEditingButton:hover {
-  background-color: #ede8e2;
+  background-color: var(--markdown-code-bg);
 }
 
 /* Paper page styles */
@@ -1098,14 +1098,14 @@
   left: 0;
   right: 0;
   height: 3px;
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   transform-origin: left;
   transition: transform 0.1s ease-out;
   z-index: 100;
 }
 
 .paperMeta {
-  color: #8b8075;
+  color: var(--markdown-comment);
   font-size: 16px;
   margin-top: 12px;
 }
@@ -1117,8 +1117,8 @@
 }
 
 .tag {
-  background-color: #ede8e2;
-  color: #5c5449;
+  background-color: var(--markdown-code-bg);
+  color: var(--markdown-code-text);
   padding: 4px 12px;
   border-radius: 16px;
   font-size: 14px;
@@ -1128,8 +1128,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: #f5f3f0;
-  border: 1px solid #d4c5b0;
+  background-color: var(--color-subtle);
+  border: 1px solid var(--markdown-link-border);
   border-radius: 6px;
   padding: 4px;
 }
@@ -1139,18 +1139,18 @@
   height: 28px;
   border: none;
   background-color: transparent;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   cursor: pointer;
   border-radius: 4px;
   font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--transition-base);
 }
 
 .sizeButton:hover:not(:disabled) {
-  background-color: #ede8e2;
+  background-color: var(--markdown-code-bg);
 }
 
 .sizeButton:disabled {
@@ -1163,7 +1163,7 @@
   text-align: center;
   font-size: 14px;
   font-weight: 500;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 /* Insert button and menu styles */
@@ -1173,22 +1173,22 @@
 
 .insertButton {
   padding: 6px 16px;
-  border: 1px solid #d4c5b0;
+  border: 1px solid var(--markdown-link-border);
   border-radius: 4px;
-  background-color: #faf8f5;
-  color: #3d3a34;
+  background-color: var(--markdown-code-bg);
+  color: var(--markdown-text);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
 .insertButton:hover {
-  background-color: #ede8e2;
-  border-color: #baa992;
+  background-color: var(--markdown-code-bg);
+  border-color: var(--markdown-link-border);
 }
 
 .insertMenu {
@@ -1196,10 +1196,10 @@
   top: 100%;
   left: 0;
   margin-top: 4px;
-  background-color: #faf8f5;
-  border: 1px solid #d4c5b0;
+  background-color: var(--markdown-code-bg);
+  border: 1px solid var(--markdown-link-border);
   border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px var(--shadow-sm);
   min-width: 180px;
   max-height: 400px;
   overflow-y: auto;
@@ -1212,7 +1212,7 @@
   padding: 8px 16px;
   border: none;
   background-color: transparent;
-  color: #3d3a34;
+  color: var(--markdown-text);
   font-size: 14px;
   text-align: left;
   cursor: pointer;
@@ -1220,7 +1220,7 @@
 }
 
 .insertMenuItem:hover {
-  background-color: #ede8e2;
+  background-color: var(--markdown-code-bg);
 }
 
 .insertMenuItem:first-child {
@@ -1238,13 +1238,13 @@
 .redoButton {
   width: 32px;
   height: 32px;
-  border: 1px solid #d4c5b0;
+  border: 1px solid var(--markdown-link-border);
   border-radius: 4px;
-  background-color: #faf8f5;
-  color: #3d3a34;
+  background-color: var(--markdown-code-bg);
+  color: var(--markdown-text);
   font-size: 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1252,22 +1252,22 @@
 
 .undoButton:hover:not(:disabled),
 .redoButton:hover:not(:disabled) {
-  background-color: #ede8e2;
-  border-color: #baa992;
+  background-color: var(--markdown-code-bg);
+  border-color: var(--markdown-link-border);
 }
 
 .undoButton:disabled,
 .redoButton:disabled {
   opacity: 0.4;
   cursor: not-allowed;
-  color: #8b8075;
+  color: var(--markdown-comment);
 }
 
 .editorError {
-  background-color: #f5d6d6;
-  color: #8b3a3a;
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
   padding: 12px 24px;
-  border-bottom: 1px solid #e0b0b0;
+  border-bottom: 1px solid var(--color-error-bg);
 }
 
 .editorContent {
@@ -1285,7 +1285,7 @@
 }
 
 .editorContent .editorPane:first-child {
-  border-right: 1px solid #d4c5b0;
+  border-right: 1px solid var(--markdown-link-border);
 }
 
 .editorContent .markdownTextarea {
@@ -1305,7 +1305,7 @@
   justify-content: center;
   align-items: center;
   padding: 40px;
-  background-color: #f5f3f0;
+  background-color: var(--color-subtle);
 }
 
 .editorContent.focusedMode .editorPane:first-child {
@@ -1313,7 +1313,7 @@
   width: 100%;
   height: calc(100vh - 136px);
   border-radius: 12px;
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
   border-right: none;
 
 }
@@ -1326,11 +1326,11 @@
   padding: 48px;
   font-size: 20px;
   line-height: 1.8;
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
 }
 
 .editorContent.focusedMode .markdownTextarea:focus {
-  background-color: #fbf9f7;
+  background-color: var(--color-bg-secondary);
 }
 
 @media (max-width: 768px) {
@@ -1423,7 +1423,7 @@
   
   .versionsList {
     border-right: none;
-    border-bottom: 1px solid #d4c5b0;
+    border-bottom: 1px solid var(--markdown-link-border);
     max-height: 300px;
   }
   
@@ -1481,7 +1481,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--shadow-xl);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1490,9 +1490,9 @@
 }
 
 .modalContent {
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 32px var(--shadow-md);
   max-width: 600px;
   width: 100%;
   max-height: 90vh;
@@ -1506,20 +1506,20 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
-  border-bottom: 1px solid #d4c5b0;
+  border-bottom: 1px solid var(--markdown-link-border);
 }
 
 .modalHeader h3 {
   margin: 0;
   font-size: 20px;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .closeButton {
   background: transparent;
   border: none;
   font-size: 28px;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   cursor: pointer;
   padding: 0;
   width: 32px;
@@ -1528,11 +1528,11 @@
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--transition-base);
 }
 
 .closeButton:hover {
-  background-color: #ede8e2;
+  background-color: var(--markdown-code-bg);
 }
 
 .modalBody {
@@ -1552,40 +1552,40 @@
   gap: 12px;
   justify-content: flex-end;
   padding: 20px 24px;
-  border-top: 1px solid #d4c5b0;
-  background-color: #f9f6f2;
+  border-top: 1px solid var(--markdown-link-border);
+  background-color: var(--markdown-table-alt-bg);
 }
 
 .cancelButton {
   padding: 10px 24px;
-  border: 1px solid #d4c5b0;
+  border: 1px solid var(--markdown-link-border);
   border-radius: 6px;
   background-color: transparent;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
 }
 
 .cancelButton:hover {
-  background-color: #ede8e2;
+  background-color: var(--markdown-code-bg);
 }
 
 .primaryButton {
   padding: 10px 24px;
   border: none;
   border-radius: 6px;
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   color: white;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
 }
 
 .primaryButton:hover:not(:disabled) {
-  background-color: #6d5a44;
+  background-color: var(--markdown-link-hover);
 }
 
 .primaryButton:disabled {
@@ -1596,14 +1596,14 @@
 .previewSection {
   margin-top: var(--space-lg);
   padding-top: var(--space-lg);
-  border-top: 1px solid #e6e0d6;
+  border-top: 1px solid var(--markdown-hr-color);
 }
 
 .imagePreview {
   margin-top: var(--space-sm);
   padding: var(--space-md);
-  background-color: #f5f3f0;
-  border: 1px solid #e6e0d6;
+  background-color: var(--color-subtle);
+  border: 1px solid var(--markdown-hr-color);
   border-radius: 6px;
   min-height: 100px;
   display: flex;
@@ -1622,21 +1622,21 @@
 /* File upload/download styles */
 .uploadButton {
   background: transparent;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   cursor: pointer;
   font-size: 16px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   border-radius: 4px;
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   animation: fadeIn 0.2s ease;
 }
 
 .uploadButton:hover:not(:disabled) {
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .uploadButton:disabled {
@@ -1646,21 +1646,21 @@
 
 .downloadButton {
   background: transparent;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   cursor: pointer;
   font-size: 16px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   border-radius: 4px;
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   animation: fadeIn 0.2s ease;
 }
 
 .downloadButton:hover {
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .uploadError {
@@ -1670,19 +1670,19 @@
   right: 0;
   margin-top: 4px;
   padding: 8px 12px;
-  background-color: #f5d6d6;
-  color: #8b3a3a;
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
   font-size: 14px;
   border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px var(--shadow-sm);
   z-index: 100;
 }
 
 /* File Upload Modal styles */
 .fileUploadModal {
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 32px var(--shadow-md);
   max-width: 700px;
   width: 90%;
   max-height: 85vh;
@@ -1692,22 +1692,22 @@
 }
 
 .uploadArea {
-  border: 2px dashed #d4c5b0;
+  border: 2px dashed var(--markdown-link-border);
   border-radius: 8px;
   padding: 48px 32px;
   text-align: center;
-  transition: all 0.2s ease;
-  background-color: #f9f6f2;
+  transition: all var(--transition-base);
+  background-color: var(--markdown-table-alt-bg);
 }
 
 .uploadArea:hover {
-  border-color: #8b7355;
-  background-color: #f5f3f0;
+  border-color: var(--markdown-link);
+  background-color: var(--color-subtle);
 }
 
 .uploadAreaDragging {
-  border-color: #8b7355;
-  background-color: #ede8e2;
+  border-color: var(--markdown-link);
+  background-color: var(--markdown-code-bg);
   transform: scale(1.02);
 }
 
@@ -1726,13 +1726,13 @@
 .uploadText {
   font-size: 18px;
   font-weight: 500;
-  color: #3d3a34;
+  color: var(--markdown-text);
   margin-bottom: 8px;
 }
 
 .uploadHint {
   font-size: 14px;
-  color: #8b8075;
+  color: var(--markdown-comment);
 }
 
 .fileInfo {
@@ -1740,29 +1740,29 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  background-color: #f5f3f0;
+  background-color: var(--color-subtle);
   border-radius: 6px;
   margin-bottom: 20px;
 }
 
 .fileName {
   font-size: 16px;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .changeFileButton {
   padding: 6px 16px;
-  border: 1px solid #d4c5b0;
+  border: 1px solid var(--markdown-link-border);
   border-radius: 4px;
   background-color: transparent;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
 }
 
 .changeFileButton:hover {
-  background-color: #ede8e2;
+  background-color: var(--markdown-code-bg);
 }
 
 .previewContainer {
@@ -1775,15 +1775,15 @@
 .previewTitle {
   font-size: 16px;
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
   margin: 0 0 12px 0;
 }
 
 .previewContent {
   flex: 1;
   overflow-y: auto;
-  background-color: #f5f3f0;
-  border: 1px solid #e6e0d6;
+  background-color: var(--color-subtle);
+  border: 1px solid var(--markdown-hr-color);
   border-radius: 6px;
   padding: 16px;
 }
@@ -1795,16 +1795,16 @@
   line-height: 1.5;
   white-space: pre-wrap;
   word-wrap: break-word;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .previewTruncated {
   margin-top: 8px;
   padding: 8px;
-  background-color: #f8f5f0;
+  background-color: var(--color-subtle);
   border-radius: 4px;
   font-size: 13px;
-  color: #8b8075;
+  color: var(--markdown-comment);
   text-align: center;
 }
 
@@ -1819,20 +1819,20 @@
 }
 
 .saveStatus.saved {
-  color: #7c6f5d;
+  color: var(--markdown-string);
 }
 
 .saveStatus.saving {
-  color: #8b7355;
+  color: var(--markdown-link);
   animation: pulse 1.5s ease-in-out infinite;
 }
 
 .saveStatus.error {
-  color: #8b3a3a;
+  color: var(--color-error);
 }
 
 .saveStatus.unsaved {
-  color: #6d5a44;
+  color: var(--markdown-link-hover);
 }
 
 @keyframes pulse {
@@ -1851,9 +1851,9 @@
   right: 0;
   width: 400px;
   height: calc(100% - 56px);
-  background-color: #f9f6f2;
-  border-left: 1px solid #d4c5b0;
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.05);
+  background-color: var(--markdown-table-alt-bg);
+  border-left: 1px solid var(--markdown-link-border);
+  box-shadow: -2px 0 8px var(--shadow-sm);
   display: flex;
   flex-direction: column;
   z-index: 10;
@@ -1864,29 +1864,29 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  border-bottom: 1px solid #d4c5b0;
-  background-color: #ede8e2;
+  border-bottom: 1px solid var(--markdown-link-border);
+  background-color: var(--markdown-code-bg);
 }
 
 .revisionsPanelHeader h3 {
   margin: 0;
   font-size: 18px;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .closePanelButton {
   background: transparent;
   border: none;
   font-size: 20px;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 4px;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--transition-base);
 }
 
 .closePanelButton:hover {
-  background-color: #d4c5b0;
+  background-color: var(--markdown-link-border);
 }
 
 .revisionsList {
@@ -1898,13 +1898,13 @@
 .loadingRevisions,
 .noRevisions {
   text-align: center;
-  color: #8b8075;
+  color: var(--markdown-comment);
   padding: 32px;
 }
 
 .revisionItem {
-  background-color: #faf8f5;
-  border: 1px solid #e6e0d6;
+  background-color: var(--markdown-code-bg);
+  border: 1px solid var(--markdown-hr-color);
   border-radius: 6px;
   padding: 16px;
   margin-bottom: 12px;
@@ -1912,7 +1912,7 @@
 }
 
 .revisionItem:hover {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 4px var(--shadow-sm);
 }
 
 .revisionInfo {
@@ -1921,18 +1921,18 @@
 
 .revisionTitle {
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
   margin-bottom: 4px;
 }
 
 .revisionDate {
   font-size: 14px;
-  color: #8b8075;
+  color: var(--markdown-comment);
 }
 
 .revisionMessage {
   font-size: 14px;
-  color: #6d5a44;
+  color: var(--markdown-link-hover);
   font-style: italic;
   margin-top: 8px;
 }
@@ -1948,27 +1948,27 @@
   font-size: 14px;
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
 }
 
 .viewButton {
   background-color: transparent;
-  border: 1px solid #d4c5b0;
-  color: #5c5449;
+  border: 1px solid var(--markdown-link-border);
+  color: var(--markdown-code-text);
 }
 
 .viewButton:hover {
-  background-color: #ede8e2;
+  background-color: var(--markdown-code-bg);
 }
 
 .restoreButton {
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   border: none;
   color: white;
 }
 
 .restoreButton:hover {
-  background-color: #6d5a44;
+  background-color: var(--markdown-link-hover);
 }
 
 @media (max-width: 768px) {
@@ -1984,7 +1984,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--shadow-xl);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1993,9 +1993,9 @@
 }
 
 .revisionPreviewModal {
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px var(--shadow-md);
   max-width: 900px;
   width: 100%;
   max-height: 90vh;
@@ -2009,19 +2009,19 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: 24px 32px;
-  border-bottom: 1px solid #d4c5b0;
-  background-color: #f9f6f2;
+  border-bottom: 1px solid var(--markdown-link-border);
+  background-color: var(--markdown-table-alt-bg);
 }
 
 .revisionPreviewHeader h2 {
   margin: 0;
   font-size: 24px;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .revisionPreviewDate {
   font-size: 14px;
-  color: #8b8075;
+  color: var(--markdown-comment);
   margin-top: 4px;
 }
 
@@ -2029,15 +2029,15 @@
   background: transparent;
   border: none;
   font-size: 24px;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 4px;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--transition-base);
 }
 
 .closePreviewButton:hover {
-  background-color: #ede8e2;
+  background-color: var(--markdown-code-bg);
 }
 
 .revisionPreviewContent {
@@ -2059,12 +2059,12 @@
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #8b8075;
+  color: var(--markdown-comment);
 }
 
 .revisionPreviewSection p {
   margin: 0;
-  color: #3d3a34;
+  color: var(--markdown-text);
   line-height: 1.6;
 }
 
@@ -2075,8 +2075,8 @@
 }
 
 .revisionPreviewTag {
-  background-color: #ede8e2;
-  color: #5c5449;
+  background-color: var(--markdown-code-bg);
+  color: var(--markdown-code-text);
   padding: 4px 12px;
   border-radius: 16px;
   font-size: 14px;
@@ -2084,7 +2084,7 @@
 
 .revisionPreviewDivider {
   height: 1px;
-  background-color: #d4c5b0;
+  background-color: var(--markdown-link-border);
   margin: 24px 0;
 }
 
@@ -2113,8 +2113,8 @@
 .replaceExistingOption {
   margin-top: 16px;
   padding: 16px;
-  background-color: #f8f5f0;
-  border: 1px solid #e8dfd2;
+  background-color: var(--color-subtle);
+  border: 1px solid var(--markdown-hr-color);
   border-radius: 8px;
 }
 
@@ -2123,7 +2123,7 @@
   align-items: center;
   gap: 8px;
   font-weight: 500;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   cursor: pointer;
 }
 
@@ -2136,7 +2136,7 @@
 .replaceExistingHint {
   margin: 8px 0 0 26px;
   font-size: 13px;
-  color: #8a7c6d;
+  color: var(--markdown-comment);
   line-height: 1.5;
 }
 
@@ -2151,17 +2151,17 @@
 }
 
 .publishedBadge[data-status="current"] {
-  background-color: #4a7c59;
+  background-color: var(--color-success);
   color: white;
 }
 
 .publishedBadge[data-status="published"] {
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   color: white;
 }
 
 .publishedBadge[data-status="replaced"] {
-  background-color: #9b9b9b;
+  background-color: var(--color-gray-400);
   color: white;
 }
 
@@ -2176,14 +2176,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px 32px;
-  border-bottom: 1px solid #e8dfd2;
-  background-color: #fdfcfb;
+  border-bottom: 1px solid var(--markdown-hr-color);
+  background-color: var(--color-bg-secondary);
 }
 
 .dashboardHeader h1 {
   margin: 0;
   font-size: 28px;
-  color: #3a332b;
+  color: var(--markdown-heading);
 }
 
 .dashboardActions {
@@ -2195,16 +2195,16 @@
 
 .newPaperButton {
   padding: 8px 16px;
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   color: white;
   border-radius: 6px;
   text-decoration: none;
   font-weight: 500;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--transition-base);
 }
 
 .newPaperButton:hover {
-  background-color: #6d5a44;
+  background-color: var(--markdown-link-hover);
 }
 
 /* Empty State */
@@ -2215,24 +2215,24 @@
 
 .emptyState p {
   font-size: 18px;
-  color: #8a7c6d;
+  color: var(--markdown-comment);
   margin-bottom: 24px;
 }
 
 .newPaperButtonLarge {
   display: inline-block;
   padding: 12px 24px;
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   color: white;
   border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
   font-size: 16px;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--transition-base);
 }
 
 .newPaperButtonLarge:hover {
-  background-color: #6d5a44;
+  background-color: var(--markdown-link-hover);
 }
 
 /* Card View Styles - removed as we only use list view now */
@@ -2249,12 +2249,12 @@
 
 .statusBadge.published {
   background-color: #e8f4e8;
-  color: #4a7c59;
+  color: var(--color-success);
 }
 
 .statusBadge.draft {
-  background-color: #f8f5f0;
-  color: #8a7c6d;
+  background-color: var(--color-subtle);
+  color: var(--markdown-comment);
 }
 
 
@@ -2267,37 +2267,37 @@
   text-decoration: none;
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
 }
 
 .editButton {
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   color: white;
 }
 
 .editButton:hover {
-  background-color: #6d5a44;
+  background-color: var(--markdown-link-hover);
 }
 
 .viewButton {
   background-color: white;
-  color: #8b7355;
-  border: 1px solid #8b7355;
+  color: var(--markdown-link);
+  border: 1px solid var(--markdown-link);
 }
 
 .viewButton:hover {
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   color: white;
 }
 
 .deleteButton {
   background-color: white;
-  color: #c85450;
-  border: 1px solid #c85450;
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
 }
 
 .deleteButton:hover {
-  background-color: #c85450;
+  background-color: var(--color-error);
   color: white;
 }
 
@@ -2309,15 +2309,15 @@
 
 .listSidebar {
   width: 320px;
-  background-color: #fdfcfb;
-  border-right: 1px solid #e8dfd2;
+  background-color: var(--color-bg-secondary);
+  border-right: 1px solid var(--markdown-hr-color);
   display: flex;
   flex-direction: column;
 }
 
 .listFilters {
   padding: 16px;
-  border-bottom: 1px solid #e8dfd2;
+  border-bottom: 1px solid var(--markdown-hr-color);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -2325,7 +2325,7 @@
 
 .listSidebarActions {
   padding: 16px;
-  border-bottom: 1px solid #e8dfd2;
+  border-bottom: 1px solid var(--markdown-hr-color);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -2335,7 +2335,7 @@
 .filterSelectCompact {
   width: 100%;
   padding: 8px 12px;
-  border: 1px solid #e8dfd2;
+  border: 1px solid var(--markdown-hr-color);
   border-radius: 4px;
   font-size: 13px;
   background-color: white;
@@ -2344,7 +2344,7 @@
 .searchInputCompact:focus,
 .filterSelectCompact:focus {
   outline: none;
-  border-color: #8b7355;
+  border-color: var(--markdown-link);
 }
 
 .papersList {
@@ -2354,18 +2354,18 @@
 
 .paperListItem {
   padding: 12px 16px;
-  border-bottom: 1px solid #e8dfd2;
+  border-bottom: 1px solid var(--markdown-hr-color);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--transition-base);
 }
 
 .paperListItem:hover {
-  background-color: #f8f5f0;
+  background-color: var(--color-subtle);
 }
 
 .paperListItem.selected {
-  background-color: #f0ebe4;
-  border-left: 3px solid #8b7355;
+  background-color: var(--markdown-code-bg);
+  border-left: 3px solid var(--markdown-link);
   padding-left: 13px;
 }
 
@@ -2379,7 +2379,7 @@
 .paperListItemTitle {
   font-size: 14px;
   font-weight: 500;
-  color: #3a332b;
+  color: var(--markdown-heading);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -2395,18 +2395,18 @@
 }
 
 .statusDot.published {
-  background-color: #4a7c59;
+  background-color: var(--color-success);
 }
 
 .statusDot.draft {
-  background-color: #8a7c6d;
+  background-color: var(--markdown-comment);
 }
 
 .paperListItemMeta {
   display: flex;
   gap: 8px;
   font-size: 12px;
-  color: #8a7c6d;
+  color: var(--markdown-comment);
 }
 
 .paperListItemDate {
@@ -2428,7 +2428,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: #8a7c6d;
+  color: var(--markdown-comment);
   font-size: 16px;
 }
 
@@ -2444,13 +2444,13 @@
   align-items: flex-start;
   margin-bottom: 32px;
   padding-bottom: 24px;
-  border-bottom: 1px solid #e8dfd2;
+  border-bottom: 1px solid var(--markdown-hr-color);
 }
 
 .paperDetailTitle {
   font-size: 28px;
   font-weight: 600;
-  color: #3a332b;
+  color: var(--markdown-heading);
   margin: 0 0 12px 0;
 }
 
@@ -2461,7 +2461,7 @@
 }
 
 .paperDetailDate {
-  color: #8a7c6d;
+  color: var(--markdown-comment);
   font-size: 14px;
 }
 
@@ -2485,14 +2485,14 @@
 .paperDetailSection h3 {
   font-size: 16px;
   font-weight: 600;
-  color: #3a332b;
+  color: var(--markdown-heading);
   margin: 0 0 12px 0;
 }
 
 .paperDetailSection p {
   font-size: 15px;
   line-height: 1.6;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   margin: 0;
 }
 
@@ -2504,8 +2504,8 @@
 
 .paperDetailTag {
   padding: 6px 12px;
-  background-color: #f8f5f0;
-  color: #5c5449;
+  background-color: var(--color-subtle);
+  color: var(--markdown-code-text);
   font-size: 13px;
   border-radius: 4px;
 }
@@ -2513,10 +2513,10 @@
 .paperDetailPreview {
   font-size: 14px;
   line-height: 1.6;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   padding: 16px;
-  background-color: #fdfcfb;
-  border: 1px solid #e8dfd2;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--markdown-hr-color);
   border-radius: 6px;
   font-family: monospace;
   white-space: pre-wrap;
@@ -2525,22 +2525,22 @@
 /* Additional styles for browse papers */
 
 .paperListItemAuthor {
-  color: #6d5a44;
+  color: var(--markdown-link-hover);
   font-size: 12px;
 }
 
 .paperDetailViews {
-  color: #8a7c6d;
+  color: var(--markdown-comment);
   font-size: 14px;
 }
 
 .paperDetailAuthor {
-  color: #6d5a44;
+  color: var(--markdown-link-hover);
   font-size: 14px;
 }
 
 .paperDetailMarkdownPreview {
-  background-color: #fdfcfb;
+  background-color: var(--color-bg-secondary);
   border-radius: 6px;
   overflow-y: auto;
   position: relative;
@@ -2553,7 +2553,7 @@
   left: 0;
   right: 0;
   height: 40px;
-  background: linear-gradient(to bottom, transparent, #fdfcfb);
+  background: linear-gradient(to bottom, transparent, var(--color-bg-secondary));
   pointer-events: none;
 }
 
@@ -2565,7 +2565,7 @@
 .paperDetailMarkdownPreview h6 {
   margin-top: 1em;
   margin-bottom: 0.5em;
-  color: #3a332b;
+  color: var(--markdown-heading);
 }
 
 .paperDetailMarkdownPreview h1 { font-size: 1.5em; }
@@ -2590,13 +2590,13 @@
 .paperDetailMarkdownPreview blockquote {
   margin: 1em 0;
   padding-left: 1em;
-  border-left: 3px solid #8b7355;
-  color: #5c5449;
+  border-left: 3px solid var(--markdown-link);
+  color: var(--markdown-code-text);
   font-style: italic;
 }
 
 .paperDetailMarkdownPreview code {
-  background-color: #f0ebe4;
+  background-color: var(--markdown-code-bg);
   padding: 0.2em 0.4em;
   border-radius: 3px;
   font-size: 0.9em;
@@ -2604,7 +2604,7 @@
 }
 
 .paperDetailMarkdownPreview pre {
-  background-color: #f0ebe4;
+  background-color: var(--markdown-code-bg);
   padding: 1em;
   border-radius: 5px;
   overflow-x: auto;
@@ -2617,12 +2617,12 @@
 }
 
 .paperDetailMarkdownPreview a {
-  color: #8b7355;
+  color: var(--markdown-link);
   text-decoration: underline;
 }
 
 .paperDetailMarkdownPreview a:hover {
-  color: #6d5a44;
+  color: var(--markdown-link-hover);
 }
 
 .paperDetailMarkdownPreview img {
@@ -2639,26 +2639,26 @@
 
 .paperDetailMarkdownPreview th,
 .paperDetailMarkdownPreview td {
-  border: 1px solid #e8dfd2;
+  border: 1px solid var(--markdown-hr-color);
   padding: 0.5em;
   text-align: left;
 }
 
 .paperDetailMarkdownPreview th {
-  background-color: #f8f5f0;
+  background-color: var(--color-subtle);
   font-weight: 600;
 }
 
 .paperDetailMarkdownPreview hr {
   border: none;
-  border-top: 1px solid #e8dfd2;
+  border-top: 1px solid var(--markdown-hr-color);
   margin: 2em 0;
 }
 
 /* Diff Viewer Styles */
 .diffContainer {
-  background-color: #faf8f5;
-  border: 1px solid #d4c5b0;
+  background-color: var(--markdown-code-bg);
+  border: 1px solid var(--markdown-link-border);
   border-radius: 8px;
   overflow: hidden;
   font-family: 'Courier New', monospace;
@@ -2671,45 +2671,45 @@
   justify-content: center;
   gap: 12px;
   padding: 16px;
-  background-color: #f5f3f0;
-  border-bottom: 1px solid #d4c5b0;
+  background-color: var(--color-subtle);
+  border-bottom: 1px solid var(--markdown-link-border);
 }
 
 .diffOldTitle,
 .diffNewTitle {
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .diffArrow {
-  color: #8b7355;
+  color: var(--markdown-link);
 }
 
 .diffStats {
   display: flex;
   gap: 16px;
   padding: 12px 16px;
-  background-color: #f8f5f0;
-  border-bottom: 1px solid #e6e0d6;
+  background-color: var(--color-subtle);
+  border-bottom: 1px solid var(--markdown-hr-color);
   font-size: 13px;
 }
 
 .diffAdditions {
-  color: #2e7d32;
+  color: var(--color-success);
   font-weight: 600;
 }
 
 .diffDeletions {
-  color: #d32f2f;
+  color: var(--color-error);
   font-weight: 600;
 }
 
 .diffUnchanged {
-  color: #666;
+  color: var(--color-gray-500);
 }
 
 .diffContent {
-  background-color: #fff;
+  background-color: var(--color-white);
 }
 
 .diffLine {
@@ -2724,9 +2724,9 @@
   width: 50px;
   padding: 0 8px;
   text-align: right;
-  color: #999;
-  background-color: #f8f5f0;
-  border-right: 1px solid #e6e0d6;
+  color: var(--color-gray-400);
+  background-color: var(--color-subtle);
+  border-right: 1px solid var(--markdown-hr-color);
   user-select: none;
   flex-shrink: 0;
 }
@@ -2745,11 +2745,11 @@
 }
 
 .diffAdded {
-  background-color: #e8f5e9;
+  background-color: var(--color-success-bg);
 }
 
 .diffAdded .diffLineContent {
-  color: #1b5e20;
+  color: var(--color-success);
 }
 
 .diffRemoved {
@@ -2757,21 +2757,21 @@
 }
 
 .diffRemoved .diffLineContent {
-  color: #b71c1c;
+  color: var(--color-error);
 }
 
 .diffUnchanged {
-  background-color: #fff;
+  background-color: var(--color-white);
 }
 
 .diffUnchanged .diffLineContent {
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 /* Side by side diff styles */
 .diffSideBySide {
   display: flex;
-  background-color: #fff;
+  background-color: var(--color-white);
 }
 
 .diffSide {
@@ -2780,15 +2780,15 @@
 }
 
 .diffSide:first-child {
-  border-right: 2px solid #d4c5b0;
+  border-right: 2px solid var(--markdown-link-border);
 }
 
 .diffSideHeader {
   padding: 12px 16px;
-  background-color: #f5f3f0;
-  border-bottom: 1px solid #d4c5b0;
+  background-color: var(--color-subtle);
+  border-bottom: 1px solid var(--markdown-link-border);
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
   text-align: center;
 }
 
@@ -2797,7 +2797,7 @@
 }
 
 .diffSide .diffLine {
-  border-bottom: 1px solid #f0ebe4;
+  border-bottom: 1px solid var(--markdown-code-bg);
 }
 
 .diffSide .diffLineNumber {
@@ -2812,7 +2812,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--shadow-xl);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2820,9 +2820,9 @@
 }
 
 .diffViewModal {
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 32px var(--shadow-md);
   width: 90vw;
   max-width: 1200px;
   height: 80vh;
@@ -2836,49 +2836,49 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px;
-  border-bottom: 1px solid #d4c5b0;
-  background-color: #f5f3f0;
+  border-bottom: 1px solid var(--markdown-link-border);
+  background-color: var(--color-subtle);
 }
 
 .diffViewHeader h2 {
   margin: 0;
   font-size: 24px;
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .closeDiffButton {
   background: none;
   border: none;
   font-size: 24px;
-  color: #8b7355;
+  color: var(--markdown-link);
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 4px;
-  transition: background-color 0.2s;
+  transition: background-color var(--transition-base);
 }
 
 .closeDiffButton:hover {
-  background-color: #f0ebe4;
+  background-color: var(--markdown-code-bg);
 }
 
 .diffViewContent {
   flex: 1;
   overflow-y: auto;
   padding: 24px;
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
 }
 
 /* Compare button style */
 .compareButton {
   padding: 6px 12px;
-  background-color: #e8f5e9;
-  color: #2e7d32;
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
   border: 1px solid #a5d6a7;
   border-radius: 4px;
   font-size: 13px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--transition-base);
 }
 
 .compareButton:hover {
@@ -2896,38 +2896,38 @@
 
 .createVersionButton {
   padding: 6px 12px;
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   color: white;
   border: none;
   border-radius: 4px;
   font-size: 13px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color var(--transition-base);
 }
 
 .createVersionButton:hover {
-  background-color: #6d5a44;
+  background-color: var(--markdown-link-hover);
 }
 
 .revisionMeta {
   display: flex;
   gap: 12px;
   font-size: 13px;
-  color: #666;
+  color: var(--color-gray-500);
   margin-top: 4px;
 }
 
 .revisionAuthor {
-  color: #8b7355;
+  color: var(--markdown-link);
 }
 
 .revisionDescription {
   margin-top: 8px;
   padding: 8px 12px;
-  background-color: #f8f5f0;
+  background-color: var(--color-subtle);
   border-radius: 4px;
   font-size: 14px;
-  color: #5a5651;
+  color: var(--color-text-secondary);
   line-height: 1.5;
 }
 
@@ -2938,7 +2938,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--shadow-xl);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2946,9 +2946,9 @@
 }
 
 .createVersionModal {
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 32px var(--shadow-md);
   width: 90vw;
   max-width: 500px;
   overflow: hidden;
@@ -2959,30 +2959,30 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px;
-  border-bottom: 1px solid #d4c5b0;
-  background-color: #f5f3f0;
+  border-bottom: 1px solid var(--markdown-link-border);
+  background-color: var(--color-subtle);
 }
 
 .createVersionHeader h2 {
   margin: 0;
   font-size: 20px;
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .closeCreateVersionButton {
   background: none;
   border: none;
   font-size: 20px;
-  color: #8b7355;
+  color: var(--markdown-link);
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 4px;
-  transition: background-color 0.2s;
+  transition: background-color var(--transition-base);
 }
 
 .closeCreateVersionButton:hover {
-  background-color: #f0ebe4;
+  background-color: var(--markdown-code-bg);
 }
 
 .createVersionContent {
@@ -2991,7 +2991,7 @@
 
 .createVersionDescription {
   margin: 0 0 16px 0;
-  color: #5a5651;
+  color: var(--color-text-secondary);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -2999,18 +2999,18 @@
 .versionMessageInput {
   width: 100%;
   padding: 12px;
-  border: 1px solid #d4c5b0;
+  border: 1px solid var(--markdown-link-border);
   border-radius: 6px;
   font-size: 14px;
   font-family: inherit;
   resize: vertical;
-  background-color: #fff;
+  background-color: var(--color-white);
   transition: border-color 0.2s;
 }
 
 .versionMessageInput:focus {
   outline: none;
-  border-color: #8b7355;
+  border-color: var(--markdown-link);
 }
 
 .createVersionActions {
@@ -3022,17 +3022,17 @@
 
 .confirmCreateButton {
   padding: 8px 16px;
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   color: white;
   border: none;
   border-radius: 4px;
   font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color var(--transition-base);
 }
 
 .confirmCreateButton:hover:not(:disabled) {
-  background-color: #6d5a44;
+  background-color: var(--markdown-link-hover);
 }
 
 .confirmCreateButton:disabled {
@@ -3043,16 +3043,16 @@
 /* Merge Styles */
 .mergeButton {
   background: transparent;
-  color: #5c5449;
+  color: var(--markdown-code-text);
   cursor: pointer;
   font-size: 16px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   border-radius: 4px;
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   animation: fadeIn 0.2s ease;
 }
 
@@ -3062,7 +3062,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--shadow-xl);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3070,9 +3070,9 @@
 }
 
 .mergeModalContent {
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 32px var(--shadow-md);
   width: 90vw;
   max-width: 1400px;
   height: 85vh;
@@ -3087,20 +3087,20 @@
 
 .mergeHeader {
   padding: 24px;
-  border-bottom: 1px solid #d4c5b0;
-  background-color: #f5f3f0;
+  border-bottom: 1px solid var(--markdown-link-border);
+  background-color: var(--color-subtle);
 }
 
 .mergeHeader h2 {
   margin: 0 0 8px 0;
   font-size: 24px;
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .mergeDescription {
   margin: 0;
-  color: #5a5651;
+  color: var(--color-text-secondary);
   font-size: 14px;
 }
 
@@ -3108,28 +3108,28 @@
   display: flex;
   gap: 12px;
   padding: 16px 24px;
-  background-color: #f8f5f0;
-  border-bottom: 1px solid #e6e0d6;
+  background-color: var(--color-subtle);
+  border-bottom: 1px solid var(--markdown-hr-color);
 }
 
 .selectAllButton,
 .deselectAllButton,
 .togglePreviewButton {
   padding: 6px 12px;
-  border: 1px solid #d4c5b0;
-  background-color: #fff;
-  color: #3d3a34;
+  border: 1px solid var(--markdown-link-border);
+  background-color: var(--color-white);
+  color: var(--markdown-text);
   border-radius: 4px;
   font-size: 13px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--transition-base);
 }
 
 .selectAllButton:hover,
 .deselectAllButton:hover,
 .togglePreviewButton:hover {
-  background-color: #f5f3f0;
-  border-color: #8b7355;
+  background-color: var(--color-subtle);
+  border-color: var(--markdown-link);
 }
 
 .mergeContent {
@@ -3160,7 +3160,7 @@
   margin: 0 0 16px 0;
   font-size: 18px;
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .mergePreviewColumn {
@@ -3174,15 +3174,15 @@
   margin: 0 0 16px 0;
   font-size: 18px;
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .mergePreviewContent {
   flex: 1;
   overflow-y: auto;
-  border: 1px solid #d4c5b0;
+  border: 1px solid var(--markdown-link-border);
   border-radius: 8px;
-  background-color: #fff;
+  background-color: var(--color-white);
 }
 
 .changeGroupsList {
@@ -3195,36 +3195,36 @@
   margin: 0 0 16px 0;
   font-size: 18px;
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .noChanges {
   text-align: center;
-  color: #666;
+  color: var(--color-gray-500);
   padding: 40px;
 }
 
 .changeGroup {
   margin-bottom: 16px;
-  border: 1px solid #d4c5b0;
+  border: 1px solid var(--markdown-link-border);
   border-radius: 8px;
   overflow: hidden;
-  transition: all 0.2s;
+  transition: all var(--transition-base);
 }
 
 .changeGroup:hover {
-  border-color: #8b7355;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-color: var(--markdown-link);
+  box-shadow: 0 2px 8px var(--shadow-sm);
 }
 
 .changeGroup.selected {
-  border-color: #8b7355;
-  background-color: #f8f5f0;
+  border-color: var(--markdown-link);
+  background-color: var(--color-subtle);
 }
 
 .changeGroupHeader {
   padding: 16px;
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
 }
 
 .changeGroupLabel {
@@ -3248,13 +3248,13 @@
 
 .changeGroupTitle {
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
   margin-bottom: 4px;
 }
 
 .changeGroupDescription {
   font-size: 13px;
-  color: #666;
+  color: var(--color-gray-500);
   margin-bottom: 8px;
 }
 
@@ -3268,23 +3268,23 @@
 }
 
 .changeGroupType.addition {
-  background-color: #e8f5e9;
-  color: #2e7d32;
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
 }
 
 .changeGroupType.deletion {
   background-color: #ffebee;
-  color: #d32f2f;
+  color: var(--color-error);
 }
 
 .changeGroupType.modification {
-  background-color: #fff3e0;
-  color: #f57c00;
+  background-color: var(--color-white)3e0;
+  color: var(--color-warning);
 }
 
 .changeGroupDiff {
-  background-color: #fff;
-  border-top: 1px solid #e6e0d6;
+  background-color: var(--color-white);
+  border-top: 1px solid var(--markdown-hr-color);
   font-family: 'Courier New', monospace;
   font-size: 13px;
   line-height: 1.5;
@@ -3306,7 +3306,7 @@
 }
 
 .diffCodeLine.unchanged {
-  background-color: #fff;
+  background-color: var(--color-white);
 }
 
 .contextLine .diffCodeLine {
@@ -3317,9 +3317,9 @@
   width: 40px;
   padding: 2px 6px;
   text-align: right;
-  color: #666;
-  background-color: #f8f5f0;
-  border-right: 1px solid #e6e0d6;
+  color: var(--color-gray-500);
+  background-color: var(--color-subtle);
+  border-right: 1px solid var(--markdown-hr-color);
   user-select: none;
   font-size: 12px;
   flex-shrink: 0;
@@ -3329,18 +3329,18 @@
   width: 20px;
   padding: 2px 4px;
   text-align: center;
-  color: #666;
+  color: var(--color-gray-500);
   font-weight: 600;
   user-select: none;
   flex-shrink: 0;
 }
 
 .diffCodeLine.added .linePrefix {
-  color: #28a745;
+  color: var(--color-success);
 }
 
 .diffCodeLine.removed .linePrefix {
-  color: #dc3545;
+  color: var(--color-error);
 }
 
 .lineContent {
@@ -3364,11 +3364,11 @@
 }
 
 .previewLine.added {
-  color: #1b5e20;
+  color: var(--color-success);
 }
 
 .previewLine.removed {
-  color: #b71c1c;
+  color: var(--color-error);
 }
 
 .linePrefix {
@@ -3378,7 +3378,7 @@
 }
 
 .moreLines {
-  color: #666;
+  color: var(--color-gray-500);
   font-style: italic;
   margin-top: 4px;
 }
@@ -3386,17 +3386,17 @@
 .mergePreview {
   flex: 1;
   overflow-y: auto;
-  border: 1px solid #d4c5b0;
+  border: 1px solid var(--markdown-link-border);
   border-radius: 8px;
   padding: 16px;
-  background-color: #fff;
+  background-color: var(--color-white);
 }
 
 .mergePreview h3 {
   margin: 0 0 16px 0;
   font-size: 18px;
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .mergeFooter {
@@ -3404,23 +3404,23 @@
   justify-content: flex-end;
   gap: 12px;
   padding: 24px;
-  border-top: 1px solid #d4c5b0;
-  background-color: #f5f3f0;
+  border-top: 1px solid var(--markdown-link-border);
+  background-color: var(--color-subtle);
 }
 
 .applyMergeButton {
   padding: 10px 20px;
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   color: white;
   border: none;
   border-radius: 4px;
   font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color var(--transition-base);
 }
 
 .applyMergeButton:hover:not(:disabled) {
-  background-color: #6d5a44;
+  background-color: var(--markdown-link-hover);
 }
 
 .applyMergeButton:disabled {
@@ -3442,7 +3442,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--shadow-xl);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3450,9 +3450,9 @@
 }
 
 .paperSelectionModal {
-  background-color: #faf8f5;
+  background-color: var(--markdown-code-bg);
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 32px var(--shadow-md);
   width: 90vw;
   max-width: 600px;
   max-height: 80vh;
@@ -3466,51 +3466,51 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px;
-  border-bottom: 1px solid #d4c5b0;
-  background-color: #f5f3f0;
+  border-bottom: 1px solid var(--markdown-link-border);
+  background-color: var(--color-subtle);
 }
 
 .paperSelectionHeader h2 {
   margin: 0;
   font-size: 20px;
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
 }
 
 .closePaperSelectionButton {
   background: none;
   border: none;
   font-size: 20px;
-  color: #8b7355;
+  color: var(--markdown-link);
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 4px;
-  transition: background-color 0.2s;
+  transition: background-color var(--transition-base);
 }
 
 .closePaperSelectionButton:hover {
-  background-color: #f0ebe4;
+  background-color: var(--markdown-code-bg);
 }
 
 .paperSelectionSearch {
   padding: 16px 24px;
-  background-color: #f8f5f0;
-  border-bottom: 1px solid #e6e0d6;
+  background-color: var(--color-subtle);
+  border-bottom: 1px solid var(--markdown-hr-color);
 }
 
 .paperSearchInput {
   width: 100%;
   padding: 10px 16px;
-  border: 1px solid #d4c5b0;
+  border: 1px solid var(--markdown-link-border);
   border-radius: 6px;
   font-size: 14px;
-  background-color: #fff;
+  background-color: var(--color-white);
   transition: border-color 0.2s;
 }
 
 .paperSearchInput:focus {
   outline: none;
-  border-color: #8b7355;
+  border-color: var(--markdown-link);
 }
 
 .paperSelectionList {
@@ -3521,39 +3521,39 @@
 
 .noPapersFound {
   text-align: center;
-  color: #666;
+  color: var(--color-gray-500);
   padding: 40px;
 }
 
 .paperSelectionItem {
   padding: 16px;
   margin-bottom: 12px;
-  border: 1px solid #d4c5b0;
+  border: 1px solid var(--markdown-link-border);
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s;
-  background-color: #fff;
+  transition: all var(--transition-base);
+  background-color: var(--color-white);
 }
 
 .paperSelectionItem:hover {
-  border-color: #8b7355;
-  background-color: #f8f5f0;
+  border-color: var(--markdown-link);
+  background-color: var(--color-subtle);
 }
 
 .paperSelectionItem.selected {
-  border-color: #8b7355;
-  background-color: #f0ebe4;
+  border-color: var(--markdown-link);
+  background-color: var(--markdown-code-bg);
 }
 
 .paperSelectionTitle {
   font-weight: 600;
-  color: #3d3a34;
+  color: var(--markdown-text);
   margin-bottom: 8px;
   font-size: 16px;
 }
 
 .paperSelectionAbstract {
-  color: #5a5651;
+  color: var(--color-text-secondary);
   font-size: 14px;
   line-height: 1.5;
   margin-bottom: 8px;
@@ -3561,7 +3561,7 @@
 
 .paperSelectionDate {
   font-size: 12px;
-  color: #999;
+  color: var(--color-gray-400);
 }
 
 .paperSelectionFooter {
@@ -3569,26 +3569,363 @@
   justify-content: flex-end;
   gap: 12px;
   padding: 24px;
-  border-top: 1px solid #d4c5b0;
-  background-color: #f5f3f0;
+  border-top: 1px solid var(--markdown-link-border);
+  background-color: var(--color-subtle);
 }
 
 .selectPaperButton {
   padding: 8px 16px;
-  background-color: #8b7355;
+  background-color: var(--markdown-link);
   color: white;
   border: none;
   border-radius: 4px;
   font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color var(--transition-base);
 }
 
 .selectPaperButton:hover:not(:disabled) {
-  background-color: #6d5a44;
+  background-color: var(--markdown-link-hover);
 }
 
 .selectPaperButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* Responsive styles for List View */
+@media (max-width: 768px) {
+  .listViewContainer {
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100vh - 80px);
+  }
+  
+  .listSidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--markdown-hr-color);
+    position: relative;
+  }
+  
+  /* Collapsible sidebar for mobile */
+  .listSidebar.collapsed {
+    height: auto;
+  }
+  
+  .listSidebar.collapsed .papersList {
+    display: none;
+  }
+  
+  /* Mobile toggle button */
+  .mobileToggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background-color: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--markdown-hr-color);
+    cursor: pointer;
+    min-height: var(--touch-target-min);
+  }
+  
+  .mobileToggle svg {
+    transition: transform var(--transition-base);
+  }
+  
+  .mobileToggle.open svg {
+    transform: rotate(180deg);
+  }
+  
+  /* Adjust filter controls for mobile */
+  .listFilters {
+    padding: 12px;
+  }
+  
+  .listSidebarActions {
+    padding: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .searchInputCompact,
+  .filterSelectCompact {
+    min-height: var(--touch-target-min);
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  /* Papers list adjustments */
+  .papersList {
+    max-height: 400px;
+    border-bottom: 1px solid var(--markdown-hr-color);
+  }
+  
+  .paperListItem {
+    padding: 16px;
+    min-height: var(--touch-target-min);
+  }
+  
+  /* Detail view takes full width */
+  .listDetail {
+    width: 100%;
+    min-height: 50vh;
+  }
+  
+  /* Adjust paper preview for mobile */
+  .paperPreview {
+    padding: 16px;
+  }
+  
+  .paperPreviewHeader h2 {
+    font-size: 1.25rem;
+  }
+  
+  .paperPreviewMeta {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .paperTag {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .listSidebar {
+    width: 280px;
+  }
+  
+  .paperListItem {
+    padding: 14px 16px;
+  }
+}
+
+/* Mobile landscape adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .papersList {
+    max-height: 300px;
+  }
+  
+  .listDetail {
+    min-height: 40vh;
+  }
+}
+
+/* Touch-friendly adjustments */
+@media (hover: none) and (pointer: coarse) {
+  .paperListItem {
+    min-height: var(--touch-target-min);
+  }
+  
+  .paperPreviewActions button,
+  .paperPreviewActions a {
+    min-height: var(--touch-target-min);
+    padding: 12px 20px;
+  }
+  
+  .filterSelectCompact,
+  .searchInputCompact {
+    padding: 12px;
+  }
+}
+
+/* Hide mobile-only elements on desktop */
+@media (min-width: 769px) {
+  .mobileToggle {
+    display: none;
+  }
+  
+  .listSidebar.collapsed .papersList {
+    display: block;
+  }
+}
+
+/* Responsive navigation */
+@media (max-width: 768px) {
+  .header {
+    padding: var(--space-sm) 0;
+  }
+  
+  .nav {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+  
+  .navLinks {
+    gap: var(--space-sm);
+    font-size: var(--size-sm);
+  }
+  
+  .container {
+    padding: 0 var(--space-sm);
+  }
+  
+  .contentContainer {
+    padding: var(--space-lg) var(--space-sm);
+  }
+}
+
+/* Grid View Styles */
+.dashboardHeader {
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+}
+
+.dashboardHeaderContent {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  max-width: var(--max-width-wide);
+  margin: 0 auto;
+}
+
+.dashboardHeaderFilters {
+  display: flex;
+  gap: var(--space-sm);
+  flex: 1;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 200px;
+  padding: 8px 12px;
+  border: var(--border-width) var(--border-style) var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--size-sm);
+}
+
+.filterSelect {
+  padding: 8px 12px;
+  border: var(--border-width) var(--border-style) var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--size-sm);
+  background-color: var(--color-bg);
+}
+
+.viewToggle {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.viewToggleButton {
+  padding: 6px 10px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.viewToggleButton:hover {
+  background-color: var(--color-subtle);
+}
+
+.viewToggleButton.active {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
+
+.papersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-md);
+  padding: var(--space-md);
+}
+
+.paperGridCard {
+  background: var(--color-bg);
+  border: var(--border-width) var(--border-style) var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.paperGridCard:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.paperGridCard.selected {
+  border-color: var(--color-primary);
+  background-color: var(--color-subtle);
+}
+
+.paperGridTitle {
+  font-size: var(--size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.paperGridAbstract {
+  font-size: var(--size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-height: var(--line-height-base);
+}
+
+.paperGridMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--size-xs);
+  color: var(--color-text-secondary);
+  margin-top: auto;
+}
+
+.paperGridTags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.paperGridTag {
+  background-color: var(--color-subtle);
+  color: var(--color-text-secondary);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: var(--size-xs);
+}
+
+/* Responsive grid adjustments */
+@media (max-width: 768px) {
+  .papersGrid {
+    grid-template-columns: 1fr;
+    padding: var(--space-sm);
+  }
+  
+  .paperGridCard {
+    padding: var(--space-sm);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .papersGrid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
 }
