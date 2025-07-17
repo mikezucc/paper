@@ -100,6 +100,7 @@ export function EditorPage() {
   )
   const [showToolbar, setShowToolbar] = useState(false)
   const [showInsertMenu, setShowInsertMenu] = useState(false)
+  const [insertMenuPosition, setInsertMenuPosition] = useState({ x: 0, y: 0 })
   const [showContextMenu, setShowContextMenu] = useState(false)
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 })
   const [showImageDialog, setShowImageDialog] = useState(false)
@@ -153,7 +154,11 @@ export function EditorPage() {
   const markdownTemplates = [
     { label: 'Link', template: '[link text](https://example.com)', cursor: 1 },
     { label: 'Image', template: '![alt text](image-url.jpg)', cursor: 2 },
-    { label: 'Image (HTML)', template: 'custom', cursor: 0, action: () => setShowImageDialog(true) },
+    { label: 'Image (HTML)', template: 'custom', cursor: 0, action: () => {
+      setShowImageDialog(true)
+      setShowInsertMenu(false)
+      setInsertMenuPosition({ x: 0, y: 0 })
+    }},
     { label: 'Bold', template: '**bold text**', cursor: 2 },
     { label: 'Italic', template: '*italic text*', cursor: 1 },
     { label: 'Code Block', template: '```language\ncode here\n```', cursor: 3 },
@@ -208,6 +213,7 @@ export function EditorPage() {
       if (showInsertMenu && insertRef.current && !insertRef.current.contains(event.target as Node) && 
           !(event.target as Element).closest(`.${styles.insertToggle}`)) {
         setShowInsertMenu(false)
+        setInsertMenuPosition({ x: 0, y: 0 })
       }
       if (showToolbar && toolbarRef.current && !toolbarRef.current.contains(event.target as Node) && 
           !(event.target as Element).closest(`.${styles.toolbarToggle}`)) {
@@ -255,10 +261,14 @@ export function EditorPage() {
     const textarea = textareaRef.current
     const start = textarea.selectionStart
     const end = textarea.selectionEnd
+    
+    // Close insert menu when inserting
+    setShowInsertMenu(false)
+    setInsertMenuPosition({ x: 0, y: 0 })
+    
     const newContent = content.substring(0, start) + template + content.substring(end)
     
     setContent(newContent)
-    setShowInsertMenu(false)
     
     // Set cursor position after template is inserted
     setTimeout(() => {
@@ -346,6 +356,57 @@ export function EditorPage() {
       } else if ((e.metaKey || e.ctrlKey) && (e.key === 'z' && e.shiftKey || e.key === 'y')) {
         e.preventDefault()
         handleRedo()
+      } else if ((e.metaKey || e.ctrlKey) && e.key === 'i') {
+        e.preventDefault()
+        
+        // If menu is already open, close it
+        if (showInsertMenu) {
+          setShowInsertMenu(false)
+          setInsertMenuPosition({ x: 0, y: 0 })
+        } else {
+          // Open menu at cursor position
+          if (textareaRef.current) {
+            const textarea = textareaRef.current
+            textarea.focus()
+            
+            // Create a temporary element to measure text dimensions
+            const measureDiv = document.createElement('div')
+            measureDiv.style.position = 'absolute'
+            measureDiv.style.visibility = 'hidden'
+            measureDiv.style.whiteSpace = 'pre-wrap'
+            measureDiv.style.font = window.getComputedStyle(textarea).font
+            measureDiv.style.padding = window.getComputedStyle(textarea).padding
+            measureDiv.style.width = textarea.clientWidth + 'px'
+            
+            const textBeforeCursor = textarea.value.substring(0, textarea.selectionStart)
+            measureDiv.textContent = textBeforeCursor
+            document.body.appendChild(measureDiv)
+            
+            const rect = textarea.getBoundingClientRect()
+            const scrollTop = textarea.scrollTop
+            const lineHeight = parseInt(window.getComputedStyle(textarea).lineHeight)
+            
+            // Calculate approximate cursor position
+            const lines = textBeforeCursor.split('\n')
+            const currentLineNumber = lines.length
+            const currentLineText = lines[lines.length - 1]
+            
+            // Create a span to measure the width of the current line
+            const lineSpan = document.createElement('span')
+            lineSpan.textContent = currentLineText
+            measureDiv.innerHTML = ''
+            measureDiv.appendChild(lineSpan)
+            
+            const lineWidth = lineSpan.offsetWidth
+            const cursorTop = rect.top + (currentLineNumber - 1) * lineHeight - scrollTop + 20
+            const cursorLeft = rect.left + Math.min(lineWidth + 20, rect.width - 300)
+            
+            document.body.removeChild(measureDiv)
+            
+            setInsertMenuPosition({ x: cursorLeft, y: cursorTop })
+            setShowInsertMenu(true)
+          }
+        }
       }
     }
 
@@ -353,7 +414,7 @@ export function EditorPage() {
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [handleUndo, handleRedo])
+  }, [handleUndo, handleRedo, showInsertMenu])
 
   // Synchronized scrolling between editor and preview
   useEffect(() => {
@@ -835,7 +896,10 @@ export function EditorPage() {
                       <button
                         key={font.value}
                         className={`${styles.fontOption} ${selectedFont === font.value ? styles.selected : ''}`}
-                        onClick={() => setSelectedFont(font.value)}
+                        onClick={() => {
+                          setSelectedFont(font.value)
+                          localStorage.setItem('editorFont', font.value)
+                        }}
                         style={{ fontFamily: font.family }}
                       >
                         {font.label}
@@ -890,7 +954,15 @@ export function EditorPage() {
       )}
       
       {showInsertMenu && (
-        <div className={styles.insertPopoverContainer}>
+        <div 
+          className={styles.insertPopoverContainer}
+          style={insertMenuPosition.x > 0 ? {
+            position: 'fixed',
+            left: `${insertMenuPosition.x}px`,
+            top: `${insertMenuPosition.y}px`,
+            transform: 'none'
+          } : undefined}
+        >
           <div ref={insertRef} className={styles.insertPopover}>
             <h3 className={styles.insertPopoverTitle}>Insert Markdown</h3>
             <div className={styles.insertGrid}>

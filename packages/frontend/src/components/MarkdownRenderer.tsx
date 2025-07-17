@@ -34,20 +34,30 @@ export function MarkdownRenderer({ content, font }: { content: string; font?: st
     if (!fontValue) return 'Golos Text, -apple-system, BlinkMacSystemFont, sans-serif'
     
     const fontMap: Record<string, string> = {
-      'golos': 'Golos Text, -apple-system, BlinkMacSystemFont, sans-serif',
-      'geist': 'Geist, -apple-system, BlinkMacSystemFont, sans-serif',
-      'neue-montreal': 'Neue Montreal, -apple-system, BlinkMacSystemFont, sans-serif',
-      'roboto': 'Roboto, -apple-system, BlinkMacSystemFont, sans-serif',
-      'inter': 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
-      'poppins': 'Poppins, -apple-system, BlinkMacSystemFont, sans-serif',
-      'source-serif': 'Source Serif Pro, Georgia, serif',
-      'crimson': 'Crimson Text, Georgia, serif',
-      'georgia': 'Georgia, serif',
-      'playfair': 'Playfair Display, Georgia, serif',
-      'jetbrains': 'JetBrains Mono, monospace',
-      'cascadia': 'Cascadia Code, monospace',
-      'sf-mono': 'SF Mono, Monaco, monospace',
-      'comic-sans': 'Comic Sans MS, cursive',
+      // Sans-serif
+      'inter': "'Inter', sans-serif",
+      'open-sans': "'Open Sans', sans-serif",
+      'poppins': "'Poppins', sans-serif",
+      'raleway': "'Raleway', sans-serif",
+      'montserrat': "'Montserrat', sans-serif",
+      'work-sans': "'Work Sans', sans-serif",
+      'source-sans': "'Source Sans 3', sans-serif",
+      'ibm-plex': "'IBM Plex Sans', sans-serif",
+      'system': '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      // Serif
+      'merriweather': "'Merriweather', serif",
+      'playfair': "'Playfair Display', serif",
+      'lora': "'Lora', serif",
+      'crimson': "'Crimson Text', serif",
+      'noto-serif': "'Noto Serif', serif",
+      'eb-garamond': "'EB Garamond', serif",
+      'libre-baskerville': "'Libre Baskerville', serif",
+      'roboto-slab': "'Roboto Slab', serif",
+      // Monospace
+      'golos': "'Golos Text', monospace",
+      'jetbrains': "'JetBrains Mono', monospace",
+      'fira-code': "'Fira Code', monospace",
+      'mono': '"SF Mono", Monaco, Consolas, monospace',
     }
     
     return fontMap[fontValue] || fontMap['golos']
