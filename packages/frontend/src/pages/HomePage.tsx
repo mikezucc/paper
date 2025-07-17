@@ -172,7 +172,7 @@ export function HomePage() {
                       {getAuthorName(paper.paper.user.email)}
                     </span>
                     {paper.viewCount !== undefined && (
-                      <span className={styles.paperListItemViews}>
+                      <span className={styles.paperListItemMeta}>
                         {paper.viewCount} {paper.viewCount === 1 ? 'view' : 'views'}
                       </span>
                     )}
@@ -190,10 +190,10 @@ export function HomePage() {
                     <h2 className={styles.paperDetailTitle}>{selectedPaper.title}</h2>
                     <div className={styles.paperDetailMeta}>
                       <span className={styles.paperDetailDate}>
-                        Published {formatDate(selectedPaper.publishedAt)}
+                        {formatDate(selectedPaper.publishedAt)}
                       </span>
                       <span className={styles.paperDetailAuthor}>
-                        by {getAuthorName(selectedPaper.paper.user.email)}
+                        {getAuthorName(selectedPaper.paper.user.email)}
                       </span>
                       {selectedPaper.viewCount !== undefined && (
                         <span className={styles.paperDetailViews}>
@@ -231,7 +231,6 @@ export function HomePage() {
                   
                   {selectedPaper.content && (
                     <div className={styles.paperDetailSection}>
-                      <h3>Preview</h3>
                       <div className={styles.paperDetailMarkdownPreview}>
                         <MarkdownRenderer 
                           content={selectedPaper.content.length > 1000 

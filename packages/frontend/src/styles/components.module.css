@@ -2526,7 +2526,12 @@
 
 .paperListItemAuthor {
   color: #6d5a44;
-  font-size: 11px;
+  font-size: 12px;
+}
+
+.paperDetailViews {
+  color: #8a7c6d;
+  font-size: 14px;
 }
 
 .paperDetailAuthor {
@@ -2535,11 +2540,8 @@
 }
 
 .paperDetailMarkdownPreview {
-  padding: 20px;
   background-color: #fdfcfb;
-  border: 1px solid #e8dfd2;
   border-radius: 6px;
-  max-height: 400px;
   overflow-y: auto;
   position: relative;
 }

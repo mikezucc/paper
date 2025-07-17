@@ -208,13 +208,11 @@ export function DashboardPage() {
                 
                 <div className={styles.paperDetailContent}>
                   {selectedPaper.abstract && <div className={styles.paperDetailSection}>
-                    <h3>Abstract</h3>
                     <p>{selectedPaper.abstract}</p>
                   </div>}
                   
                   {selectedPaper.tags.length > 0 && (
                     <div className={styles.paperDetailSection}>
-                      <h3>Tags</h3>
                       <div className={styles.paperDetailTags}>
                         {selectedPaper.tags.map((tag, i) => (
                           <span key={i} className={styles.paperDetailTag}>{tag}</span>
@@ -225,7 +223,6 @@ export function DashboardPage() {
                   
                   {selectedPaper.content && (
                     <div className={styles.paperDetailSection}>
-                      <h3>Preview</h3>
                       <div className={styles.paperDetailMarkdownPreview}>
                         <MarkdownRenderer 
                           content={selectedPaper.content.length > 1000 
