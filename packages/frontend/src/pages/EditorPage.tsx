@@ -13,6 +13,7 @@ import { downloadMarkdown } from '../utils/fileHandlers';
 import { DiffViewer } from '../components/DiffViewer';
 import { MergeView } from '../components/MergeView';
 import { PaperSelectionModal } from '../components/PaperSelectionModal';
+import { AiFeedbackModal } from '../components/AiFeedbackModal';
 
 interface Revision {
   id: string
@@ -105,6 +106,7 @@ export function EditorPage() {
   const [contextMenuPosition, setContextMenuPosition] = useState({ x: 0, y: 0 })
   const [showImageDialog, setShowImageDialog] = useState(false)
   const [showUploadModal, setShowUploadModal] = useState(false)
+  const [showAiFeedback, setShowAiFeedback] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const editorPaneRef = useRef<HTMLDivElement>(null)
   const previewPaneRef = useRef<HTMLDivElement>(null)
@@ -827,6 +829,13 @@ export function EditorPage() {
               >
                 Merge
               </button>
+              {/* <button 
+                className={styles.aiFeedbackButton}
+                onClick={() => setShowAiFeedback(true)}
+                title="Get AI feedback on your paper"
+              >
+                🤖 AI Feedback
+              </button> */}
               {paper && (
                 <button 
                   className={styles.publishButton}
@@ -1560,6 +1569,17 @@ export function EditorPage() {
         <FileUploadModal
           onConfirm={handleFileUpload}
           onClose={() => setShowUploadModal(false)}
+        />
+      )}
+
+      {showAiFeedback && (
+        <AiFeedbackModal
+          isOpen={showAiFeedback}
+          onClose={() => setShowAiFeedback(false)}
+          content={content}
+          title={title}
+          abstract={abstract}
+          paperId={id}
         />
       )}
     </div>

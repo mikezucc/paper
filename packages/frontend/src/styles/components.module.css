@@ -3056,6 +3056,25 @@
   animation: fadeIn 0.2s ease;
 }
 
+.aiFeedbackButton {
+  background: transparent;
+  color: var(--markdown-code-text);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all var(--transition-base);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  animation: fadeIn 0.2s ease;
+}
+
+.aiFeedbackButton:hover {
+  color: var(--color-primary);
+  background-color: var(--color-subtle);
+}
+
 .mergeModalOverlay {
   position: fixed;
   top: 0;
@@ -3944,4 +3963,326 @@
   .papersGrid {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   }
+}
+
+/* AI Feedback Modal Styles */
+.aiFeedbackModal {
+  background-color: var(--color-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.aiSettings {
+  padding: var(--space-lg);
+}
+
+.aiSettings h3 {
+  margin-bottom: var(--space-md);
+  color: var(--color-text);
+}
+
+.aiProviderSelect {
+  width: 100%;
+  padding: var(--space-sm);
+  border: var(--border-width) var(--border-style) var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-size: var(--size-sm);
+}
+
+.apiKeyInput {
+  width: 100%;
+  padding: var(--space-sm);
+  border: var(--border-width) var(--border-style) var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: monospace;
+  font-size: var(--size-sm);
+}
+
+.apiKeyHint {
+  display: block;
+  margin-top: var(--space-xs);
+  color: var(--color-text-secondary);
+  font-size: var(--size-xs);
+}
+
+.settingsActions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.saveSettingsButton {
+  flex: 1;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--size-sm);
+  cursor: pointer;
+  transition: background-color var(--transition-base);
+}
+
+.saveSettingsButton:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+
+.saveSettingsButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.feedbackOptions {
+  padding: var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.feedbackPrompt {
+  margin-bottom: var(--space-md);
+  color: var(--color-text-secondary);
+  font-size: var(--size-sm);
+}
+
+.feedbackTypes {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.feedbackType {
+  display: block;
+  padding: var(--space-sm);
+  border: var(--border-width) var(--border-style) var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.feedbackType:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-subtle);
+}
+
+.feedbackType.active {
+  border-color: var(--color-primary);
+  background-color: var(--color-subtle);
+}
+
+.feedbackType input[type="radio"] {
+  display: none;
+}
+
+.feedbackType span {
+  display: block;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+
+.feedbackType small {
+  display: block;
+  color: var(--color-text-secondary);
+  font-size: var(--size-xs);
+}
+
+.feedbackError {
+  margin: var(--space-md);
+  padding: var(--space-sm);
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
+  border-radius: var(--radius-sm);
+  font-size: var(--size-sm);
+}
+
+.feedbackResult {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-lg);
+  background-color: var(--color-bg-secondary);
+}
+
+.feedbackContent {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.feedbackContent h3 {
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-sm);
+  color: var(--color-primary);
+  font-size: var(--size-lg);
+}
+
+.feedbackContent p {
+  margin-bottom: var(--space-sm);
+  line-height: var(--line-height-base);
+}
+
+.feedbackContent li {
+  margin-bottom: var(--space-xs);
+  margin-left: var(--space-md);
+}
+
+.feedbackContent strong {
+  display: block;
+  margin-top: var(--space-sm);
+  margin-bottom: var(--space-xs);
+  color: var(--color-text);
+}
+
+.feedbackActions {
+  display: flex;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+}
+
+.generateButton {
+  flex: 1;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--size-sm);
+  cursor: pointer;
+  transition: background-color var(--transition-base);
+}
+
+.generateButton:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+
+.generateButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.settingsButton {
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-subtle);
+  color: var(--color-text);
+  border: var(--border-width) var(--border-style) var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: var(--size-sm);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.settingsButton:hover {
+  background-color: var(--color-border);
+}
+
+.modalClose {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-base);
+  text-decoration: none;
+}
+
+.modalClose:hover {
+  color: var(--color-text);
+  opacity: 1;
+}
+
+/* Feedback History Styles */
+.feedbackHistory {
+  padding: var(--space-lg);
+  flex: 1;
+  overflow-y: auto;
+}
+
+.feedbackHistory h3 {
+  margin-bottom: var(--space-md);
+  font-size: var(--size-lg);
+  font-weight: var(--font-weight-medium);
+}
+
+.noHistory {
+  color: var(--color-text-secondary);
+  font-style: italic;
+  text-align: center;
+  padding: var(--space-xl);
+}
+
+.historyList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.historyItem {
+  border: var(--border-width) var(--border-style) var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-md);
+  transition: border-color var(--transition-base);
+}
+
+.historyItem:hover {
+  border-color: var(--color-border-hover);
+}
+
+.historyHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.historyType {
+  font-weight: var(--font-weight-medium);
+  text-transform: capitalize;
+}
+
+.historyDate {
+  color: var(--color-text-secondary);
+  font-size: var(--size-xs);
+}
+
+.historyContent {
+  color: var(--color-text-secondary);
+  font-size: var(--size-sm);
+  line-height: var(--line-height-base);
+  margin-bottom: var(--space-sm);
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.historyViewButton {
+  padding: var(--space-xs) var(--space-sm);
+  background: transparent;
+  border: var(--border-width) var(--border-style) var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-size: var(--size-sm);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-decoration: none;
+}
+
+.historyViewButton:hover {
+  border-color: var(--color-text);
+  background-color: var(--color-bg-secondary);
+  opacity: 1;
 }

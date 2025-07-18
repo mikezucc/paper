@@ -20,6 +20,7 @@ model User {
   sessions    Session[]
   viewRecords ViewRecord[]
   revisions   PaperRevision[]
+  aiFeedback  AIFeedback[]
 }
 
 model Session {
@@ -53,6 +54,7 @@ model Paper {
   publishedVersions PublishedVersion[]
   canonicalPublishedVersion PublishedVersion? @relation("CanonicalVersion", fields: [canonicalPublishedVersionId], references: [id], onDelete: SetNull)
   viewRecords ViewRecord[]
+  aiFeedback  AIFeedback[]
   
   @@index([userId])
   @@index([slug])
@@ -123,4 +125,23 @@ model ViewRecord {
   @@index([viewedAt])
   @@index([userId])
   @@index([paperId, viewedAt])
+}
+
+model AIFeedback {
+  id              String    @id @default(cuid())
+  paperId         String
+  userId          String
+  feedbackType    String    // 'research' | 'methodology' | 'analysis' | 'literature' | 'innovation'
+  selectedText    String?   @db.Text
+  feedback        String    @db.Text
+  provider        String    // 'anthropic' | 'openai' | 'grok'
+  createdAt       DateTime  @default(now())
+  
+  paper           Paper     @relation(fields: [paperId], references: [id], onDelete: Cascade)
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([paperId])
+  @@index([userId])
+  @@index([createdAt])
+  @@index([paperId, userId])
 }

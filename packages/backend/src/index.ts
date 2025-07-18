@@ -7,6 +7,7 @@ import { errorHandler } from './middleware/error'
 import { authRouter } from './routes/auth'
 import { papersRouter } from './routes/papers'
 import { healthRouter } from './routes/health'
+import aiRouter from './routes/ai'
 
 const app = express()
 
@@ -20,6 +21,7 @@ app.use(express.json())
 app.use('/api/health', healthRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/papers', papersRouter)
+app.use('/api/ai', aiRouter)
 
 app.use(errorHandler)
 
