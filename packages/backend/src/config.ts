@@ -15,6 +15,7 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') })
 const envSchema = z.object({
   PORT: z.string().default('4000'),
   DATABASE_URL: z.string(),
+  DIRECT_URL: z.string().optional(),
   SESSION_SECRET: z.string(),
   CORS_ORIGIN: z.string().default('http://localhost:3000'),
   CLOUDFLARE_ACCOUNT_ID: z.string().optional(),
