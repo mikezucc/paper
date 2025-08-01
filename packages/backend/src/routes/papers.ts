@@ -156,12 +156,11 @@ papersRouter.get('/:id/analytics', async (req: AuthRequest, res, next) => {
 // Publishing endpoints
 papersRouter.post('/:id/publish', async (req: AuthRequest, res, next) => {
   try {
-    const { versionId, replaceExisting = false } = req.body // 'current' or revision ID, and whether to replace existing
+    const { versionId } = req.body // 'current' or revision ID
     const publishedVersion = await paperService.publishVersion(
       req.userId!,
       req.params.id,
-      versionId,
-      replaceExisting
+      versionId
     )
     res.json({ publishedVersion })
   } catch (error) {

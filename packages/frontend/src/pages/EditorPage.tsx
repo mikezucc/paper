@@ -53,7 +53,7 @@ export function EditorPage() {
     isCanonical?: boolean
     replacedBy?: { id: string; slug: string; publishedAt: string } | null
   }>>([])
-  const [replaceExisting, setReplaceExisting] = useState(false)
+  // Removed replaceExisting - now always replaces previous versions
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [publishedUrl, setPublishedUrl] = useState('')
   const [copied, setCopied] = useState(false)
@@ -1341,7 +1341,6 @@ export function EditorPage() {
                   setShowPublishModal(false)
                   setSelectedVersionId(null)
                   setSelectedVersionDetails(null)
-                  setReplaceExisting(false)
                 }}
               >
                 ✕
@@ -1349,22 +1348,10 @@ export function EditorPage() {
             </div>
             <div className={styles.publishModalContent}>
               <div className={styles.publishModalInfo}>
-                <p>Select a version to publish. Published versions will be publicly accessible.</p>
-                {publishedVersions.some(pv => pv.isCanonical) && (
-                  <div className={styles.replaceExistingOption}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={replaceExisting}
-                        onChange={(e) => setReplaceExisting(e.target.checked)}
-                      />
-                      Replace the current published version
-                    </label>
-                    <p className={styles.replaceExistingHint}>
-                      When checked, this will replace the current canonical version. The old version will still be accessible via its direct URL.
-                    </p>
-                  </div>
-                )}
+                <p>Select a version to publish. Publishing will replace any previous published version of this paper.</p>
+                <p className={styles.publishModalHint}>
+                  Previous versions will remain accessible via their direct URLs for historical reference.
+                </p>
               </div>
               
               <div className={styles.publishModalBody}>
@@ -1505,8 +1492,7 @@ export function EditorPage() {
                     setShowPublishModal(false)
                     setSelectedVersionId(null)
                     setSelectedVersionDetails(null)
-                    setReplaceExisting(false)
-                  }}
+                    }}
                 >
                   Cancel
                 </button>
@@ -1518,8 +1504,7 @@ export function EditorPage() {
                     setPublishing(true)
                     try {
                       const { publishedVersion } = await api.post(`/papers/${paper.id}/publish`, {
-                        versionId: selectedVersionId,
-                        replaceExisting
+                        versionId: selectedVersionId
                       })
                       
                       // Show success message or navigate to published version

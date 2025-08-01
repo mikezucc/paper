@@ -289,7 +289,7 @@ export class PaperService {
     })
   }
 
-  async publishVersion(userId: string, paperId: string, versionId: string, replaceExisting: boolean = false) {
+  async publishVersion(userId: string, paperId: string, versionId: string) {
     const paper = await db.paper.findFirst({
       where: { id: paperId, userId },
       include: {
@@ -362,14 +362,16 @@ export class PaperService {
         },
       })
 
-      // If replacing existing version
-      if (replaceExisting && paper.canonicalPublishedVersionId) {
-        // Mark the old version as replaced
-        await tx.publishedVersion.update({
-          where: { id: paper.canonicalPublishedVersionId },
-          data: { replacedById: newVersion.id },
-        })
-      }
+      // Mark ALL previous published versions as replaced by this new one
+      // This ensures only one active published version per paper exists
+      await tx.publishedVersion.updateMany({
+        where: {
+          paperId,
+          id: { not: newVersion.id },
+          replacedById: null, // Only update versions that haven't been replaced yet
+        },
+        data: { replacedById: newVersion.id },
+      })
 
       // Update paper to point to new canonical version
       await tx.paper.update({
