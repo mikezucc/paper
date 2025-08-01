@@ -54,6 +54,29 @@ class API {
       method: 'DELETE',
     })
   }
+
+  async uploadFile(path: string, file: File) {
+    const formData = new FormData()
+    formData.append('image', file)
+
+    const headers: Record<string, string> = {}
+    if (this.authToken) {
+      headers['Authorization'] = `Bearer ${this.authToken}`
+    }
+
+    const response = await fetch(`${this.baseURL}/api${path}`, {
+      method: 'POST',
+      headers,
+      body: formData,
+    })
+
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.error || 'Upload failed')
+    }
+
+    return response.json()
+  }
 }
 
 export const api = new API()

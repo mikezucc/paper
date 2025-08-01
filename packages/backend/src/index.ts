@@ -12,6 +12,7 @@ import { papersRouter } from './routes/papers'
 import { healthRouter } from './routes/health'
 import { ogImageRouter } from './routes/ogImage'
 import aiRouter from './routes/ai'
+import uploadRouter from './routes/upload'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -39,6 +40,7 @@ app.use('/api/auth', authRouter)
 app.use('/api/papers', papersRouter)
 app.use('/api/ai', aiRouter)
 app.use('/api/og-image', ogImageRouter)
+app.use('/api/upload', uploadRouter)
 
 // Open Graph middleware for social media crawlers
 app.use(openGraphMiddleware)
