@@ -300,32 +300,6 @@ export function EditorPage() {
     }
   }
 
-  const handleImageUpload = async (file: File) => {
-    try {
-      const result = await api.uploadFile('/upload/image', file)
-      if (result.url) {
-        // Insert the image markdown at the cursor position
-        const textarea = textareaRef.current
-        if (textarea) {
-          const start = textarea.selectionStart
-          const end = textarea.selectionEnd
-          const text = textarea.value
-          const imageMarkdown = `![${file.name}](${result.url})`
-          const newText = text.substring(0, start) + imageMarkdown + text.substring(end)
-          setContent(newText)
-          // Set cursor position after the inserted text
-          setTimeout(() => {
-            textarea.selectionStart = textarea.selectionEnd = start + imageMarkdown.length
-            textarea.focus()
-          }, 0)
-        }
-      }
-    } catch (error) {
-      console.error('Image upload failed:', error)
-      alert('Failed to upload image. Please try again.')
-    }
-  }
-
   // Handle markdown download
   const handleDownload = () => {
     const filename = title || 'untitled'
@@ -875,25 +849,6 @@ export function EditorPage() {
                 title="Upload markdown (.md), text (.txt), or Word (.docx) file"
               >
                 Upload
-              </button>
-              <input
-                type="file"
-                id="imageUpload"
-                accept="image/jpeg,image/png,image/gif,image/webp"
-                style={{ display: 'none' }}
-                onChange={(e) => {
-                  const file = e.target.files?.[0]
-                  if (file) {
-                    handleImageUpload(file)
-                  }
-                }}
-              />
-              <button 
-                className={styles.uploadButton}
-                onClick={() => document.getElementById('imageUpload')?.click()}
-                title="Upload image (JPEG, PNG, GIF, WebP)"
-              >
-                Upload Image
               </button>
               <button 
                 className={styles.downloadButton}
