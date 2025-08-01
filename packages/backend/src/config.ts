@@ -18,6 +18,8 @@ const envSchema = z.object({
   DIRECT_URL: z.string().optional(),
   SESSION_SECRET: z.string(),
   CORS_ORIGIN: z.string().default('http://localhost:3000'),
+  SENDGRID_API_KEY: z.string().optional(),
+  SENDGRID_FROM_EMAIL: z.string().default('noreply@onpaper.dev'),
   CLOUDFLARE_ACCOUNT_ID: z.string().optional(),
   CLOUDFLARE_API_TOKEN: z.string().optional(),
   CLOUDFLARE_R2_ACCESS_KEY_ID: z.string().optional(),

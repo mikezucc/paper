@@ -1,5 +1,6 @@
 import sgMail from '@sendgrid/mail'
 import { AppError } from '../middleware/error'
+import { config } from '../config'
 
 export interface EmailOptions {
   to: string
@@ -12,7 +13,7 @@ export class EmailService {
   private isConfigured: boolean = false
 
   constructor() {
-    const apiKey = process.env.SENDGRID_API_KEY
+    const apiKey = config.SENDGRID_API_KEY
     if (apiKey) {
       sgMail.setApiKey(apiKey)
       this.isConfigured = true
@@ -79,7 +80,7 @@ export class EmailService {
   private async send(options: EmailOptions): Promise<void> {
     const msg: any = {
       to: options.to,
-      from: process.env.SENDGRID_FROM_EMAIL || 'noreply@paper.com',
+      from: config.SENDGRID_FROM_EMAIL,
       subject: options.subject,
     }
 
