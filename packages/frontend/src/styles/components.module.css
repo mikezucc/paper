@@ -1028,7 +1028,7 @@
   padding: 12px 16px;
   border: 1px solid var(--markdown-link-border);
   border-radius: 8px;
-  background-color: white;
+  background-color: var(--color-bg);
   font-size: 14px;
   color: var(--markdown-text);
   font-family: monospace;
@@ -2280,7 +2280,7 @@
 }
 
 .viewButton {
-  background-color: white;
+  background-color: var(--color-bg);
   color: var(--markdown-link);
   border: 1px solid var(--markdown-link);
 }
@@ -2291,7 +2291,7 @@
 }
 
 .deleteButton {
-  background-color: white;
+  background-color: var(--color-bg);
   color: var(--color-error);
   border: 1px solid var(--color-error);
 }
@@ -2338,7 +2338,7 @@
   border: 1px solid var(--markdown-hr-color);
   border-radius: 4px;
   font-size: 13px;
-  background-color: white;
+  background-color: var(--color-bg);
 }
 
 .searchInputCompact:focus,
@@ -2420,7 +2420,7 @@
 .listDetail {
   flex: 1;
   overflow-y: auto;
-  background-color: white;
+  background-color: var(--color-bg);
 }
 
 .noSelection {
@@ -2709,7 +2709,7 @@
 }
 
 .diffContent {
-  background-color: var(--color-white);
+  background-color: var(--color-bg);
 }
 
 .diffLine {
@@ -2761,7 +2761,7 @@
 }
 
 .diffUnchanged {
-  background-color: var(--color-white);
+  background-color: var(--color-bg);
 }
 
 .diffUnchanged .diffLineContent {
@@ -2771,7 +2771,7 @@
 /* Side by side diff styles */
 .diffSideBySide {
   display: flex;
-  background-color: var(--color-white);
+  background-color: var(--color-bg);
 }
 
 .diffSide {
@@ -3004,7 +3004,7 @@
   font-size: 14px;
   font-family: inherit;
   resize: vertical;
-  background-color: var(--color-white);
+  background-color: var(--color-bg);
   transition: border-color 0.2s;
 }
 
@@ -3136,7 +3136,7 @@
 .togglePreviewButton {
   padding: 6px 12px;
   border: 1px solid var(--markdown-link-border);
-  background-color: var(--color-white);
+  background-color: var(--color-bg);
   color: var(--markdown-text);
   border-radius: 4px;
   font-size: 13px;
@@ -3201,7 +3201,7 @@
   overflow-y: auto;
   border: 1px solid var(--markdown-link-border);
   border-radius: 8px;
-  background-color: var(--color-white);
+  background-color: var(--color-bg);
 }
 
 .changeGroupsList {
@@ -3297,12 +3297,12 @@
 }
 
 .changeGroupType.modification {
-  background-color: var(--color-white)3e0;
+  background-color: var(--color-bg);
   color: var(--color-warning);
 }
 
 .changeGroupDiff {
-  background-color: var(--color-white);
+  background-color: var(--color-bg);
   border-top: 1px solid var(--markdown-hr-color);
   font-family: 'Courier New', monospace;
   font-size: 13px;
@@ -3325,7 +3325,7 @@
 }
 
 .diffCodeLine.unchanged {
-  background-color: var(--color-white);
+  background-color: var(--color-bg);
 }
 
 .contextLine .diffCodeLine {
@@ -3408,7 +3408,7 @@
   border: 1px solid var(--markdown-link-border);
   border-radius: 8px;
   padding: 16px;
-  background-color: var(--color-white);
+  background-color: var(--color-bg);
 }
 
 .mergePreview h3 {
@@ -3523,7 +3523,7 @@
   border: 1px solid var(--markdown-link-border);
   border-radius: 6px;
   font-size: 14px;
-  background-color: var(--color-white);
+  background-color: var(--color-bg);
   transition: border-color 0.2s;
 }
 
@@ -3551,7 +3551,7 @@
   border-radius: 8px;
   cursor: pointer;
   transition: all var(--transition-base);
-  background-color: var(--color-white);
+  background-color: var(--color-bg);
 }
 
 .paperSelectionItem:hover {
