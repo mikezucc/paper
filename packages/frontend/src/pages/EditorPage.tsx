@@ -531,14 +531,17 @@ export function EditorPage() {
   }, [lastSaved])
 
   const performSave = useCallback(async () => {
-    if (!title || !hasUnsavedChanges.current) return
+    if (!hasUnsavedChanges.current) return
 
     setSaveStatus('saving')
     setSaving(true)
 
     try {
+      // Use auto-generated title if title is empty
+      const effectiveTitle = title || generateTitleFromContent(content)
+      
       const paperData = {
-        title,
+        title: effectiveTitle,
         abstract,
         content,
         tags: tags.split(',').map(t => t.trim()).filter(Boolean),
@@ -566,7 +569,7 @@ export function EditorPage() {
     } finally {
       setSaving(false)
     }
-  }, [title, abstract, content, tags, paper, navigate])
+  }, [title, abstract, content, tags, paper, navigate, selectedFont])
 
   const onSaveRef = useRef(performSave);
   onSaveRef.current = performSave;
@@ -729,6 +732,49 @@ export function EditorPage() {
     }
   }
 
+  const generateTitleFromContent = (content: string): string => {
+    // Remove leading/trailing whitespace
+    const trimmedContent = content.trim()
+    
+    if (!trimmedContent) {
+      return 'Untitled'
+    }
+    
+    // Split into lines and find the first non-empty line
+    const lines = trimmedContent.split('\n')
+    let firstLine = ''
+    
+    for (const line of lines) {
+      const trimmedLine = line.trim()
+      if (trimmedLine) {
+        // Remove markdown headers
+        firstLine = trimmedLine.replace(/^#+\s*/, '')
+        break
+      }
+    }
+    
+    if (!firstLine) {
+      return 'Untitled'
+    }
+    
+    // Split into words and take up to 5
+    const words = firstLine.split(/\s+/)
+    const titleWords = words.slice(0, 5)
+    
+    // Join and add ellipsis if truncated
+    let generatedTitle = titleWords.join(' ')
+    if (words.length > 5) {
+      generatedTitle += '...'
+    }
+    
+    // Ensure it's not too long (max 50 chars)
+    if (generatedTitle.length > 50) {
+      generatedTitle = generatedTitle.substring(0, 47) + '...'
+    }
+    
+    return generatedTitle
+  }
+
   const formatRevisionDate = (dateString: string) => {
     const date = new Date(dateString)
     const now = new Date()
@@ -758,7 +804,7 @@ export function EditorPage() {
             className={styles.titleInput}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Untitled Paper"
+            placeholder="Untitled (auto-generated from content)"
           />
           <span className={`${styles.saveStatus} ${styles[saveStatus]}`}>
             {getSaveStatusDisplay()}
