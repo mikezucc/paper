@@ -132,13 +132,15 @@ export function LoginPage() {
           
           {error && <div className={styles.error}>{error}</div>}
           
-          <button type="submit" disabled={loading}>
-            {loading ? 'Verifying...' : 'Verify'}
-          </button>
-          
-          <button type="button" onClick={() => setStep('email')}>
-            Use different email
-          </button>
+          <div className={styles.formGroup}>
+            <button type="submit" disabled={loading}>
+              {loading ? 'Verifying...' : 'Verify'}
+            </button>
+            
+            <button type="button" onClick={() => setStep('email')}>
+              Use different email
+            </button>
+          </div>
         </form>
       )}
     </div>
