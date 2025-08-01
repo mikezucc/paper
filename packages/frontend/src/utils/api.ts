@@ -1,5 +1,7 @@
+import { config } from '../config'
+
 class API {
-  private baseURL = import.meta.env.VITE_API_URL || 'http://localhost:4000'
+  private baseURL = config.apiUrl
   private authToken: string | null = null
 
   setAuth(token: string | null) {
