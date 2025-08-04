@@ -30,6 +30,7 @@ app.use(helmet({
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
     },
   },
+  crossOriginResourcePolicy: { policy: "cross-origin" },
 }))
 
 // OG image routes (before CORS to allow public access)

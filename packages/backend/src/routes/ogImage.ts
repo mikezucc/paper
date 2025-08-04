@@ -29,7 +29,8 @@ ogImageRouter.get('/:slug', async (req, res, next) => {
       'Content-Length': imageBuffer.length.toString(),
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET',
-      'Access-Control-Allow-Headers': 'Content-Type'
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Cross-Origin-Resource-Policy': 'cross-origin'
     })
     
     res.send(imageBuffer)
