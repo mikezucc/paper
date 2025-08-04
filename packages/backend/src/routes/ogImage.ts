@@ -22,11 +22,14 @@ ogImageRouter.get('/:slug', async (req, res, next) => {
       paper.content || undefined
     )
     
-    // Set caching headers
+    // Set headers for public access
     res.set({
       'Content-Type': 'image/png',
       'Cache-Control': `public, max-age=${OG_IMAGE_CACHE_DURATION}`,
-      'Content-Length': imageBuffer.length.toString()
+      'Content-Length': imageBuffer.length.toString(),
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET',
+      'Access-Control-Allow-Headers': 'Content-Type'
     })
     
     res.send(imageBuffer)

@@ -32,6 +32,9 @@ app.use(helmet({
   },
 }))
 
+// OG image routes (before CORS to allow public access)
+app.use('/api/og-image', ogImageRouter)
+
 app.use(cors({
   origin: config.CORS_ORIGIN,
   credentials: true,
@@ -43,7 +46,6 @@ app.use('/api/health', healthRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/papers', papersRouter)
 app.use('/api/ai', aiRouter)
-app.use('/api/og-image', ogImageRouter)
 
 // SSR middleware for social media crawlers
 app.use(ssrMiddleware)
