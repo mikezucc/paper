@@ -15,11 +15,13 @@ export async function ssrMiddleware(
   req: Request,
   res: Response,
   next: NextFunction
-) {
-  const userAgent = req.headers['user-agent'] || ''
+) {  
+  // Handle all paper routes
+  const isPaperRoute = req.path.startsWith('/p/')
+
+  console.log('SSR Middleware - Request Path:', req.path)
   
-  // Only handle paper routes for social media bots
-  if (!isSocialMediaBot(userAgent) || !req.path.startsWith('/p/')) {
+  if (!isPaperRoute) {
     return next()
   }
 
@@ -32,12 +34,14 @@ export async function ssrMiddleware(
     
     // Load the index.html template if not cached
     if (!indexHtmlTemplate) {
-      const indexPath = path.join(__dirname, '../../../../frontend/dist/index.html')
+      const indexPath = path.join(__dirname, '../../../../packages/frontend/dist/index.html')
       indexHtmlTemplate = fs.readFileSync(indexPath, 'utf-8')
     }
     
     // Check if SSR build exists
-    const ssrManifestPath = path.join(__dirname, '../../../../frontend/dist-ssr/entry-server.js')
+    const ssrManifestPath = path.join(__dirname, '../../../../packages/frontend/dist-ssr/entry-server.js')
+
+    console.log('SSR Manifest Path:', ssrManifestPath)
     
     if (!fs.existsSync(ssrManifestPath)) {
       console.warn('SSR build not found. Run "npm run build:ssr" in frontend package.')
