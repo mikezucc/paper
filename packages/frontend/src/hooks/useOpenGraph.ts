@@ -14,6 +14,9 @@ interface OpenGraphData {
 
 export function useOpenGraph(data: OpenGraphData) {
   useEffect(() => {
+    // Skip if running on server
+    if (typeof document === 'undefined') return
+    
     // Update document title
     document.title = data.title ? `${data.title} - Paper` : 'Paper'
 

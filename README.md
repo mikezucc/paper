@@ -1,14 +1,14 @@
+> Loud Thoughts, Quietly
+
 # Paper - Minimalist White Paper Hosting Platform
 
-A clean, academic-focused platform for hosting and reading white papers with Cloudflare Pages integration.
+A clean writing platform for hosting and reading white papers.
 
 ## Features
 
-- Minimalist, typography-focused design using Golos Text
+- Minimalist, typography-focused design
 - Passwordless authentication with MFA codes
 - Markdown-based editor with HTML embed support
-- Cloudflare Pages deployment integration
-- Tag-based paper discovery
 
 ## Development
 
@@ -55,5 +55,3 @@ The frontend will be available at http://localhost:3000 and the API at http://lo
 - **Frontend**: React + TypeScript + Vite
 - **Backend**: Express + TypeScript + Prisma
 - **Database**: PostgreSQL
-- **Storage**: Cloudflare R2
-- **Hosting**: Cloudflare Pages

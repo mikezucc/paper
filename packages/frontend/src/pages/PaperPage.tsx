@@ -52,9 +52,9 @@ export function PaperPage() {
   // Set Open Graph meta tags
   useOpenGraph({
     title: paper?.title || '',
-    description: paper?.abstract || paper?.title || '',
-    image: paper ? `${window.location.origin}/api/og-image/${slug}` : undefined,
-    url: window.location.href,
+    description: paper?.abstract || paper?.content || '',
+    image: paper && typeof window !== 'undefined' ? `${window.location.origin}/api/og-image/${slug}` : undefined,
+    url: typeof window !== 'undefined' ? window.location.href : '',
     type: 'article',
     siteName: 'Paper',
     author: paper?.user?.email || paper?.paper?.user?.email || 'Anonymous',

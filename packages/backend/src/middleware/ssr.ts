@@ -5,6 +5,48 @@ import path from 'node:path'
 import fs from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
+// Function to strip markdown and format text
+function stripMarkdown(text: string): string {
+  if (!text) return ''
+  
+  // Remove code blocks
+  text = text.replace(/```[\s\S]*?```/g, '')
+  text = text.replace(/`([^`]+)`/g, '$1')
+  
+  // Remove images
+  text = text.replace(/!\[([^\]]*)\]\([^)]+\)/g, '')
+  
+  // Remove links but keep text
+  text = text.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+  
+  // Remove headers
+  text = text.replace(/^#{1,6}\s+(.+)$/gm, '$1')
+  
+  // Remove bold and italic markers
+  text = text.replace(/\*\*([^*]+)\*\*/g, '$1')
+  text = text.replace(/\*([^*]+)\*/g, '$1')
+  text = text.replace(/__([^_]+)__/g, '$1')
+  text = text.replace(/_([^_]+)_/g, '$1')
+  
+  // Remove blockquotes
+  text = text.replace(/^>\s+(.+)$/gm, '$1')
+  
+  // Remove horizontal rules
+  text = text.replace(/^[-*_]{3,}$/gm, '')
+  
+  // Remove list markers
+  text = text.replace(/^[\s]*[-*+]\s+(.+)$/gm, '$1')
+  text = text.replace(/^[\s]*\d+\.\s+(.+)$/gm, '$1')
+  
+  // Replace multiple newlines with single space for meta description
+  text = text.replace(/\n+/g, ' ')
+  
+  // Trim whitespace
+  text = text.trim()
+  
+  return text
+}
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
@@ -38,8 +80,13 @@ export async function ssrMiddleware(
       indexHtmlTemplate = fs.readFileSync(indexPath, 'utf-8')
     }
     
-    // Check if SSR build exists
-    const ssrManifestPath = path.join(__dirname, '../../../../packages/frontend/dist-ssr/entry-server.js')
+    // Check if SSR build exists - try both .cjs and .js extensions
+    const ssrDir = path.join(__dirname, '../../../../packages/frontend/dist-ssr')
+    let ssrManifestPath = path.join(ssrDir, 'entry-server.cjs')
+    
+    if (!fs.existsSync(ssrManifestPath)) {
+      ssrManifestPath = path.join(ssrDir, 'entry-server.js')
+    }
 
     console.log('SSR Manifest Path:', ssrManifestPath)
     
@@ -57,15 +104,18 @@ export async function ssrMiddleware(
     // Generate OG image URL
     const ogImageUrl = `${req.protocol}://${req.get('host')}/api/og-image/${slug}`
     
+    // Strip markdown from content for description
+    const contentPreview = stripMarkdown((paper.abstract || paper.content || '').substring(0, 300))
+    
     // Prepare meta tags
     const metaTags = `
     <!-- Basic Meta Tags -->
     <title>${escapeHtml(paper.title)} - Paper</title>
-    <meta name="description" content="${escapeHtml(paper.abstract || paper.title)}">
+    <meta name="description" content="${escapeHtml(contentPreview)}">
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="${escapeHtml(paper.title)}">
-    <meta property="og:description" content="${escapeHtml(paper.abstract || paper.title)}">
+    <meta property="og:description" content="${escapeHtml(contentPreview)}">
     <meta property="og:image" content="${ogImageUrl}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -79,7 +129,7 @@ export async function ssrMiddleware(
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${escapeHtml(paper.title)}">
-    <meta name="twitter:description" content="${escapeHtml(paper.abstract || paper.title)}">
+    <meta name="twitter:description" content="${escapeHtml(contentPreview)}">
     <meta name="twitter:image" content="${ogImageUrl}">
     
     <!-- Preload paper data for hydration -->

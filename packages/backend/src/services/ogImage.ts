@@ -59,19 +59,19 @@ export async function generateOGImage(
     <style>
       .title { 
         font-family: 'Arial', 'Helvetica', sans-serif; 
-        font-size: 48px; 
+        font-size: 80px; 
         font-weight: 700; 
         fill: #2C2416; 
       }
       .content { 
         font-family: 'Arial', 'Helvetica', sans-serif; 
-        font-size: 24px; 
+        font-size: 36px; 
         font-weight: 400; 
         fill: #5C4E3C; 
       }
       .meta { 
         font-family: 'Arial', 'Helvetica', sans-serif; 
-        font-size: 20px; 
+        font-size: 28px; 
         font-weight: 400; 
         fill: #8B7D6B; 
       }
@@ -88,7 +88,7 @@ export async function generateOGImage(
   ${renderTitle(stripMarkdown(title))}
   
   <!-- Abstract/Content -->
-  ${renderContent(stripMarkdown(abstract || content?.substring(0, 300) || ''))}
+  ${renderContent(stripMarkdown(abstract || content?.substring(0, 500) || ''))}
   
   <!-- Bottom separator line -->
   <line x1="60" y1="${OG_IMAGE_HEIGHT - 90}" x2="${OG_IMAGE_WIDTH - 60}" y2="${OG_IMAGE_HEIGHT - 90}" stroke="#D4C5B0" stroke-width="1"/>
@@ -97,7 +97,7 @@ export async function generateOGImage(
   <text x="60" y="${OG_IMAGE_HEIGHT - 60}" class="meta">by ${escapeXml(author)}</text>
   
   <!-- Branding -->
-  <text x="${OG_IMAGE_WIDTH - 60}" y="${OG_IMAGE_HEIGHT - 60}" class="meta" text-anchor="end">Paper - Academic Publishing</text>
+  <text x="${OG_IMAGE_WIDTH - 60}" y="${OG_IMAGE_HEIGHT - 60}" class="meta" text-anchor="end">Paper - Loud Thoughts Quietly</text>
 </svg>`
 
   // Convert SVG to PNG using sharp
@@ -109,30 +109,30 @@ export async function generateOGImage(
 }
 
 function renderTitle(title: string): string {
-  const maxCharsPerLine = 40
+  const maxCharsPerLine = 25
   const lines = wrapTextSvg(title, maxCharsPerLine, 2)
   let y = 100
   
   return lines.map(line => {
     const result = `<text x="60" y="${y}" class="title">${escapeXml(line)}</text>`
-    y += 60
+    y += 95
     return result
   }).join('\n  ')
 }
 
 function renderContent(content: string): string {
-  const maxCharsPerLine = 70
+  const maxCharsPerLine = 50
   const lines = wrapTextSvg(content, maxCharsPerLine, 5)
-  let y = 240
+  let y = 270
   
   return lines.map(line => {
     // Skip rendering for empty lines but still increment y for spacing
     if (!line.trim()) {
-      y += 20 // Smaller spacing for paragraph breaks
+      y += 25 // Smaller spacing for paragraph breaks
       return ''
     }
     const result = `<text x="60" y="${y}" class="content">${escapeXml(line)}</text>`
-    y += 35
+    y += 50
     return result
   }).filter(Boolean).join('\n  ')
 }

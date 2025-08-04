@@ -1368,6 +1368,7 @@ function LoginPage() {
 }
 function useOpenGraph(data) {
   React.useEffect(() => {
+    if (typeof document === "undefined") return;
     document.title = data.title ? `${data.title} - Paper` : "Paper";
     const setMetaTag = (property, content, isName = false) => {
       const attributeName = isName ? "name" : "property";
@@ -1432,9 +1433,9 @@ function PaperPage() {
   }, []);
   useOpenGraph({
     title: (paper == null ? void 0 : paper.title) || "",
-    description: (paper == null ? void 0 : paper.abstract) || (paper == null ? void 0 : paper.title) || "",
-    image: paper ? `${window.location.origin}/api/og-image/${slug}` : void 0,
-    url: window.location.href,
+    description: (paper == null ? void 0 : paper.abstract) || (paper == null ? void 0 : paper.content) || "",
+    image: paper && typeof window !== "undefined" ? `${window.location.origin}/api/og-image/${slug}` : void 0,
+    url: typeof window !== "undefined" ? window.location.href : "",
     type: "article",
     siteName: "Paper",
     author: ((_a = paper == null ? void 0 : paper.user) == null ? void 0 : _a.email) || ((_c = (_b = paper == null ? void 0 : paper.paper) == null ? void 0 : _b.user) == null ? void 0 : _c.email) || "Anonymous",
