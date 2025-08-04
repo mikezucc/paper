@@ -4,6 +4,48 @@ import sharp from 'sharp'
 const OG_IMAGE_WIDTH = 1200
 const OG_IMAGE_HEIGHT = 630
 
+// Function to strip markdown and format text
+function stripMarkdown(text: string): string {
+  if (!text) return ''
+  
+  // Remove code blocks
+  text = text.replace(/```[\s\S]*?```/g, '')
+  text = text.replace(/`([^`]+)`/g, '$1')
+  
+  // Remove images
+  text = text.replace(/!\[([^\]]*)\]\([^)]+\)/g, '')
+  
+  // Remove links but keep text
+  text = text.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+  
+  // Remove headers
+  text = text.replace(/^#{1,6}\s+(.+)$/gm, '$1')
+  
+  // Remove bold and italic markers
+  text = text.replace(/\*\*([^*]+)\*\*/g, '$1')
+  text = text.replace(/\*([^*]+)\*/g, '$1')
+  text = text.replace(/__([^_]+)__/g, '$1')
+  text = text.replace(/_([^_]+)_/g, '$1')
+  
+  // Remove blockquotes
+  text = text.replace(/^>\s+(.+)$/gm, '$1')
+  
+  // Remove horizontal rules
+  text = text.replace(/^[-*_]{3,}$/gm, '')
+  
+  // Remove list markers
+  text = text.replace(/^[\s]*[-*+]\s+(.+)$/gm, '$1')
+  text = text.replace(/^[\s]*\d+\.\s+(.+)$/gm, '$1')
+  
+  // Replace multiple newlines with single newline
+  text = text.replace(/\n{3,}/g, '\n\n')
+  
+  // Trim whitespace
+  text = text.trim()
+  
+  return text
+}
+
 export async function generateOGImage(
   title: string,
   abstract: string,
@@ -43,10 +85,10 @@ export async function generateOGImage(
   <rect x="1" y="1" width="${OG_IMAGE_WIDTH - 2}" height="${OG_IMAGE_HEIGHT - 2}" fill="none" stroke="#E0D2BB" stroke-width="2"/>
   
   <!-- Title -->
-  ${renderTitle(title)}
+  ${renderTitle(stripMarkdown(title))}
   
   <!-- Abstract/Content -->
-  ${renderContent(abstract || content?.substring(0, 200) || '')}
+  ${renderContent(stripMarkdown(abstract || content?.substring(0, 300) || ''))}
   
   <!-- Bottom separator line -->
   <line x1="60" y1="${OG_IMAGE_HEIGHT - 90}" x2="${OG_IMAGE_WIDTH - 60}" y2="${OG_IMAGE_HEIGHT - 90}" stroke="#D4C5B0" stroke-width="1"/>
@@ -80,41 +122,57 @@ function renderTitle(title: string): string {
 
 function renderContent(content: string): string {
   const maxCharsPerLine = 70
-  const lines = wrapTextSvg(content, maxCharsPerLine, 4)
+  const lines = wrapTextSvg(content, maxCharsPerLine, 5)
   let y = 240
   
   return lines.map(line => {
+    // Skip rendering for empty lines but still increment y for spacing
+    if (!line.trim()) {
+      y += 20 // Smaller spacing for paragraph breaks
+      return ''
+    }
     const result = `<text x="60" y="${y}" class="content">${escapeXml(line)}</text>`
     y += 35
     return result
-  }).join('\n  ')
+  }).filter(Boolean).join('\n  ')
 }
 
 function wrapTextSvg(text: string, maxCharsPerLine: number, maxLines: number): string[] {
-  const words = text.split(' ')
+  // First split by newlines to preserve paragraph structure
+  const paragraphs = text.split('\n').filter(p => p.trim())
   const lines: string[] = []
-  let currentLine = ''
-
-  for (const word of words) {
-    const testLine = currentLine ? `${currentLine} ${word}` : word
+  
+  for (const paragraph of paragraphs) {
+    const words = paragraph.trim().split(/\s+/)
+    let currentLine = ''
     
-    if (testLine.length > maxCharsPerLine && currentLine) {
-      lines.push(currentLine)
-      currentLine = word
+    for (const word of words) {
+      const testLine = currentLine ? `${currentLine} ${word}` : word
       
-      if (lines.length >= maxLines) {
-        lines[lines.length - 1] += '...'
-        break
+      if (testLine.length > maxCharsPerLine && currentLine) {
+        lines.push(currentLine)
+        currentLine = word
+        
+        if (lines.length >= maxLines) {
+          // Add ellipsis to the last line if we're truncating
+          lines[lines.length - 1] = lines[lines.length - 1].substring(0, maxCharsPerLine - 3) + '...'
+          return lines
+        }
+      } else {
+        currentLine = testLine
       }
-    } else {
-      currentLine = testLine
+    }
+    
+    if (currentLine && lines.length < maxLines) {
+      lines.push(currentLine)
+    }
+    
+    // Add empty line between paragraphs if there's room
+    if (lines.length < maxLines - 1 && paragraphs.indexOf(paragraph) < paragraphs.length - 1) {
+      lines.push('') // This will create visual spacing between paragraphs
     }
   }
-
-  if (currentLine && lines.length < maxLines) {
-    lines.push(currentLine)
-  }
-
+  
   return lines
 }
 
