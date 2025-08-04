@@ -196,14 +196,14 @@ export function applySelectedChanges(
   const diff = generateDiff(baseContent, incomingContent)
   const groups = groupConsecutiveChanges(diff.lines)
   
-  const baseLines = baseContent.split('\n')
+  // const baseLines = baseContent.split('\n')
   const resultLines: string[] = []
-  let baseIndex = 0
+  // let baseIndex = 0
   
   for (const line of diff.lines) {
     if (line.type === 'unchanged') {
       resultLines.push(line.content)
-      baseIndex++
+      // baseIndex++
     } else {
       // Find which group this line belongs to
       const group = groups.find(g => g.lines.includes(line))
@@ -214,14 +214,14 @@ export function applySelectedChanges(
           resultLines.push(line.content)
         } else if (line.type === 'removed') {
           // Skip this line (don't add to result)
-          baseIndex++
+          // baseIndex++
         }
       } else {
         // Don't apply this change
         if (line.type === 'removed') {
           // Keep the original line
           resultLines.push(line.content)
-          baseIndex++
+          // baseIndex++
         }
         // Skip additions if not selected
       }

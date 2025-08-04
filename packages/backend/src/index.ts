@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url'
 
 import { config } from './config'
 import { errorHandler } from './middleware/error'
-import { openGraphMiddleware } from './middleware/openGraph'
+import { ssrMiddleware } from './middleware/ssr'
 import { authRouter } from './routes/auth'
 import { papersRouter } from './routes/papers'
 import { healthRouter } from './routes/health'
@@ -40,11 +40,11 @@ app.use('/api/papers', papersRouter)
 app.use('/api/ai', aiRouter)
 app.use('/api/og-image', ogImageRouter)
 
-// Open Graph middleware for social media crawlers
-app.use(openGraphMiddleware)
+// SSR middleware for social media crawlers
+app.use(ssrMiddleware)
 
 // Serve static files from frontend build
-const frontendPath = path.join(__dirname, '../../../frontend/dist')
+const frontendPath = path.join(__dirname, '../../../packages/frontend/dist')
 app.use(express.static(frontendPath))
 
 // Catch all route - serve the React app

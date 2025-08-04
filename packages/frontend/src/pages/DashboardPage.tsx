@@ -166,8 +166,8 @@ export function DashboardPage() {
                 )}
                 <div className={styles.paperGridMeta}>
                   <span>{formatDate(paper.updatedAt)}</span>
-                  <span className={paper.publishedPaper ? styles.statusPublished : styles.statusDraft}>
-                    {paper.publishedPaper ? 'Published' : 'Draft'}
+                  <span className={paper.published ? styles.statusPublished : styles.statusDraft}>
+                    {paper.published ? 'Published' : 'Draft'}
                   </span>
                 </div>
                 {paper.tags.length > 0 && (

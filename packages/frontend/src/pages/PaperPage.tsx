@@ -27,18 +27,27 @@ interface PublishedPaper {
 
 export function PaperPage() {
   const { slug } = useParams<{ slug: string }>()
-  const [paper, setPaper] = useState<PublishedPaper | null>(null)
-  const [loading, setLoading] = useState(true)
+  // Check for SSR data
+  const initialData = typeof window !== 'undefined' && (window as any).__PAPER_DATA__
+  const [paper, setPaper] = useState<PublishedPaper | null>(initialData || null)
+  const [loading, setLoading] = useState(!initialData)
   const [error, setError] = useState('')
 
   useEffect(() => {
-    if (!slug) return
+    if (!slug || initialData) return
     
     api.get(`/papers/${slug}`)
       .then(({ paper }) => setPaper(paper))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false))
-  }, [slug])
+  }, [slug, initialData])
+
+  // Clean up SSR data after use
+  useEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).__PAPER_DATA__) {
+      delete (window as any).__PAPER_DATA__
+    }
+  }, [])
 
   // Set Open Graph meta tags
   useOpenGraph({

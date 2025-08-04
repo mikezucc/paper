@@ -62,6 +62,7 @@ export function AiFeedbackModal({
     if (isOpen && paperId) {
       loadFeedbackHistory()
     }
+  // @eslint-disable-next-line
   }, [isOpen, paperId])
   
   const loadFeedbackHistory = async () => {
@@ -142,7 +143,12 @@ export function AiFeedbackModal({
     }
   }
 
-  const generateMockFeedback = (type: FeedbackType, text: string, context: any): string => {
+  const generateMockFeedback = (type: FeedbackType, _text: string, context: {
+    title: string
+    abstract: string
+    fullContent: string
+    selectedText?: string | null
+  }): string => {
     const feedbackTemplates = {
       research: `## Research Development Insights
 
@@ -321,7 +327,7 @@ Let's brainstorm how your work might combine with recent advances in quantum com
                 {feedbackHistory.map((item) => (
                   <div key={item.id} className={styles.historyItem}>
                     <div className={styles.historyHeader}>
-                      <span className={styles.historyType}>{item.feedbackType}</span>
+                      {/* <span className={styles.historyType}>{item.feedbackType}</span> */}
                       <span className={styles.historyDate}>
                         {new Date(item.createdAt).toLocaleDateString()}
                       </span>
