@@ -18,11 +18,16 @@ const __dirname = path.dirname(__filename)
 
 const app = express()
 
-// Configure helmet to allow OG images
+// Configure helmet with proper CSP
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
+      defaultSrc: ["'self'"],
+      connectSrc: ["'self'", "https://api.onpaper.dev", "http://localhost:*"],
       imgSrc: ["'self'", "data:", "https:"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
     },
   },
 }))
