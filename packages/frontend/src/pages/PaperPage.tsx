@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { api } from '../utils/api'
 import { MarkdownRenderer } from '../components/MarkdownRenderer'
+import { useOpenGraph } from '../hooks/useOpenGraph'
 import styles from '../styles/components.module.css'
 
 interface PublishedPaper {
@@ -38,6 +39,19 @@ export function PaperPage() {
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false))
   }, [slug])
+
+  // Set Open Graph meta tags
+  useOpenGraph({
+    title: paper?.title || '',
+    description: paper?.abstract || paper?.title || '',
+    image: paper ? `${window.location.origin}/api/og-image/${slug}` : undefined,
+    url: window.location.href,
+    type: 'article',
+    siteName: 'Paper',
+    author: paper?.user?.email || paper?.paper?.user?.email || 'Anonymous',
+    publishedTime: paper?.publishedAt,
+    tags: paper?.tags || []
+  })
 
   useEffect(() => {
     const handleScroll = () => {
