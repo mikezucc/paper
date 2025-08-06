@@ -74,6 +74,10 @@ export async function ssrMiddleware(
     // Get paper data
     const paper = await paperService.getBySlug(slug)
     
+    // Get view count
+    const viewCount = await paperService.getViewCount(paper.paper.id)
+    const paperWithViewCount = { ...paper, viewCount }
+    
     // Load the index.html template if not cached
     if (!indexHtmlTemplate) {
       const indexPath = path.join(__dirname, '../../../../packages/frontend/dist/index.html')
@@ -99,7 +103,7 @@ export async function ssrMiddleware(
     const { render } = await import(ssrManifestPath)
     
     // Render the app
-    const { html: appHtml } = render({ path: req.path, paperData: paper })
+    const { html: appHtml } = render({ path: req.path, paperData: paperWithViewCount })
     
     // Generate OG image URL
     const ogImageUrl = `${req.protocol}://${req.get('host')}/api/og-image/${slug}`
@@ -134,7 +138,7 @@ export async function ssrMiddleware(
     
     <!-- Preload paper data for hydration -->
     <script>
-      window.__PAPER_DATA__ = ${JSON.stringify(paper).replace(/</g, '\\u003c')};
+      window.__PAPER_DATA__ = ${JSON.stringify(paperWithViewCount).replace(/</g, '\\u003c')};
     </script>
   `
     
