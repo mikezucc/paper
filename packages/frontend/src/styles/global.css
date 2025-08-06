@@ -77,7 +77,7 @@
   --space-2xl: calc(var(--space-unit) * 4);
   
   /* Layout */
-  --max-width-content: 680px;
+  --max-width-content: 800px;
   --max-width-wide: 1200px;
   --max-width-form: 480px;
   
