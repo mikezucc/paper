@@ -105,386 +105,391 @@ function useAuth() {
   }
   return context;
 }
-const container = "_container_1ba1v_1";
-const contentContainer = "_contentContainer_1ba1v_7";
-const header = "_header_1ba1v_13";
-const nav = "_nav_1ba1v_18";
-const navLinks = "_navLinks_1ba1v_25";
-const logo = "_logo_1ba1v_31";
-const paperGrid = "_paperGrid_1ba1v_36";
-const paperCard = "_paperCard_1ba1v_43";
-const form = "_form_1ba1v_54";
-const formGroup = "_formGroup_1ba1v_59";
-const label = "_label_1ba1v_63";
-const error = "_error_1ba1v_69";
-const checkboxLabel = "_checkboxLabel_1ba1v_74";
-const checkbox = "_checkbox_1ba1v_74";
-const linkButton = "_linkButton_1ba1v_88";
-const termsContainer = "_termsContainer_1ba1v_102";
-const success = "_success_1ba1v_112";
-const hero = "_hero_1ba1v_117";
-const features = "_features_1ba1v_122";
-const feature = "_feature_1ba1v_122";
-const editor = "_editor_1ba1v_137";
-const editorPane = "_editorPane_1ba1v_145";
-const preview = "_preview_1ba1v_151";
-const markdownTextarea = "_markdownTextarea_1ba1v_156";
-const fullPageEditor = "_fullPageEditor_1ba1v_175";
-const editorHeader = "_editorHeader_1ba1v_186";
-const editorHeaderCenter = "_editorHeaderCenter_1ba1v_208";
-const editorHeaderLeft = "_editorHeaderLeft_1ba1v_214";
-const hidden = "_hidden_1ba1v_221";
-const visible = "_visible_1ba1v_226";
-const editorHeaderRight = "_editorHeaderRight_1ba1v_238";
-const titleInput = "_titleInput_1ba1v_256";
-const metadataToggle = "_metadataToggle_1ba1v_270";
-const fadeIn = "_fadeIn_1ba1v_1";
-const publishButton = "_publishButton_1ba1v_296";
-const viewModeToggle = "_viewModeToggle_1ba1v_313";
-const toolbarToggle = "_toolbarToggle_1ba1v_336";
-const insertToggle = "_insertToggle_1ba1v_355";
-const saveButton = "_saveButton_1ba1v_377";
-const publishToggle = "_publishToggle_1ba1v_393";
-const exitButton = "_exitButton_1ba1v_405";
-const metadataPanel = "_metadataPanel_1ba1v_424";
-const metadataContent = "_metadataContent_1ba1v_430";
-const toolbarPopoverContainer = "_toolbarPopoverContainer_1ba1v_437";
-const popoverFadeIn = "_popoverFadeIn_1ba1v_1";
-const toolbarPopover = "_toolbarPopover_1ba1v_437";
-const toolbarSection = "_toolbarSection_1ba1v_469";
-const toolbarSectionTitle = "_toolbarSectionTitle_1ba1v_477";
-const toolbarRow = "_toolbarRow_1ba1v_484";
-const toolbarDivider = "_toolbarDivider_1ba1v_490";
-const fontCategory = "_fontCategory_1ba1v_497";
-const fontCategoryTitle = "_fontCategoryTitle_1ba1v_501";
-const fontGrid = "_fontGrid_1ba1v_510";
-const fontOption = "_fontOption_1ba1v_516";
-const selected = "_selected_1ba1v_536";
-const insertGrid = "_insertGrid_1ba1v_542";
-const insertGridItem = "_insertGridItem_1ba1v_548";
-const insertPopoverContainer = "_insertPopoverContainer_1ba1v_566";
-const insertPopover = "_insertPopover_1ba1v_566";
-const insertPopoverTitle = "_insertPopoverTitle_1ba1v_586";
-const contextMenu = "_contextMenu_1ba1v_594";
-const contextMenuFadeIn = "_contextMenuFadeIn_1ba1v_1";
-const contextMenuTitle = "_contextMenuTitle_1ba1v_615";
-const contextMenuItems = "_contextMenuItems_1ba1v_625";
-const contextMenuItem = "_contextMenuItem_1ba1v_625";
-const contextMenuDivider = "_contextMenuDivider_1ba1v_646";
-const publishModalOverlay = "_publishModalOverlay_1ba1v_653";
-const publishModal = "_publishModal_1ba1v_653";
-const publishModalHeader = "_publishModalHeader_1ba1v_679";
-const closePublishButton = "_closePublishButton_1ba1v_694";
-const publishModalContent = "_publishModalContent_1ba1v_709";
-const publishModalInfo = "_publishModalInfo_1ba1v_716";
-const publishModalHint = "_publishModalHint_1ba1v_727";
-const publishModalBody = "_publishModalBody_1ba1v_734";
-const versionsList = "_versionsList_1ba1v_741";
-const versionItem = "_versionItem_1ba1v_748";
-const versionRadio = "_versionRadio_1ba1v_769";
-const versionDetails = "_versionDetails_1ba1v_779";
-const versionTitle = "_versionTitle_1ba1v_783";
-const versionDate = "_versionDate_1ba1v_789";
-const versionStatus = "_versionStatus_1ba1v_795";
-const versionMessage = "_versionMessage_1ba1v_803";
-const versionDivider = "_versionDivider_1ba1v_810";
-const publishModalActions = "_publishModalActions_1ba1v_819";
-const cancelPublishButton = "_cancelPublishButton_1ba1v_828";
-const confirmPublishButton = "_confirmPublishButton_1ba1v_844";
-const versionPreview = "_versionPreview_1ba1v_866";
-const versionPreviewHeader = "_versionPreviewHeader_1ba1v_872";
-const versionPreviewContent = "_versionPreviewContent_1ba1v_884";
-const loadingPreview = "_loadingPreview_1ba1v_890";
-const versionPreviewMeta = "_versionPreviewMeta_1ba1v_899";
-const versionPreviewAbstract = "_versionPreviewAbstract_1ba1v_909";
-const versionPreviewTags = "_versionPreviewTags_1ba1v_915";
-const versionPreviewTag = "_versionPreviewTag_1ba1v_915";
-const versionPreviewDivider = "_versionPreviewDivider_1ba1v_929";
-const versionPreviewMarkdown = "_versionPreviewMarkdown_1ba1v_935";
-const publishedBadge = "_publishedBadge_1ba1v_940";
-const successModalOverlay = "_successModalOverlay_1ba1v_950";
-const successModal = "_successModal_1ba1v_950";
-const scaleIn = "_scaleIn_1ba1v_1";
-const successModalContent = "_successModalContent_1ba1v_988";
-const successIcon = "_successIcon_1ba1v_995";
-const bounce = "_bounce_1ba1v_1";
-const successTitle = "_successTitle_1ba1v_1010";
-const successMessage = "_successMessage_1ba1v_1017";
-const successUrl = "_successUrl_1ba1v_1024";
-const successUrlInput = "_successUrlInput_1ba1v_1033";
-const copyButton = "_copyButton_1ba1v_1044";
-const successActions = "_successActions_1ba1v_1061";
-const viewPublishedButton = "_viewPublishedButton_1ba1v_1067";
-const continueEditingButton = "_continueEditingButton_1ba1v_1084";
-const readingProgress = "_readingProgress_1ba1v_1102";
-const paperMeta = "_paperMeta_1ba1v_1114";
-const tags = "_tags_1ba1v_1120";
-const tag = "_tag_1ba1v_1120";
-const sizeControls = "_sizeControls_1ba1v_1134";
-const sizeButton = "_sizeButton_1ba1v_1144";
-const sizeDisplay = "_sizeDisplay_1ba1v_1168";
-const insertButtonContainer = "_insertButtonContainer_1ba1v_1177";
-const insertButton = "_insertButton_1ba1v_1177";
-const insertMenu = "_insertMenu_1ba1v_1201";
-const insertMenuItem = "_insertMenuItem_1ba1v_1216";
-const undoButton = "_undoButton_1ba1v_1244";
-const redoButton = "_redoButton_1ba1v_1245";
-const editorError = "_editorError_1ba1v_1273";
-const editorContent = "_editorContent_1ba1v_1280";
-const focusedMode = "_focusedMode_1ba1v_1310";
-const previewPane = "_previewPane_1ba1v_1328";
-const modalOverlay = "_modalOverlay_1ba1v_1485";
-const modalContent = "_modalContent_1ba1v_1499";
-const modalHeader = "_modalHeader_1ba1v_1511";
-const closeButton = "_closeButton_1ba1v_1525";
-const modalBody = "_modalBody_1ba1v_1545";
-const formRow = "_formRow_1ba1v_1551";
-const modalActions = "_modalActions_1ba1v_1557";
-const cancelButton = "_cancelButton_1ba1v_1566";
-const primaryButton = "_primaryButton_1ba1v_1582";
-const previewSection = "_previewSection_1ba1v_1603";
-const imagePreview = "_imagePreview_1ba1v_1609";
-const insertImageResultHidden = "_insertImageResultHidden_1ba1v_1625";
-const uploadButton = "_uploadButton_1ba1v_1630";
-const downloadButton = "_downloadButton_1ba1v_1654";
-const uploadError = "_uploadError_1ba1v_1673";
-const fileUploadModal = "_fileUploadModal_1ba1v_1689";
-const uploadArea = "_uploadArea_1ba1v_1701";
-const uploadAreaDragging = "_uploadAreaDragging_1ba1v_1715";
-const uploadAreaLabel = "_uploadAreaLabel_1ba1v_1721";
-const uploadIcon = "_uploadIcon_1ba1v_1728";
-const uploadText = "_uploadText_1ba1v_1733";
-const uploadHint = "_uploadHint_1ba1v_1740";
-const fileInfo = "_fileInfo_1ba1v_1745";
-const fileName = "_fileName_1ba1v_1755";
-const changeFileButton = "_changeFileButton_1ba1v_1760";
-const previewContainer = "_previewContainer_1ba1v_1775";
-const previewTitle = "_previewTitle_1ba1v_1782";
-const previewContent = "_previewContent_1ba1v_1789";
-const previewTruncated = "_previewTruncated_1ba1v_1808";
-const saveStatus = "_saveStatus_1ba1v_1819";
-const saved = "_saved_1ba1v_1828";
-const saving = "_saving_1ba1v_1832";
-const pulse = "_pulse_1ba1v_1";
-const unsaved = "_unsaved_1ba1v_1841";
-const revisionsPanel = "_revisionsPanel_1ba1v_1855";
-const revisionsPanelHeader = "_revisionsPanelHeader_1ba1v_1869";
-const closePanelButton = "_closePanelButton_1ba1v_1884";
-const revisionsList = "_revisionsList_1ba1v_1899";
-const loadingRevisions = "_loadingRevisions_1ba1v_1905";
-const noRevisions = "_noRevisions_1ba1v_1906";
-const revisionItem = "_revisionItem_1ba1v_1912";
-const revisionInfo = "_revisionInfo_1ba1v_1925";
-const revisionTitle = "_revisionTitle_1ba1v_1929";
-const revisionDate = "_revisionDate_1ba1v_1935";
-const revisionMessage = "_revisionMessage_1ba1v_1940";
-const revisionActions = "_revisionActions_1ba1v_1947";
-const viewButton = "_viewButton_1ba1v_1952";
-const restoreButton = "_restoreButton_1ba1v_1953";
-const revisionPreviewOverlay = "_revisionPreviewOverlay_1ba1v_1988";
-const revisionPreviewModal = "_revisionPreviewModal_1ba1v_2002";
-const revisionPreviewHeader = "_revisionPreviewHeader_1ba1v_2014";
-const revisionPreviewDate = "_revisionPreviewDate_1ba1v_2029";
-const closePreviewButton = "_closePreviewButton_1ba1v_2035";
-const revisionPreviewContent = "_revisionPreviewContent_1ba1v_2050";
-const revisionPreviewMetadata = "_revisionPreviewMetadata_1ba1v_2056";
-const revisionPreviewSection = "_revisionPreviewSection_1ba1v_2060";
-const revisionPreviewTags = "_revisionPreviewTags_1ba1v_2078";
-const revisionPreviewTag = "_revisionPreviewTag_1ba1v_2078";
-const revisionPreviewDivider = "_revisionPreviewDivider_1ba1v_2092";
-const revisionPreviewMarkdown = "_revisionPreviewMarkdown_1ba1v_2098";
-const replaceExistingOption = "_replaceExistingOption_1ba1v_2120";
-const replaceExistingHint = "_replaceExistingHint_1ba1v_2143";
-const dashboardContainer = "_dashboardContainer_1ba1v_2176";
-const dashboardHeader = "_dashboardHeader_1ba1v_2181";
-const dashboardActions = "_dashboardActions_1ba1v_2196";
-const newPaperButton = "_newPaperButton_1ba1v_2203";
-const emptyState = "_emptyState_1ba1v_2218";
-const newPaperButtonLarge = "_newPaperButtonLarge_1ba1v_2229";
-const statusBadge = "_statusBadge_1ba1v_2248";
-const published = "_published_1ba1v_940";
-const draft = "_draft_1ba1v_2262";
-const editButton = "_editButton_1ba1v_2268";
-const deleteButton = "_deleteButton_1ba1v_2270";
-const listViewContainer = "_listViewContainer_1ba1v_2312";
-const listSidebar = "_listSidebar_1ba1v_2317";
-const listFilters = "_listFilters_1ba1v_2325";
-const listSidebarActions = "_listSidebarActions_1ba1v_2333";
-const searchInputCompact = "_searchInputCompact_1ba1v_2341";
-const filterSelectCompact = "_filterSelectCompact_1ba1v_2342";
-const papersList = "_papersList_1ba1v_2357";
-const paperListItem = "_paperListItem_1ba1v_2362";
-const paperListItemHeader = "_paperListItemHeader_1ba1v_2379";
-const paperListItemTitle = "_paperListItemTitle_1ba1v_2386";
-const statusDot = "_statusDot_1ba1v_2397";
-const paperListItemMeta = "_paperListItemMeta_1ba1v_2412";
-const paperListItemDate = "_paperListItemDate_1ba1v_2419";
-const paperListItemTags = "_paperListItemTags_1ba1v_2423";
-const listDetail = "_listDetail_1ba1v_2427";
-const noSelection = "_noSelection_1ba1v_2433";
-const paperDetail = "_paperDetail_1ba1v_2442";
-const paperDetailHeader = "_paperDetailHeader_1ba1v_2448";
-const paperDetailTitle = "_paperDetailTitle_1ba1v_2457";
-const paperDetailMeta = "_paperDetailMeta_1ba1v_2464";
-const paperDetailDate = "_paperDetailDate_1ba1v_2470";
-const paperDetailActions = "_paperDetailActions_1ba1v_2475";
-const paperDetailContent = "_paperDetailContent_1ba1v_2486";
-const paperDetailSection = "_paperDetailSection_1ba1v_2492";
-const paperDetailTags = "_paperDetailTags_1ba1v_2506";
-const paperDetailTag = "_paperDetailTag_1ba1v_2506";
-const paperDetailPreview = "_paperDetailPreview_1ba1v_2520";
-const paperListItemAuthor = "_paperListItemAuthor_1ba1v_2534";
-const paperDetailViews = "_paperDetailViews_1ba1v_2539";
-const paperDetailAuthor = "_paperDetailAuthor_1ba1v_2544";
-const paperDetailMarkdownPreview = "_paperDetailMarkdownPreview_1ba1v_2549";
-const diffContainer = "_diffContainer_1ba1v_2666";
-const diffHeader = "_diffHeader_1ba1v_2675";
-const diffOldTitle = "_diffOldTitle_1ba1v_2685";
-const diffNewTitle = "_diffNewTitle_1ba1v_2686";
-const diffArrow = "_diffArrow_1ba1v_2691";
-const diffStats = "_diffStats_1ba1v_2695";
-const diffAdditions = "_diffAdditions_1ba1v_2704";
-const diffDeletions = "_diffDeletions_1ba1v_2709";
-const diffUnchanged = "_diffUnchanged_1ba1v_2714";
-const diffContent = "_diffContent_1ba1v_2718";
-const diffLine = "_diffLine_1ba1v_2722";
-const diffLineNumber = "_diffLineNumber_1ba1v_2730";
-const diffLineContent = "_diffLineContent_1ba1v_2741";
-const diffLinePrefix = "_diffLinePrefix_1ba1v_2747";
-const diffAdded = "_diffAdded_1ba1v_2754";
-const diffRemoved = "_diffRemoved_1ba1v_2762";
-const diffSideBySide = "_diffSideBySide_1ba1v_2779";
-const diffSide = "_diffSide_1ba1v_2779";
-const diffSideHeader = "_diffSideHeader_1ba1v_2793";
-const diffSideContent = "_diffSideContent_1ba1v_2802";
-const diffViewOverlay = "_diffViewOverlay_1ba1v_2816";
-const diffViewModal = "_diffViewModal_1ba1v_2829";
-const diffViewHeader = "_diffViewHeader_1ba1v_2841";
-const closeDiffButton = "_closeDiffButton_1ba1v_2857";
-const diffViewContent = "_diffViewContent_1ba1v_2872";
-const compareButton = "_compareButton_1ba1v_2880";
-const revisionsPanelTitle = "_revisionsPanelTitle_1ba1v_2897";
-const createVersionButton = "_createVersionButton_1ba1v_2904";
-const revisionMeta = "_revisionMeta_1ba1v_2919";
-const revisionAuthor = "_revisionAuthor_1ba1v_2927";
-const revisionDescription = "_revisionDescription_1ba1v_2931";
-const createVersionOverlay = "_createVersionOverlay_1ba1v_2942";
-const createVersionModal = "_createVersionModal_1ba1v_2955";
-const createVersionHeader = "_createVersionHeader_1ba1v_2964";
-const closeCreateVersionButton = "_closeCreateVersionButton_1ba1v_2980";
-const createVersionContent = "_createVersionContent_1ba1v_2995";
-const createVersionDescription = "_createVersionDescription_1ba1v_2999";
-const versionMessageInput = "_versionMessageInput_1ba1v_3006";
-const createVersionActions = "_createVersionActions_1ba1v_3023";
-const confirmCreateButton = "_confirmCreateButton_1ba1v_3030";
-const mergeButton = "_mergeButton_1ba1v_3051";
-const aiFeedbackButton = "_aiFeedbackButton_1ba1v_3066";
-const mergeModalOverlay = "_mergeModalOverlay_1ba1v_3085";
-const mergeModalContent = "_mergeModalContent_1ba1v_3098";
-const mergeView = "_mergeView_1ba1v_3108";
-const mergeHeader = "_mergeHeader_1ba1v_3114";
-const mergeDescription = "_mergeDescription_1ba1v_3127";
-const mergeActions = "_mergeActions_1ba1v_3133";
-const selectAllButton = "_selectAllButton_1ba1v_3141";
-const deselectAllButton = "_deselectAllButton_1ba1v_3142";
-const togglePreviewButton = "_togglePreviewButton_1ba1v_3143";
-const mergeContent = "_mergeContent_1ba1v_3161";
-const mergeMainContent = "_mergeMainContent_1ba1v_3170";
-const changeGroupsColumn = "_changeGroupsColumn_1ba1v_3178";
-const mergePreviewColumn = "_mergePreviewColumn_1ba1v_3192";
-const mergePreviewContent = "_mergePreviewContent_1ba1v_3206";
-const changeGroupsList = "_changeGroupsList_1ba1v_3214";
-const noChanges = "_noChanges_1ba1v_3227";
-const changeGroup = "_changeGroup_1ba1v_3178";
-const changeGroupHeader = "_changeGroupHeader_1ba1v_3251";
-const changeGroupLabel = "_changeGroupLabel_1ba1v_3256";
-const changeGroupCheckbox = "_changeGroupCheckbox_1ba1v_3263";
-const changeGroupInfo = "_changeGroupInfo_1ba1v_3271";
-const changeGroupTitle = "_changeGroupTitle_1ba1v_3275";
-const changeGroupDescription = "_changeGroupDescription_1ba1v_3281";
-const changeGroupType = "_changeGroupType_1ba1v_3287";
-const addition = "_addition_1ba1v_3296";
-const deletion = "_deletion_1ba1v_3301";
-const modification = "_modification_1ba1v_3306";
-const changeGroupDiff = "_changeGroupDiff_1ba1v_3311";
-const diffCodeLine = "_diffCodeLine_1ba1v_3319";
-const added = "_added_1ba1v_3326";
-const removed = "_removed_1ba1v_3330";
-const unchanged = "_unchanged_1ba1v_3334";
-const contextLine = "_contextLine_1ba1v_3338";
-const lineNumber = "_lineNumber_1ba1v_3342";
-const linePrefix = "_linePrefix_1ba1v_3354";
-const lineContent = "_lineContent_1ba1v_3372";
-const changeGroupPreview = "_changeGroupPreview_1ba1v_3379";
-const previewLine = "_previewLine_1ba1v_3385";
-const moreLines = "_moreLines_1ba1v_3406";
-const mergePreview = "_mergePreview_1ba1v_3192";
-const mergeFooter = "_mergeFooter_1ba1v_3428";
-const applyMergeButton = "_applyMergeButton_1ba1v_3437";
-const markdownPreview = "_markdownPreview_1ba1v_3458";
-const paperSelectionOverlay = "_paperSelectionOverlay_1ba1v_3465";
-const paperSelectionModal = "_paperSelectionModal_1ba1v_3478";
-const paperSelectionHeader = "_paperSelectionHeader_1ba1v_3490";
-const closePaperSelectionButton = "_closePaperSelectionButton_1ba1v_3506";
-const paperSelectionSearch = "_paperSelectionSearch_1ba1v_3521";
-const paperSearchInput = "_paperSearchInput_1ba1v_3527";
-const paperSelectionList = "_paperSelectionList_1ba1v_3542";
-const noPapersFound = "_noPapersFound_1ba1v_3548";
-const paperSelectionItem = "_paperSelectionItem_1ba1v_3554";
-const paperSelectionTitle = "_paperSelectionTitle_1ba1v_3574";
-const paperSelectionAbstract = "_paperSelectionAbstract_1ba1v_3581";
-const paperSelectionDate = "_paperSelectionDate_1ba1v_3588";
-const paperSelectionFooter = "_paperSelectionFooter_1ba1v_3593";
-const selectPaperButton = "_selectPaperButton_1ba1v_3602";
-const collapsed = "_collapsed_1ba1v_3638";
-const mobileToggle = "_mobileToggle_1ba1v_3647";
-const open = "_open_1ba1v_3662";
-const paperPreview = "_paperPreview_1ba1v_3700";
-const paperPreviewHeader = "_paperPreviewHeader_1ba1v_3704";
-const paperPreviewMeta = "_paperPreviewMeta_1ba1v_3708";
-const paperTag = "_paperTag_1ba1v_3713";
-const paperPreviewActions = "_paperPreviewActions_1ba1v_3747";
-const dashboardHeaderContent = "_dashboardHeaderContent_1ba1v_3802";
-const dashboardHeaderFilters = "_dashboardHeaderFilters_1ba1v_3811";
-const searchInput = "_searchInput_1ba1v_2341";
-const filterSelect = "_filterSelect_1ba1v_2342";
-const papersGrid = "_papersGrid_1ba1v_3837";
-const paperGridCard = "_paperGridCard_1ba1v_3844";
-const paperGridTitle = "_paperGridTitle_1ba1v_3867";
-const paperGridAbstract = "_paperGridAbstract_1ba1v_3879";
-const paperGridMeta = "_paperGridMeta_1ba1v_3891";
-const paperGridTags = "_paperGridTags_1ba1v_3900";
-const paperGridTag = "_paperGridTag_1ba1v_3900";
-const statusPublished = "_statusPublished_1ba1v_3937";
-const statusDraft = "_statusDraft_1ba1v_3942";
-const aiFeedbackModal = "_aiFeedbackModal_1ba1v_3976";
-const aiSettings = "_aiSettings_1ba1v_3988";
-const aiProviderSelect = "_aiProviderSelect_1ba1v_3997";
-const apiKeyInput = "_apiKeyInput_1ba1v_4007";
-const apiKeyHint = "_apiKeyHint_1ba1v_4016";
-const settingsActions = "_settingsActions_1ba1v_4023";
-const saveSettingsButton = "_saveSettingsButton_1ba1v_4029";
-const feedbackOptions = "_feedbackOptions_1ba1v_4050";
-const feedbackPrompt = "_feedbackPrompt_1ba1v_4055";
-const feedbackTypes = "_feedbackTypes_1ba1v_4061";
-const feedbackType = "_feedbackType_1ba1v_4061";
-const active = "_active_1ba1v_4080";
-const feedbackError = "_feedbackError_1ba1v_4102";
-const feedbackResult = "_feedbackResult_1ba1v_4111";
-const feedbackContent = "_feedbackContent_1ba1v_4118";
-const feedbackActions = "_feedbackActions_1ba1v_4147";
-const generateButton = "_generateButton_1ba1v_4155";
-const settingsButton = "_settingsButton_1ba1v_4176";
-const modalClose = "_modalClose_1ba1v_4191";
-const feedbackHistory = "_feedbackHistory_1ba1v_4213";
-const noHistory = "_noHistory_1ba1v_4225";
-const historyList = "_historyList_1ba1v_4232";
-const historyItem = "_historyItem_1ba1v_4238";
-const historyHeader = "_historyHeader_1ba1v_4249";
-const historyType = "_historyType_1ba1v_4256";
-const historyDate = "_historyDate_1ba1v_4261";
-const historyContent = "_historyContent_1ba1v_4266";
-const historyViewButton = "_historyViewButton_1ba1v_4279";
+const container = "_container_15vbj_1";
+const contentContainer = "_contentContainer_15vbj_7";
+const header = "_header_15vbj_13";
+const nav = "_nav_15vbj_18";
+const navLinks = "_navLinks_15vbj_25";
+const logo = "_logo_15vbj_31";
+const paperGrid = "_paperGrid_15vbj_36";
+const paperCard = "_paperCard_15vbj_43";
+const form = "_form_15vbj_54";
+const formGroup = "_formGroup_15vbj_59";
+const label = "_label_15vbj_63";
+const error = "_error_15vbj_69";
+const checkboxLabel = "_checkboxLabel_15vbj_74";
+const checkbox = "_checkbox_15vbj_74";
+const linkButton = "_linkButton_15vbj_88";
+const termsContainer = "_termsContainer_15vbj_102";
+const success = "_success_15vbj_112";
+const hero = "_hero_15vbj_117";
+const features = "_features_15vbj_122";
+const feature = "_feature_15vbj_122";
+const editor = "_editor_15vbj_137";
+const editorPane = "_editorPane_15vbj_145";
+const preview = "_preview_15vbj_151";
+const markdownTextarea = "_markdownTextarea_15vbj_156";
+const fullPageEditor = "_fullPageEditor_15vbj_175";
+const editorHeader = "_editorHeader_15vbj_186";
+const editorHeaderCenter = "_editorHeaderCenter_15vbj_208";
+const editorHeaderLeft = "_editorHeaderLeft_15vbj_214";
+const hidden = "_hidden_15vbj_221";
+const visible = "_visible_15vbj_226";
+const editorHeaderRight = "_editorHeaderRight_15vbj_238";
+const titleInput = "_titleInput_15vbj_256";
+const metadataToggle = "_metadataToggle_15vbj_270";
+const fadeIn = "_fadeIn_15vbj_1";
+const publishButton = "_publishButton_15vbj_296";
+const viewModeToggle = "_viewModeToggle_15vbj_313";
+const toolbarToggle = "_toolbarToggle_15vbj_336";
+const insertToggle = "_insertToggle_15vbj_355";
+const saveButton = "_saveButton_15vbj_377";
+const publishToggle = "_publishToggle_15vbj_393";
+const exitButton = "_exitButton_15vbj_405";
+const metadataPanel = "_metadataPanel_15vbj_424";
+const metadataContent = "_metadataContent_15vbj_430";
+const toolbarPopoverContainer = "_toolbarPopoverContainer_15vbj_437";
+const popoverFadeIn = "_popoverFadeIn_15vbj_1";
+const toolbarPopover = "_toolbarPopover_15vbj_437";
+const toolbarSection = "_toolbarSection_15vbj_469";
+const toolbarSectionTitle = "_toolbarSectionTitle_15vbj_477";
+const toolbarRow = "_toolbarRow_15vbj_484";
+const toolbarDivider = "_toolbarDivider_15vbj_490";
+const fontCategory = "_fontCategory_15vbj_497";
+const fontCategoryTitle = "_fontCategoryTitle_15vbj_501";
+const fontGrid = "_fontGrid_15vbj_510";
+const fontOption = "_fontOption_15vbj_516";
+const selected = "_selected_15vbj_536";
+const insertGrid = "_insertGrid_15vbj_542";
+const insertGridItem = "_insertGridItem_15vbj_548";
+const insertPopoverContainer = "_insertPopoverContainer_15vbj_566";
+const insertPopover = "_insertPopover_15vbj_566";
+const insertPopoverTitle = "_insertPopoverTitle_15vbj_586";
+const contextMenu = "_contextMenu_15vbj_594";
+const contextMenuFadeIn = "_contextMenuFadeIn_15vbj_1";
+const contextMenuTitle = "_contextMenuTitle_15vbj_615";
+const contextMenuItems = "_contextMenuItems_15vbj_625";
+const contextMenuItem = "_contextMenuItem_15vbj_625";
+const contextMenuDivider = "_contextMenuDivider_15vbj_646";
+const publishModalOverlay = "_publishModalOverlay_15vbj_653";
+const publishModal = "_publishModal_15vbj_653";
+const publishModalHeader = "_publishModalHeader_15vbj_679";
+const closePublishButton = "_closePublishButton_15vbj_694";
+const publishModalContent = "_publishModalContent_15vbj_709";
+const publishModalInfo = "_publishModalInfo_15vbj_716";
+const publishModalHint = "_publishModalHint_15vbj_727";
+const publishModalBody = "_publishModalBody_15vbj_734";
+const versionsList = "_versionsList_15vbj_741";
+const versionItem = "_versionItem_15vbj_748";
+const versionRadio = "_versionRadio_15vbj_769";
+const versionDetails = "_versionDetails_15vbj_779";
+const versionTitle = "_versionTitle_15vbj_783";
+const versionDate = "_versionDate_15vbj_789";
+const versionStatus = "_versionStatus_15vbj_795";
+const versionMessage = "_versionMessage_15vbj_803";
+const versionDivider = "_versionDivider_15vbj_810";
+const publishModalActions = "_publishModalActions_15vbj_819";
+const cancelPublishButton = "_cancelPublishButton_15vbj_828";
+const confirmPublishButton = "_confirmPublishButton_15vbj_844";
+const versionPreview = "_versionPreview_15vbj_866";
+const versionPreviewHeader = "_versionPreviewHeader_15vbj_872";
+const versionPreviewContent = "_versionPreviewContent_15vbj_884";
+const loadingPreview = "_loadingPreview_15vbj_890";
+const versionPreviewMeta = "_versionPreviewMeta_15vbj_899";
+const versionPreviewAbstract = "_versionPreviewAbstract_15vbj_909";
+const versionPreviewTags = "_versionPreviewTags_15vbj_915";
+const versionPreviewTag = "_versionPreviewTag_15vbj_915";
+const versionPreviewDivider = "_versionPreviewDivider_15vbj_929";
+const versionPreviewMarkdown = "_versionPreviewMarkdown_15vbj_935";
+const publishedBadge = "_publishedBadge_15vbj_940";
+const successModalOverlay = "_successModalOverlay_15vbj_950";
+const successModal = "_successModal_15vbj_950";
+const scaleIn = "_scaleIn_15vbj_1";
+const successModalContent = "_successModalContent_15vbj_988";
+const successIcon = "_successIcon_15vbj_995";
+const bounce = "_bounce_15vbj_1";
+const successTitle = "_successTitle_15vbj_1010";
+const successMessage = "_successMessage_15vbj_1017";
+const successUrl = "_successUrl_15vbj_1024";
+const successUrlInput = "_successUrlInput_15vbj_1033";
+const copyButton = "_copyButton_15vbj_1044";
+const successActions = "_successActions_15vbj_1061";
+const viewPublishedButton = "_viewPublishedButton_15vbj_1067";
+const continueEditingButton = "_continueEditingButton_15vbj_1084";
+const readingProgress = "_readingProgress_15vbj_1102";
+const paperMeta = "_paperMeta_15vbj_1114";
+const tags = "_tags_15vbj_1120";
+const tag = "_tag_15vbj_1120";
+const sizeControls = "_sizeControls_15vbj_1134";
+const sizeButton = "_sizeButton_15vbj_1144";
+const sizeDisplay = "_sizeDisplay_15vbj_1168";
+const insertButtonContainer = "_insertButtonContainer_15vbj_1177";
+const insertButton = "_insertButton_15vbj_1177";
+const insertMenu = "_insertMenu_15vbj_1201";
+const insertMenuItem = "_insertMenuItem_15vbj_1216";
+const undoButton = "_undoButton_15vbj_1244";
+const redoButton = "_redoButton_15vbj_1245";
+const editorError = "_editorError_15vbj_1273";
+const editorContent = "_editorContent_15vbj_1280";
+const focusedMode = "_focusedMode_15vbj_1310";
+const previewPane = "_previewPane_15vbj_1328";
+const modalOverlay = "_modalOverlay_15vbj_1485";
+const modalContent = "_modalContent_15vbj_1499";
+const modalHeader = "_modalHeader_15vbj_1511";
+const closeButton = "_closeButton_15vbj_1525";
+const modalBody = "_modalBody_15vbj_1545";
+const formRow = "_formRow_15vbj_1551";
+const modalActions = "_modalActions_15vbj_1557";
+const cancelButton = "_cancelButton_15vbj_1566";
+const primaryButton = "_primaryButton_15vbj_1582";
+const previewSection = "_previewSection_15vbj_1603";
+const imagePreview = "_imagePreview_15vbj_1609";
+const insertImageResultHidden = "_insertImageResultHidden_15vbj_1625";
+const uploadButton = "_uploadButton_15vbj_1630";
+const downloadButton = "_downloadButton_15vbj_1654";
+const uploadError = "_uploadError_15vbj_1673";
+const fileUploadModal = "_fileUploadModal_15vbj_1689";
+const uploadArea = "_uploadArea_15vbj_1701";
+const uploadAreaDragging = "_uploadAreaDragging_15vbj_1715";
+const uploadAreaLabel = "_uploadAreaLabel_15vbj_1721";
+const uploadIcon = "_uploadIcon_15vbj_1728";
+const uploadText = "_uploadText_15vbj_1733";
+const uploadHint = "_uploadHint_15vbj_1740";
+const fileInfo = "_fileInfo_15vbj_1745";
+const fileName = "_fileName_15vbj_1755";
+const changeFileButton = "_changeFileButton_15vbj_1760";
+const previewContainer = "_previewContainer_15vbj_1775";
+const previewTitle = "_previewTitle_15vbj_1782";
+const previewContent = "_previewContent_15vbj_1789";
+const previewTruncated = "_previewTruncated_15vbj_1808";
+const saveStatus = "_saveStatus_15vbj_1819";
+const saved = "_saved_15vbj_1828";
+const saving = "_saving_15vbj_1832";
+const pulse = "_pulse_15vbj_1";
+const unsaved = "_unsaved_15vbj_1841";
+const revisionsPanel = "_revisionsPanel_15vbj_1855";
+const revisionsPanelHeader = "_revisionsPanelHeader_15vbj_1869";
+const closePanelButton = "_closePanelButton_15vbj_1884";
+const revisionsList = "_revisionsList_15vbj_1899";
+const loadingRevisions = "_loadingRevisions_15vbj_1905";
+const noRevisions = "_noRevisions_15vbj_1906";
+const revisionItem = "_revisionItem_15vbj_1912";
+const revisionInfo = "_revisionInfo_15vbj_1925";
+const revisionTitle = "_revisionTitle_15vbj_1929";
+const revisionDate = "_revisionDate_15vbj_1935";
+const revisionMessage = "_revisionMessage_15vbj_1940";
+const revisionActions = "_revisionActions_15vbj_1947";
+const viewButton = "_viewButton_15vbj_1952";
+const restoreButton = "_restoreButton_15vbj_1953";
+const revisionPreviewOverlay = "_revisionPreviewOverlay_15vbj_1988";
+const revisionPreviewModal = "_revisionPreviewModal_15vbj_2002";
+const revisionPreviewHeader = "_revisionPreviewHeader_15vbj_2014";
+const revisionPreviewDate = "_revisionPreviewDate_15vbj_2029";
+const closePreviewButton = "_closePreviewButton_15vbj_2035";
+const revisionPreviewContent = "_revisionPreviewContent_15vbj_2050";
+const revisionPreviewMetadata = "_revisionPreviewMetadata_15vbj_2056";
+const revisionPreviewSection = "_revisionPreviewSection_15vbj_2060";
+const revisionPreviewTags = "_revisionPreviewTags_15vbj_2078";
+const revisionPreviewTag = "_revisionPreviewTag_15vbj_2078";
+const revisionPreviewDivider = "_revisionPreviewDivider_15vbj_2092";
+const revisionPreviewMarkdown = "_revisionPreviewMarkdown_15vbj_2098";
+const replaceExistingOption = "_replaceExistingOption_15vbj_2120";
+const replaceExistingHint = "_replaceExistingHint_15vbj_2143";
+const dashboardContainer = "_dashboardContainer_15vbj_2176";
+const dashboardHeader = "_dashboardHeader_15vbj_2181";
+const dashboardActions = "_dashboardActions_15vbj_2196";
+const newPaperButton = "_newPaperButton_15vbj_2203";
+const emptyState = "_emptyState_15vbj_2218";
+const newPaperButtonLarge = "_newPaperButtonLarge_15vbj_2229";
+const statusBadge = "_statusBadge_15vbj_2248";
+const published = "_published_15vbj_940";
+const draft = "_draft_15vbj_2262";
+const editButton = "_editButton_15vbj_2268";
+const deleteButton = "_deleteButton_15vbj_2270";
+const listViewContainer = "_listViewContainer_15vbj_2312";
+const listSidebar = "_listSidebar_15vbj_2317";
+const listFilters = "_listFilters_15vbj_2325";
+const listSidebarActions = "_listSidebarActions_15vbj_2333";
+const searchInputCompact = "_searchInputCompact_15vbj_2341";
+const filterSelectCompact = "_filterSelectCompact_15vbj_2342";
+const papersList = "_papersList_15vbj_2357";
+const paperListItem = "_paperListItem_15vbj_2362";
+const paperListItemHeader = "_paperListItemHeader_15vbj_2379";
+const paperListItemTitle = "_paperListItemTitle_15vbj_2386";
+const statusDot = "_statusDot_15vbj_2397";
+const paperListItemMeta = "_paperListItemMeta_15vbj_2412";
+const paperListItemDate = "_paperListItemDate_15vbj_2419";
+const paperListItemTags = "_paperListItemTags_15vbj_2423";
+const listDetail = "_listDetail_15vbj_2427";
+const noSelection = "_noSelection_15vbj_2433";
+const paperDetail = "_paperDetail_15vbj_2442";
+const paperDetailHeader = "_paperDetailHeader_15vbj_2448";
+const paperDetailTitle = "_paperDetailTitle_15vbj_2457";
+const paperDetailMeta = "_paperDetailMeta_15vbj_2464";
+const paperDetailDate = "_paperDetailDate_15vbj_2470";
+const paperDetailActions = "_paperDetailActions_15vbj_2475";
+const paperDetailContent = "_paperDetailContent_15vbj_2486";
+const paperDetailSection = "_paperDetailSection_15vbj_2492";
+const paperDetailTags = "_paperDetailTags_15vbj_2506";
+const paperDetailTag = "_paperDetailTag_15vbj_2506";
+const paperDetailPreview = "_paperDetailPreview_15vbj_2520";
+const paperListItemAuthor = "_paperListItemAuthor_15vbj_2534";
+const paperDetailViews = "_paperDetailViews_15vbj_2539";
+const paperDetailAuthor = "_paperDetailAuthor_15vbj_2544";
+const paperDetailMarkdownPreview = "_paperDetailMarkdownPreview_15vbj_2549";
+const diffContainer = "_diffContainer_15vbj_2666";
+const diffHeader = "_diffHeader_15vbj_2675";
+const diffOldTitle = "_diffOldTitle_15vbj_2685";
+const diffNewTitle = "_diffNewTitle_15vbj_2686";
+const diffArrow = "_diffArrow_15vbj_2691";
+const diffStats = "_diffStats_15vbj_2695";
+const diffAdditions = "_diffAdditions_15vbj_2704";
+const diffDeletions = "_diffDeletions_15vbj_2709";
+const diffUnchanged = "_diffUnchanged_15vbj_2714";
+const diffContent = "_diffContent_15vbj_2718";
+const diffLine = "_diffLine_15vbj_2722";
+const diffLineNumber = "_diffLineNumber_15vbj_2730";
+const diffLineContent = "_diffLineContent_15vbj_2741";
+const diffLinePrefix = "_diffLinePrefix_15vbj_2747";
+const diffAdded = "_diffAdded_15vbj_2754";
+const diffRemoved = "_diffRemoved_15vbj_2762";
+const diffSideBySide = "_diffSideBySide_15vbj_2779";
+const diffSide = "_diffSide_15vbj_2779";
+const diffSideHeader = "_diffSideHeader_15vbj_2793";
+const diffSideContent = "_diffSideContent_15vbj_2802";
+const diffViewOverlay = "_diffViewOverlay_15vbj_2816";
+const diffViewModal = "_diffViewModal_15vbj_2829";
+const diffViewHeader = "_diffViewHeader_15vbj_2841";
+const closeDiffButton = "_closeDiffButton_15vbj_2857";
+const diffViewContent = "_diffViewContent_15vbj_2872";
+const compareButton = "_compareButton_15vbj_2880";
+const revisionsPanelTitle = "_revisionsPanelTitle_15vbj_2897";
+const createVersionButton = "_createVersionButton_15vbj_2904";
+const revisionMeta = "_revisionMeta_15vbj_2919";
+const revisionAuthor = "_revisionAuthor_15vbj_2927";
+const revisionDescription = "_revisionDescription_15vbj_2931";
+const createVersionOverlay = "_createVersionOverlay_15vbj_2942";
+const createVersionModal = "_createVersionModal_15vbj_2955";
+const createVersionHeader = "_createVersionHeader_15vbj_2964";
+const closeCreateVersionButton = "_closeCreateVersionButton_15vbj_2980";
+const createVersionContent = "_createVersionContent_15vbj_2995";
+const createVersionDescription = "_createVersionDescription_15vbj_2999";
+const versionMessageInput = "_versionMessageInput_15vbj_3006";
+const createVersionActions = "_createVersionActions_15vbj_3023";
+const confirmCreateButton = "_confirmCreateButton_15vbj_3030";
+const mergeButton = "_mergeButton_15vbj_3051";
+const aiFeedbackButton = "_aiFeedbackButton_15vbj_3066";
+const mergeModalOverlay = "_mergeModalOverlay_15vbj_3085";
+const mergeModalContent = "_mergeModalContent_15vbj_3098";
+const mergeView = "_mergeView_15vbj_3108";
+const mergeHeader = "_mergeHeader_15vbj_3114";
+const mergeDescription = "_mergeDescription_15vbj_3127";
+const mergeActions = "_mergeActions_15vbj_3133";
+const selectAllButton = "_selectAllButton_15vbj_3141";
+const deselectAllButton = "_deselectAllButton_15vbj_3142";
+const togglePreviewButton = "_togglePreviewButton_15vbj_3143";
+const mergeContent = "_mergeContent_15vbj_3161";
+const mergeMainContent = "_mergeMainContent_15vbj_3170";
+const changeGroupsColumn = "_changeGroupsColumn_15vbj_3178";
+const mergePreviewColumn = "_mergePreviewColumn_15vbj_3192";
+const mergePreviewContent = "_mergePreviewContent_15vbj_3206";
+const changeGroupsList = "_changeGroupsList_15vbj_3214";
+const noChanges = "_noChanges_15vbj_3227";
+const changeGroup = "_changeGroup_15vbj_3178";
+const changeGroupHeader = "_changeGroupHeader_15vbj_3251";
+const changeGroupLabel = "_changeGroupLabel_15vbj_3256";
+const changeGroupCheckbox = "_changeGroupCheckbox_15vbj_3263";
+const changeGroupInfo = "_changeGroupInfo_15vbj_3271";
+const changeGroupTitle = "_changeGroupTitle_15vbj_3275";
+const changeGroupDescription = "_changeGroupDescription_15vbj_3281";
+const changeGroupType = "_changeGroupType_15vbj_3287";
+const addition = "_addition_15vbj_3296";
+const deletion = "_deletion_15vbj_3301";
+const modification = "_modification_15vbj_3306";
+const changeGroupDiff = "_changeGroupDiff_15vbj_3311";
+const diffCodeLine = "_diffCodeLine_15vbj_3319";
+const added = "_added_15vbj_3326";
+const removed = "_removed_15vbj_3330";
+const unchanged = "_unchanged_15vbj_3334";
+const contextLine = "_contextLine_15vbj_3338";
+const lineNumber = "_lineNumber_15vbj_3342";
+const linePrefix = "_linePrefix_15vbj_3354";
+const lineContent = "_lineContent_15vbj_3372";
+const changeGroupPreview = "_changeGroupPreview_15vbj_3379";
+const previewLine = "_previewLine_15vbj_3385";
+const moreLines = "_moreLines_15vbj_3406";
+const mergePreview = "_mergePreview_15vbj_3192";
+const mergeFooter = "_mergeFooter_15vbj_3428";
+const applyMergeButton = "_applyMergeButton_15vbj_3437";
+const markdownPreview = "_markdownPreview_15vbj_3458";
+const paperSelectionOverlay = "_paperSelectionOverlay_15vbj_3465";
+const paperSelectionModal = "_paperSelectionModal_15vbj_3478";
+const paperSelectionHeader = "_paperSelectionHeader_15vbj_3490";
+const closePaperSelectionButton = "_closePaperSelectionButton_15vbj_3506";
+const paperSelectionSearch = "_paperSelectionSearch_15vbj_3521";
+const paperSearchInput = "_paperSearchInput_15vbj_3527";
+const paperSelectionList = "_paperSelectionList_15vbj_3542";
+const noPapersFound = "_noPapersFound_15vbj_3548";
+const paperSelectionItem = "_paperSelectionItem_15vbj_3554";
+const paperSelectionTitle = "_paperSelectionTitle_15vbj_3574";
+const paperSelectionAbstract = "_paperSelectionAbstract_15vbj_3581";
+const paperSelectionDate = "_paperSelectionDate_15vbj_3588";
+const paperSelectionFooter = "_paperSelectionFooter_15vbj_3593";
+const selectPaperButton = "_selectPaperButton_15vbj_3602";
+const collapsed = "_collapsed_15vbj_3638";
+const mobileToggle = "_mobileToggle_15vbj_3647";
+const open = "_open_15vbj_3662";
+const paperPreview = "_paperPreview_15vbj_3700";
+const paperPreviewHeader = "_paperPreviewHeader_15vbj_3704";
+const paperPreviewMeta = "_paperPreviewMeta_15vbj_3708";
+const paperTag = "_paperTag_15vbj_3713";
+const paperPreviewActions = "_paperPreviewActions_15vbj_3747";
+const dashboardHeaderContent = "_dashboardHeaderContent_15vbj_3802";
+const dashboardHeaderFilters = "_dashboardHeaderFilters_15vbj_3811";
+const searchInput = "_searchInput_15vbj_2341";
+const filterSelect = "_filterSelect_15vbj_2342";
+const papersGrid = "_papersGrid_15vbj_3837";
+const paperGridCard = "_paperGridCard_15vbj_3844";
+const paperGridTitle = "_paperGridTitle_15vbj_3867";
+const paperGridAbstract = "_paperGridAbstract_15vbj_3879";
+const paperGridMeta = "_paperGridMeta_15vbj_3891";
+const paperGridTags = "_paperGridTags_15vbj_3900";
+const paperGridTag = "_paperGridTag_15vbj_3900";
+const statusPublished = "_statusPublished_15vbj_3937";
+const statusDraft = "_statusDraft_15vbj_3942";
+const aiFeedbackModal = "_aiFeedbackModal_15vbj_3976";
+const aiSettings = "_aiSettings_15vbj_3988";
+const aiProviderSelect = "_aiProviderSelect_15vbj_3997";
+const apiKeyInput = "_apiKeyInput_15vbj_4007";
+const apiKeyHint = "_apiKeyHint_15vbj_4016";
+const settingsActions = "_settingsActions_15vbj_4023";
+const saveSettingsButton = "_saveSettingsButton_15vbj_4029";
+const feedbackOptions = "_feedbackOptions_15vbj_4050";
+const feedbackPrompt = "_feedbackPrompt_15vbj_4055";
+const feedbackTypes = "_feedbackTypes_15vbj_4061";
+const feedbackType = "_feedbackType_15vbj_4061";
+const active = "_active_15vbj_4080";
+const feedbackError = "_feedbackError_15vbj_4102";
+const feedbackResult = "_feedbackResult_15vbj_4111";
+const feedbackContent = "_feedbackContent_15vbj_4118";
+const feedbackActions = "_feedbackActions_15vbj_4147";
+const generateButton = "_generateButton_15vbj_4155";
+const settingsButton = "_settingsButton_15vbj_4176";
+const modalClose = "_modalClose_15vbj_4191";
+const feedbackHistory = "_feedbackHistory_15vbj_4213";
+const noHistory = "_noHistory_15vbj_4225";
+const historyList = "_historyList_15vbj_4232";
+const historyItem = "_historyItem_15vbj_4238";
+const historyHeader = "_historyHeader_15vbj_4249";
+const historyType = "_historyType_15vbj_4256";
+const historyDate = "_historyDate_15vbj_4261";
+const historyContent = "_historyContent_15vbj_4266";
+const historyViewButton = "_historyViewButton_15vbj_4279";
+const imageViewerOverlay = "_imageViewerOverlay_15vbj_4298";
+const imageViewerContainer = "_imageViewerContainer_15vbj_4313";
+const imageViewerImage = "_imageViewerImage_15vbj_4322";
+const imageViewerClose = "_imageViewerClose_15vbj_4330";
+const markdownContent = "_markdownContent_15vbj_4350";
 const styles$1 = {
   container,
   contentContainer,
@@ -865,7 +870,12 @@ const styles$1 = {
   historyType,
   historyDate,
   historyContent,
-  historyViewButton
+  historyViewButton,
+  imageViewerOverlay,
+  imageViewerContainer,
+  imageViewerImage,
+  imageViewerClose,
+  markdownContent
 };
 function Layout() {
   const { user, logout } = useAuth();
@@ -884,6 +894,37 @@ function Layout() {
     /* @__PURE__ */ jsxRuntime.jsx("main", { children: /* @__PURE__ */ jsxRuntime.jsx(reactRouterDom.Outlet, {}) })
   ] });
 }
+function ImageViewer({ src, alt, onClose }) {
+  React.useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [onClose]);
+  return /* @__PURE__ */ jsxRuntime.jsx("div", { className: styles$1.imageViewerOverlay, onClick: onClose, children: /* @__PURE__ */ jsxRuntime.jsxs("div", { className: styles$1.imageViewerContainer, children: [
+    /* @__PURE__ */ jsxRuntime.jsx(
+      "button",
+      {
+        className: styles$1.imageViewerClose,
+        onClick: onClose,
+        "aria-label": "Close image viewer",
+        children: "×"
+      }
+    ),
+    /* @__PURE__ */ jsxRuntime.jsx(
+      "img",
+      {
+        src,
+        alt: alt || "Full size image",
+        className: styles$1.imageViewerImage,
+        onClick: (e) => e.stopPropagation()
+      }
+    )
+  ] }) });
+}
 marked.marked.setOptions({
   gfm: true,
   breaks: true
@@ -893,9 +934,31 @@ marked.marked.setOptions({
 });
 function MarkdownRenderer({ content, font }) {
   const html = React.useMemo(() => marked.marked(content), [content]);
+  const [viewerImage, setViewerImage] = React.useState(null);
   React.useEffect(() => {
     Prism.highlightAll();
   }, [html]);
+  React.useEffect(() => {
+    const handleImageDoubleClick = (e) => {
+      const mouseEvent = e;
+      const target = mouseEvent.target;
+      if (target.tagName === "IMG") {
+        const img = target;
+        setViewerImage({ src: img.src, alt: img.alt });
+      }
+    };
+    const markdownContainer = document.querySelector(".markdown-content");
+    if (markdownContainer) {
+      markdownContainer.addEventListener("dblclick", handleImageDoubleClick);
+      return () => {
+        markdownContainer.removeEventListener("dblclick", handleImageDoubleClick);
+      };
+    }
+    return void 0;
+  }, [html]);
+  const handleCloseViewer = React.useCallback(() => {
+    setViewerImage(null);
+  }, []);
   const getFontFamily = (fontValue) => {
     if (!fontValue) return "Golos Text, -apple-system, BlinkMacSystemFont, sans-serif";
     const fontMap = {
@@ -926,22 +989,32 @@ function MarkdownRenderer({ content, font }) {
     };
     return fontMap[fontValue] || fontMap["golos"];
   };
-  return /* @__PURE__ */ jsxRuntime.jsx(
-    "div",
-    {
-      className: "markdown-content",
-      dangerouslySetInnerHTML: { __html: html },
-      style: {
-        backgroundColor: "#faf8f5",
-        color: "#3d3a34",
-        padding: "24px",
-        minHeight: "100%",
-        fontFamily: getFontFamily(font),
-        fontSize: "16px",
-        lineHeight: "1.7"
+  return /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
+    /* @__PURE__ */ jsxRuntime.jsx(
+      "div",
+      {
+        className: "markdown-content",
+        dangerouslySetInnerHTML: { __html: html },
+        style: {
+          backgroundColor: "#faf8f5",
+          color: "#3d3a34",
+          padding: "24px",
+          minHeight: "100%",
+          fontFamily: getFontFamily(font),
+          fontSize: "16px",
+          lineHeight: "1.7"
+        }
       }
-    }
-  );
+    ),
+    viewerImage && /* @__PURE__ */ jsxRuntime.jsx(
+      ImageViewer,
+      {
+        src: viewerImage.src,
+        alt: viewerImage.alt,
+        onClose: handleCloseViewer
+      }
+    )
+  ] });
 }
 function useMobileToggle() {
   const [isMobile, setIsMobile] = React.useState(false);

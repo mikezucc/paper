@@ -1,6 +1,7 @@
-import { useMemo, useEffect } from 'react'
+import { useMemo, useEffect, useState, useCallback } from 'react'
 import { marked } from 'marked'
 import Prism from 'prismjs'
+import { ImageViewer } from './ImageViewer'
 import 'prismjs/themes/prism-tomorrow.css'
 import 'prismjs/components/prism-javascript'
 import 'prismjs/components/prism-typescript'
@@ -24,10 +25,37 @@ marked.setOptions({
 
 export function MarkdownRenderer({ content, font }: { content: string; font?: string }) {
   const html = useMemo(() => marked(content), [content])
+  const [viewerImage, setViewerImage] = useState<{ src: string; alt?: string } | null>(null)
   
   useEffect(() => {
     Prism.highlightAll()
   }, [html])
+  
+  // Add double-click handler for images
+  useEffect(() => {
+    const handleImageDoubleClick = (e: Event) => {
+      const mouseEvent = e as MouseEvent
+      const target = mouseEvent.target as HTMLElement
+      if (target.tagName === 'IMG') {
+        const img = target as HTMLImageElement
+        setViewerImage({ src: img.src, alt: img.alt })
+      }
+    }
+    
+    // Add event listener to the markdown content container
+    const markdownContainer = document.querySelector('.markdown-content')
+    if (markdownContainer) {
+      markdownContainer.addEventListener('dblclick', handleImageDoubleClick)
+      return () => {
+        markdownContainer.removeEventListener('dblclick', handleImageDoubleClick)
+      }
+    }
+    return undefined
+  }, [html])
+  
+  const handleCloseViewer = useCallback(() => {
+    setViewerImage(null)
+  }, [])
   
   // Get font family from font value
   const getFontFamily = (fontValue?: string) => {
@@ -64,18 +92,27 @@ export function MarkdownRenderer({ content, font }: { content: string; font?: st
   }
   
   return (
-    <div
-      className="markdown-content"
-      dangerouslySetInnerHTML={{ __html: html }}
-      style={{
-        backgroundColor: '#faf8f5',
-        color: '#3d3a34',
-        padding: '24px',
-        minHeight: '100%',
-        fontFamily: getFontFamily(font),
-        fontSize: '16px',
-        lineHeight: '1.7',
-      }}
-    />
+    <>
+      <div
+        className="markdown-content"
+        dangerouslySetInnerHTML={{ __html: html }}
+        style={{
+          backgroundColor: '#faf8f5',
+          color: '#3d3a34',
+          padding: '24px',
+          minHeight: '100%',
+          fontFamily: getFontFamily(font),
+          fontSize: '16px',
+          lineHeight: '1.7',
+        }}
+      />
+      {viewerImage && (
+        <ImageViewer
+          src={viewerImage.src}
+          alt={viewerImage.alt}
+          onClose={handleCloseViewer}
+        />
+      )}
+    </>
   )
 }
